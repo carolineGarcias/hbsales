@@ -5,8 +5,7 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-
-
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -74,6 +73,17 @@ public class ProdutoService {
 
         return produtos;
     }
+
+    public List<String> formatados(List<Produto> produtos ) {
+
+        List<String> produtosExcel = new ArrayList<>();
+        for (int i = 0; i < produtos.size() ; i++) {
+            produtosExcel.add(produtos.get(i).toString());
+        }
+
+        return produtosExcel;
+    }
+
 
     public ProdutoDTO update(ProdutoDTO produtoDTO, Long id) {
 

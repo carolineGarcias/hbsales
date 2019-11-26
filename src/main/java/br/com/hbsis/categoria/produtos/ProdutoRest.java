@@ -1,11 +1,18 @@
 package br.com.hbsis.categoria.produtos;
 
+import com.opencsv.CSVWriter;
+import com.opencsv.CSVWriterBuilder;
+import com.opencsv.ICSVWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
-
+import javax.servlet.http.HttpServletResponse;
+import java.io.PrintWriter;
 import java.util.List;
+
+
 
 @RestController
 @RequestMapping("/produtos")
@@ -44,6 +51,42 @@ public class ProdutoRest{
         return this.produtoService.findById(id);
     }
 
+    @GetMapping("/exportar")
+    public void exportarCSV(HttpServletResponse response) throws Exception {
+
+        String filename = "exportar.csv";
+
+        response.setContentType("text/csv");
+        response.setHeader(HttpHeaders.CONTENT_DISPOSITION,
+                          "attachment; filename=\""
+                           + filename + "\"");
+
+        PrintWriter writer1 = response.getWriter();
+
+        ICSVWriter icsvWriter = new CSVWriterBuilder(writer1).
+                withSeparator(';').
+                withEscapeChar(CSVWriter.DEFAULT_ESCAPE_CHARACTER).
+                withLineEnd(CSVWriter.DEFAULT_LINE_END).
+                build();
+
+        String headerCSV[] = {
+                "id_produto",
+                "cod_produto",
+                "nome_produto",
+                "id_fornecedor"
+        };
+
+        icsvWriter.writeNext(headerCSV);
+        for (Produto row : produtoService.findAll()) {
+            icsvWriter.writeNext(
+                    new String[]{row.getId().toString(),
+                            row.getCodProduto(),
+                            row.getNomeProduto(),
+                            row.getFornecedor().getId().toString()});
+        }
+
+    }
+
     @PutMapping("/{id}")
     public ProdutoDTO update(@PathVariable("id") Long id, @RequestBody ProdutoDTO produtoDTO){
         LOGGER.info("Recebendo Update para Produto de ID: {}", id);
@@ -58,4 +101,5 @@ public class ProdutoRest{
 
         this.produtoService.delete(id);
     }
-}
+
+    }
