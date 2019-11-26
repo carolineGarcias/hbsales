@@ -1,5 +1,7 @@
 package br.com.hbsis.fornecedor;
 
+import br.com.hbsis.categoria.produtos.Produto;
+
 public class FornecedorDTO {
 
     private Long id;
@@ -9,16 +11,9 @@ public class FornecedorDTO {
     private String endereco;
     private String  telefone;
     private String email;
+    private Produto produto;
 
     public FornecedorDTO() {
-    }
-
-    public FornecedorDTO(String razaoSocial, String cnpj, String endereco, String telefone, String email) {
-        this.razaoSocial = razaoSocial;
-        this.cnpj = cnpj;
-        this.endereco = endereco;
-        this.telefone = telefone;
-        this.email = email;
     }
 
     public FornecedorDTO(Long id, String razaoSocial, String cnpj, String nomeFantasia, String endereco, String telefone, String email) {
@@ -33,15 +28,16 @@ public class FornecedorDTO {
 
     public static FornecedorDTO of(Fornecedor fornecedor){
         return new FornecedorDTO(
-                fornecedor.getId(),
-                fornecedor.getRazaoSocial(),
-                fornecedor.getCnpj(),
-                fornecedor.getNomeFantasia(),
-                fornecedor.getEndereco(),
-                fornecedor.getTelefone(),
-                fornecedor.getEmail()
-        );
+            fornecedor.getId(),
+            fornecedor.getRazaoSocial(),
+            fornecedor.getCnpj(),
+            fornecedor.getNomeFantasia(),
+            fornecedor.getEndereco(),
+            fornecedor.getTelefone(),
+            fornecedor.getEmail()
+             );
     }
+
     public Long getId() {
         return id;
     }
@@ -49,6 +45,7 @@ public class FornecedorDTO {
     public void setId(Long id) {
         this.id = id;
     }
+
     public String getRazaoSocial() {
         return razaoSocial;
     }
@@ -69,8 +66,8 @@ public class FornecedorDTO {
         return nomeFantasia;
     }
 
-    public void setNomeFantasia(String nome) {
-        this.nomeFantasia = nome;
+    public void setNomeFantasia(String nomeFantasia) {
+        this.nomeFantasia = nomeFantasia;
     }
 
     public String getEndereco() {
@@ -95,6 +92,14 @@ public class FornecedorDTO {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Produto getProduto() {
+        return produto;
+    }
+
+    public void setProduto(Produto produto) {
+        this.produto = produto;
     }
 
     @Override

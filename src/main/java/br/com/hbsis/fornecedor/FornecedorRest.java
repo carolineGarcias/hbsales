@@ -5,6 +5,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/fornecedores")
 public class FornecedorRest {
@@ -33,6 +35,13 @@ public class FornecedorRest {
 
         return this.fornecedorService.findById(id);
     }
+    @RequestMapping("/listar")
+    public List<Fornecedor> findFornecedor() {
+
+        List<Fornecedor> fornecedor = fornecedorService.findAll();
+        return fornecedor;
+    }
+
 
     @PutMapping("/{id}")
     public FornecedorDTO udpate(@PathVariable("id") Long id, @RequestBody FornecedorDTO fornecedorDTO) {

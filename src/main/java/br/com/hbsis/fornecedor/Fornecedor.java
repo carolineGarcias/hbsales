@@ -1,20 +1,41 @@
 package br.com.hbsis.fornecedor;
 
+
 import javax.persistence.Table;
 import javax.persistence.*;
 
 @Entity
 @Table(name = "seg_fornecedores")
- class Fornecedor {
+ public class Fornecedor {
 
     public Fornecedor(){
     }
+
+    public Fornecedor(Long id, String razaoSocial, String cnpj, String nomeFantasia, String endereco, String telefone, String email) {
+        this.id = id;
+        this.razaoSocial = razaoSocial;
+        this.cnpj = cnpj;
+        this.nomeFantasia = nomeFantasia;
+        this.endereco = endereco;
+        this.telefone = telefone;
+        this.email = email;
+    }
+
+    public Fornecedor(String razaoSocial, String cnpj, String nomeFantasia, String endereco, String telefone, String email) {
+        this.razaoSocial = razaoSocial;
+        this.cnpj = cnpj;
+        this.nomeFantasia = nomeFantasia;
+        this.endereco = endereco;
+        this.telefone = telefone;
+        this.email = email;
+    }
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "razao_social")
+    @Column(name = "razao_social", unique = true, nullable = false, length = 100)
     private String razaoSocial;
 
     @Column(name = "cnpj", unique = true, nullable = false, length = 50)
@@ -34,6 +55,10 @@ import javax.persistence.*;
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getRazaoSocial() {
@@ -67,15 +92,19 @@ import javax.persistence.*;
     public void setEndereco(String endereco) {
         this.endereco = endereco;
     }
+
     public String getTelefone() {
         return telefone;
     }
+
     public void setTelefone(String telefone) {
         this.telefone = telefone;
     }
+
     public String getEmail() {
         return email;
     }
+
     public void setEmail(String email) {
         this.email = email;
     }
