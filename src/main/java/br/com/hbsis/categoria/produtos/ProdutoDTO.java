@@ -1,34 +1,32 @@
 package br.com.hbsis.categoria.produtos;
 
 import br.com.hbsis.fornecedor.Fornecedor;
-import org.apache.logging.log4j.message.StringFormattedMessage;
 
 public class ProdutoDTO {
 
-    private Long id;
-    private String nomeProduto;
-    private String codProduto;
     private Fornecedor fornecedor;
+    private Long   id;
+    private Long   codProduto;
+    private String nomeProduto;
 
     public ProdutoDTO() {
     }
 
-    public ProdutoDTO(String codProduto, String nomeProduto, Fornecedor fornecedor) {
+    public ProdutoDTO(Long codProduto, String nomeProduto, Fornecedor fornecedor) {
         this.codProduto  = codProduto;
         this.nomeProduto = nomeProduto;
         this.fornecedor  = fornecedor;
     }
 
-    public ProdutoDTO(Long id, String codProduto, String nomeProduto, Fornecedor fornecedor) {
+    public ProdutoDTO(Long id, Long codProduto, String nomeProduto, Fornecedor fornecedor) {
         this.id = id;
-        this.codProduto = codProduto;
+        this.codProduto  = codProduto;
         this.nomeProduto = nomeProduto;
-        this.fornecedor = fornecedor;
+        this.fornecedor  = fornecedor;
     }
 
     public static ProdutoDTO of(Produto produto) {
         return new ProdutoDTO(
-                produto.getId(),
                 produto.getCodProduto(),
                 produto.getNomeProduto(),
                 produto.getFornecedor()
@@ -43,20 +41,20 @@ public class ProdutoDTO {
         this.id = id;
     }
 
+    public Long getCodProduto() {
+        return codProduto;
+    }
+
+    public void setCodProduto(Long codProduto) {
+        this.codProduto = codProduto;
+    }
+
     public String getNomeProduto() {
         return nomeProduto;
     }
 
     public void setNomeProduto(String nomeProduto) {
         this.nomeProduto = nomeProduto;
-    }
-
-    public String getCodProduto() {
-        return codProduto;
-    }
-
-    public void setCodProduto(String codProduto) {
-        this.codProduto = codProduto;
     }
 
     public Fornecedor getFornecedor() {
@@ -71,8 +69,9 @@ public class ProdutoDTO {
     public String toString() {
         return "Produto { " +
                 "id= " + id +
-                ", Nome Produto= '" + nomeProduto + '\'' +
-                ", Fornecedor= "    + fornecedor.toString() +
+                ", Código produto= '" + codProduto  + '\'' +
+                ", Nome Produto= '"   + nomeProduto + '\'' +
+                ", Fornecedor= "      + fornecedor.toString() +
                 '}';
     }
 }

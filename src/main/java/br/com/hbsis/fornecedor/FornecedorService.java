@@ -4,7 +4,6 @@ import com.microsoft.sqlserver.jdbc.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -26,15 +25,22 @@ public class FornecedorService {
         LOGGER.info("Salvando fornecedor");
         LOGGER.debug("Fornecedor: {}", fornecedorDTO);
 
-        Fornecedor fornecedor = new Fornecedor(
-                fornecedorDTO.getRazaoSocial(),
+            /* fornecedorDTO.getRazaoSocial(),
                 fornecedorDTO.getCnpj(),
                 fornecedorDTO.getNomeFantasia(),
                 fornecedorDTO.getEndereco(),
                 fornecedorDTO.getTelefone(),
                 fornecedorDTO.getEmail());
+        */
+        Fornecedor fornecedor = new Fornecedor();
+        fornecedor.setRazaoSocial(fornecedorDTO.getRazaoSocial());
+        fornecedor.setNomeFantasia(fornecedorDTO.getNomeFantasia());
+        fornecedor.setCnpj(fornecedorDTO.getCnpj());
+        fornecedor.setEmail(fornecedorDTO.getEmail());
+        fornecedor.setTelefone(fornecedorDTO.getTelefone());
+        fornecedor.setEndereco(fornecedorDTO.getEndereco());
 
-        fornecedor = this.iFornecedorRepository.save(fornecedor);
+       fornecedor = this.iFornecedorRepository.save(fornecedor);
         return FornecedorDTO.of(fornecedor);
     }
 
@@ -75,12 +81,13 @@ public class FornecedorService {
         throw new IllegalArgumentException(String.format("ID %s não existe", id));
     }
 
-    public List<Fornecedor> findAll () {
+    /*public List<Fornecedor> findAll() {
 
-        List<Fornecedor> fornecedor= (List<Fornecedor>) iFornecedorRepository.findAll();
+        List<Fornecedor> fornecedor = (List<Fornecedor>) iFornecedorRepository.findAll();
 
         return fornecedor;
     }
+*/
 
     public Fornecedor findFornecedorById(Long id) {
         Optional<Fornecedor> fornecedorOptional = this.iFornecedorRepository.findById(id);

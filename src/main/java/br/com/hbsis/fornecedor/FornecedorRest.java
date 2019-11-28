@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -35,13 +34,13 @@ public class FornecedorRest {
 
         return this.fornecedorService.findById(id);
     }
-    @RequestMapping("/listar")
+    /*@RequestMapping("/listar")
     public List<Fornecedor> findFornecedor() {
 
         List<Fornecedor> fornecedor = fornecedorService.findAll();
         return fornecedor;
     }
-
+*/
 
     @PutMapping("/{id}")
     public FornecedorDTO udpate(@PathVariable("id") Long id, @RequestBody FornecedorDTO fornecedorDTO) {
@@ -54,5 +53,10 @@ public class FornecedorRest {
     public void delete(@PathVariable("id") Long id) {
         LOGGER.info("Recebendo Delete para fornecedor de ID: {}", id);
         this.fornecedorService.delete(id);
+
+
     }
+
+
 }
+

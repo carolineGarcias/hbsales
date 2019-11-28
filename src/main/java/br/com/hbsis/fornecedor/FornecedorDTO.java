@@ -4,26 +4,26 @@ import br.com.hbsis.categoria.produtos.Produto;
 
 public class FornecedorDTO {
 
-    private Long id;
-    private String razaoSocial;
-    private String cnpj;
-    private String nomeFantasia;
-    private String endereco;
+    private Long    id;
+    private String  razaoSocial;
+    private String  cnpj;
+    private String  nomeFantasia;
+    private String  endereco;
     private String  telefone;
-    private String email;
+    private String  email;
     private Produto produto;
 
     public FornecedorDTO() {
     }
 
     public FornecedorDTO(Long id, String razaoSocial, String cnpj, String nomeFantasia, String endereco, String telefone, String email) {
-        this.id = id;
-        this.razaoSocial = razaoSocial;
-        this.cnpj = cnpj;
+        this.id           = id;
+        this.razaoSocial  = razaoSocial;
+        this.cnpj         = cnpj;
         this.nomeFantasia = nomeFantasia;
-        this.endereco = endereco;
-        this.telefone = telefone;
-        this.email = email;
+        this.endereco     = endereco;
+        this.telefone     = telefone;
+        this.email        = email;
     }
 
     public static FornecedorDTO of(Fornecedor fornecedor){

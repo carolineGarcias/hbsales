@@ -1,6 +1,5 @@
 package br.com.hbsis.fornecedor;
 
-
 import javax.persistence.Table;
 import javax.persistence.*;
 
@@ -8,7 +7,7 @@ import javax.persistence.*;
 @Table(name = "seg_fornecedores")
  public class Fornecedor {
 
-    public Fornecedor(){
+    /*public Fornecedor(){
     }
 
     public Fornecedor(Long id, String razaoSocial, String cnpj, String nomeFantasia, String endereco, String telefone, String email) {
@@ -30,6 +29,7 @@ import javax.persistence.*;
         this.email = email;
     }
 
+*/
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
