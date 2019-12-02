@@ -32,7 +32,7 @@ public class ProdutoService {
         return iProdutoRepository.findAll();
     }
 
-    public List<String> stringLista(){ //
+    /*public List<String> stringLista(){ //
         List<String> listar = new ArrayList<>();
         for(Produto csv : iProdutoRepository.findAll()){
             String listacsv =
@@ -44,7 +44,7 @@ public class ProdutoService {
         }
         return listar;
     }
-
+*/
    public List<Produto> readAll(MultipartFile file) throws Exception { //
 
         InputStreamReader inputReader = new InputStreamReader(file.getInputStream());
@@ -67,6 +67,13 @@ public class ProdutoService {
 
                 fornecedorDTO = fornecedorService.findById(Long.parseLong(line[3]));
 
+                fornecedor.setId(fornecedorDTO.getId());
+                fornecedor.setRazaoSocial(fornecedorDTO.getRazaoSocial());
+                fornecedor.setCnpj(fornecedorDTO.getCnpj());
+                fornecedor.setNomeFantasia(fornecedorDTO.getNomeFantasia());
+                fornecedor.setEndereco(fornecedorDTO.getEndereco());
+                fornecedor.setTelefone(fornecedorDTO.getTelefone());
+                fornecedor.setEmail(fornecedorDTO.getEmail());
 
                 produto.setFornecedor(fornecedor);
 

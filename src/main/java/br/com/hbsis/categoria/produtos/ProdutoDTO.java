@@ -5,8 +5,7 @@ import br.com.hbsis.fornecedor.Fornecedor;
 public class ProdutoDTO {
 
     private Fornecedor fornecedor;
-    private Long   id;
-    private Long   codProduto;
+    private Long   id, codProduto;
     private String nomeProduto;
 
     public ProdutoDTO() {
@@ -27,6 +26,7 @@ public class ProdutoDTO {
 
     public static ProdutoDTO of(Produto produto) {
         return new ProdutoDTO(
+                produto.getId(),
                 produto.getCodProduto(),
                 produto.getNomeProduto(),
                 produto.getFornecedor()
@@ -68,10 +68,10 @@ public class ProdutoDTO {
     @Override
     public String toString() {
         return "Produto { " +
-                "id= " + id +
+                "  id= " + id +
                 ", Código produto= '" + codProduto  + '\'' +
                 ", Nome Produto= '"   + nomeProduto + '\'' +
-                ", Fornecedor= "      + fornecedor.toString() +
+                ", Fornecedor= "      + fornecedor.getId() +
                 '}';
     }
 }
