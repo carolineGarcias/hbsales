@@ -1,7 +1,6 @@
 package br.com.hbsis.categoria.linhas;
 
 import br.com.hbsis.categoria.produtos.Produto;
-
 import javax.persistence.*;
 
 @Entity
@@ -10,15 +9,19 @@ public class Linha {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_linha")
+    @Column(name= "id_linha")
     private Long idLinha;
 
     @Column(name = "nome_linha", unique = true, nullable = false)
     private String nomeLinha;
 
     @ManyToOne
-    @JoinColumn(name = "id_linha_produto", referencedColumnName = "id")
+    @JoinColumn(name= "id_linha_produto", referencedColumnName = "id")
     Produto produto;
+
+    public Long getId() {
+        return idLinha;
+    }
 
     public Long getIdLinha() {
         return idLinha;
@@ -44,11 +47,11 @@ public class Linha {
         this.produto = produto;
     }
 
-    public String toString() {
+    public String toString(){
         return "Linha { " +
-                "id= "            + idLinha   +
-                ", Nome linha= '" + nomeLinha + '\'' +
-                ", Produto= "     + produto   +
+                "id= "              + idLinha   +
+                ", Nome linha= '"   + nomeLinha + '\'' +
+                ", Produto= "       + produto   +
                 '}';
 
     }

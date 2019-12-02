@@ -1,36 +1,39 @@
 package br.com.hbsis.categoria.produtos;
 
-import br.com.hbsis.fornecedor.Fornecedor;
 
 public class ProdutoDTO {
 
-    private Fornecedor fornecedor;
-    private Long   id, codProduto;
-    private String nomeProduto;
+    private Long   id, codProduto, linhaId;
+    private String nomeProduto, validadeProd;
+    private double pesoProd, unidadeCaixaProd, precoProd;
 
-    public ProdutoDTO() {
+    public ProdutoDTO(Long id, Long codProduto, Long linhaId,
+                      String nomeProduto, String validadeProd,
+                      double pesoProd, double unidadeCaixaProd, double precoProd){
+
+        this.id            = id;
+        this.codProduto    = codProduto;
+        this.linhaId       = linhaId;
+        this.nomeProduto   = nomeProduto;
+        this.validadeProd  = validadeProd;
+        this.pesoProd      = pesoProd;
+        this.unidadeCaixaProd = unidadeCaixaProd;
+        this.precoProd     = precoProd;
+
     }
 
-    public ProdutoDTO(Long codProduto, String nomeProduto, Fornecedor fornecedor) {
-        this.codProduto  = codProduto;
-        this.nomeProduto = nomeProduto;
-        this.fornecedor  = fornecedor;
-    }
-
-    public ProdutoDTO(Long id, Long codProduto, String nomeProduto, Fornecedor fornecedor) {
-        this.id = id;
-        this.codProduto  = codProduto;
-        this.nomeProduto = nomeProduto;
-        this.fornecedor  = fornecedor;
-    }
-
-    public static ProdutoDTO of(Produto produto) {
+    public static ProdutoDTO of (Produto produto){
         return new ProdutoDTO(
                 produto.getId(),
                 produto.getCodProduto(),
+                produto.getLinha().getIdLinha(),
                 produto.getNomeProduto(),
-                produto.getFornecedor()
+                produto.getValidadeProd(),
+                produto.getPesoProd(),
+                produto.getUnidadeCaixaProd(),
+                produto.getPrecoProd()
         );
+
     }
 
     public Long getId() {
@@ -49,6 +52,14 @@ public class ProdutoDTO {
         this.codProduto = codProduto;
     }
 
+    public Long getLinhaId() {
+        return linhaId;
+    }
+
+    public void setLinhaId(Long linhaId) {
+        this.linhaId = linhaId;
+    }
+
     public String getNomeProduto() {
         return nomeProduto;
     }
@@ -57,21 +68,49 @@ public class ProdutoDTO {
         this.nomeProduto = nomeProduto;
     }
 
-    public Fornecedor getFornecedor() {
-        return fornecedor;
+    public String getValidadeProd() {
+        return validadeProd;
     }
 
-    public void setFornecedor(Fornecedor fornecedor) {
-        this.fornecedor = fornecedor;
+    public void setValidadeProd(String validadeProd) {
+        this.validadeProd = validadeProd;
+    }
+
+    public double getPesoProd() {
+        return pesoProd;
+    }
+
+    public void setPesoProd(double pesoProd) {
+        this.pesoProd = pesoProd;
+    }
+
+    public double getUnidadeCaixaProd() {
+        return unidadeCaixaProd;
+    }
+
+    public void setUnidadeCaixaProd(double unidadeCaixaProd) {
+        this.unidadeCaixaProd = unidadeCaixaProd;
+    }
+
+    public double getPrecoProd() {
+        return precoProd;
+    }
+
+    public void setPrecoProd(double precoProd) {
+        this.precoProd = precoProd;
     }
 
     @Override
     public String toString() {
         return "Produto { " +
-                "  id= " + id +
-                ", Código produto= '" + codProduto  + '\'' +
-                ", Nome Produto= '"   + nomeProduto + '\'' +
-                ", Fornecedor= "      + fornecedor.getId() +
+                "id= " + id +
+                ", Código produto= '"  + codProduto       + '\'' +
+                ", Nome Produto= '"    + nomeProduto      + '\'' +
+                ", Linha= "            + linhaId            + '\'' +
+                ", Preço= "            + precoProd        + '\'' +
+                ", Unidade p/ Caixa= " + unidadeCaixaProd + '\'' +
+                ", Peso p/ unidade= "  + pesoProd         + '\'' +
+                ", Validade Produto= " + validadeProd     + '\'' +
                 '}';
     }
 }

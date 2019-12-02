@@ -1,14 +1,12 @@
 package br.com.hbsis.categoria.produtos;
 
-import com.opencsv.*;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
-import java.io.PrintWriter;
 import java.util.List;
 
 @RestController
@@ -40,40 +38,11 @@ public class ProdutoRest{
         return this.produtoService.findById(id);
     }
     @GetMapping("/exportar")
-    public void exportarCSV(HttpServletResponse response) throws Exception {
+    public void exportCSV(HttpServletResponse response) throws Exception {
 
-        String filename = "produtos.csv";
+        LOGGER.info("Exportando arquivo produtos.csv");
 
-                    response.setContentType("text/csv");
-                    response.setHeader(HttpHeaders.CONTENT_DISPOSITION,
-                                      "attachment; filename=\""
-                                       + filename + "\"");
-
-                    PrintWriter writer1 = response.getWriter();
-
-                    ICSVWriter icsvWriter = new CSVWriterBuilder(writer1).
-                            withSeparator(';').
-                            withEscapeChar(CSVWriter.DEFAULT_ESCAPE_CHARACTER).
-                            withLineEnd(CSVWriter.DEFAULT_LINE_END).
-                            build();
-
-                    String readerCSV[] = {
-                            "id_produto",
-                            "cod_produto",
-                            "nome_produto",
-                            "id_fornecedor"
-        };
-
-        icsvWriter.writeNext(readerCSV);
-        for (Produto linha : produtoService.findAll()) {
-            icsvWriter.writeNext(
-                            new String[]{
-                            linha.getId().toString(),
-                            linha.getCodProduto().toString(),
-                            linha.getNomeProduto(),
-                            linha.getFornecedor().getId().toString()});
-        }
-
+        this.produtoService.exportCSV(response);
     }
 
     @RequestMapping("/listar")
@@ -84,9 +53,10 @@ public class ProdutoRest{
     }
 
     @PostMapping ("/importar")
-    public void importCSV(@RequestParam("file") MultipartFile file) throws Exception {
+    public void importProduto(@PathVariable("id") Long id,
+                                        @RequestParam MultipartFile file) throws Exception {
 
-        produtoService.readAll(file);
+        produtoService.importProduto(id, file);
     }
 
     @PutMapping("/{id}")
