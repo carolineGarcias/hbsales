@@ -84,10 +84,11 @@ public class ProdutoRest{
     }
 
     @PostMapping ("/importar")
-    public void importarCSV(@RequestParam("file") MultipartFile file) throws Exception {
+    public void importCSV(@RequestParam("file") MultipartFile file) throws Exception {
 
         produtoService.readAll(file);
     }
+
     @PutMapping("/{id}")
     public ProdutoDTO update(@PathVariable("id") Long id, @RequestBody ProdutoDTO produtoDTO){
 

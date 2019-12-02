@@ -1,20 +1,17 @@
 package br.com.hbsis.categoria.linhas;
 
 
-import br.com.hbsis.categoria.produtos.Produto;
-import br.com.hbsis.categoria.produtos.ProdutoDTO;
+import br.com.hbsis.categoria.produtos.IProdutoRepository;
 import br.com.hbsis.categoria.produtos.ProdutoService;
-import br.com.hbsis.fornecedor.Fornecedor;
-import br.com.hbsis.fornecedor.FornecedorDTO;
-import br.com.hbsis.fornecedor.FornecedorService;
+
 import com.microsoft.sqlserver.jdbc.StringUtils;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,14 +24,13 @@ public class LinhaService {
     private static final Logger LOGGER = LoggerFactory.getLogger(LinhaService.class);
 
 
-    private final ILinhaRepository iLinhaRepository;
-    private final ProdutoService produtoService;
-    private final FornecedorService fornecedorService;
+    private final ILinhaRepository  iLinhaRepository;
+    private final IProdutoRepository  iProdutoRepository;
 
-    public LinhaService(ILinhaRepository iLinhaRepository, ProdutoService produtoService, FornecedorService fornecedorService) {
-        this.iLinhaRepository  = iLinhaRepository;
-        this.produtoService    = produtoService;
-        this.fornecedorService = fornecedorService;
+    public LinhaService(ILinhaRepository iLinhaRepository, IProdutoRepository iProdutoRepository) {
+        this.iLinhaRepository   = iLinhaRepository;
+        this.iProdutoRepository = iProdutoRepository;
+
     }
 
     public List<Linha> findAll() {
@@ -80,25 +76,11 @@ public class LinhaService {
                 String[] bean = linhas[0].replaceAll("\"","").split(";");
 
                 Linha linha = new Linha();
-                Produto produto = new Produto();
-                Fornecedor fornecedor = new Fornecedor();
 
-                ProdutoDTO produtoDTO       = produtoService.findById(Long.parseLong(bean[1]));
-                FornecedorDTO fornecedorDTO = fornecedorService.findById(produtoDTO.getFornecedor().getId());
 
                 linha.setNomeLinha(bean[2]);
-
-                fornecedor.setId(fornecedorDTO.getId());
-                fornecedor.setRazaoSocial(fornecedorDTO.getRazaoSocial());
-                fornecedor.setCnpj(fornecedorDTO.getCnpj());
-                fornecedor.setNomeFantasia(fornecedorDTO.getNomeFantasia());
-                fornecedor.setEmail(fornecedorDTO.getEmail());
-                fornecedor.setTelefone(fornecedorDTO.getTelefone());
-                fornecedor.setEndereco(fornecedorDTO.getEndereco());
-
-
-                produto.setFornecedor(fornecedor);
-                linha.setProduto(produto);
+                linha.setIdLinha(Long.parseLong(bean[0]));
+                linha.setProduto(iProdutoRepository.findById(Long.parseLong(bean[1])).get());
 
                 reading.add(linha);
 
@@ -125,21 +107,21 @@ public class LinhaService {
     }
 
     public LinhaDTO findById(Long id) {
-        Optional<Linha> linhaOptional = this.iLinhaRepository.findById(id);
+        Optional<Linha> lineOptional = this.iLinhaRepository.findById(id);
 
-        if (linhaOptional.isPresent()) {
-        return LinhaDTO.of(linhaOptional.get());
+        if (lineOptional.isPresent()) {
+        return LinhaDTO.of(lineOptional.get());
     }
-        throw new IllegalArgumentException((String.format("ID %s não existe", id)));
+        throw new IllegalArgumentException(String.format("ID %s não existe", id));
         }
 
     public LinhaDTO update(LinhaDTO linhaDTO, Long id){
-        Optional<Linha> linhaOptional = this.iLinhaRepository.findById(id);
+        Optional<Linha> lineOptional = this.iLinhaRepository.findById(id);
 
-        if (linhaOptional.isPresent()){
-            Linha linhaExistente = linhaOptional.get();
+        if (lineOptional.isPresent()){
+            Linha linhaExistente = lineOptional.get();
 
-            LOGGER.info("Atualizando a linha categoria... id:{}", linhaExistente.getId());
+            LOGGER.info("Atualizando a linha categoria... id:{}", linhaExistente.getIdLinha());
             LOGGER.debug("Payload: {}", linhaDTO);
             LOGGER.debug("Linha categoria existente: {}", linhaExistente);
 
@@ -151,7 +133,7 @@ public class LinhaService {
             return linhaDTO.of(linhaExistente);
         }
 
-        throw new IllegalArgumentException((String.format("ID %S NAO EXISTE " ,  id)));
+        throw new IllegalArgumentException(String.format("ID %S NAO EXISTE " ,  id));
     }
 
     public  void delete(Long id){

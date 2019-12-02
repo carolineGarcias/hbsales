@@ -8,23 +8,23 @@ public class LinhaDTO {
     private String  nomeLinha;
     private Produto produto;
 
-    public LinhaDTO(){
+    public LinhaDTO() {
     }
 
-    public LinhaDTO(Long idLinha, String nomeLinha, Produto produto){
+    public LinhaDTO(Long idLinha, String nomeLinha, Produto produto) {
         this.idLinha   = idLinha;
         this.nomeLinha = nomeLinha;
         this.produto   = produto;
     }
 
-    public LinhaDTO( String nomeLinha, Produto produto){
+    public LinhaDTO(String nomeLinha, Produto produto) {
         this.nomeLinha = nomeLinha;
         this.produto   = produto;
     }
 
-    public static  LinhaDTO of(Linha linha) {
+    public static LinhaDTO of(Linha linha) {
         return new LinhaDTO(
-                linha.getId(),
+                linha.getIdLinha(),
                 linha.getNomeLinha(),
                 linha.getProduto()
 
@@ -54,9 +54,9 @@ public class LinhaDTO {
     @Override
     public String toString() {
         return "Linha { " +
-                "  id= "            + idLinha   +
-                ", Nome linha= '"   + nomeLinha + '\'' +
-                ", Produto= "       + produto   +
+                "  id= "          + idLinha +
+                ", Nome linha= '" + nomeLinha + '\'' +
+                ", Produto= "     + produto +
                 '}';
     }
 }

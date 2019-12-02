@@ -62,7 +62,7 @@ public class Produto {
                 "id= " + id +
                 ", Código produto= '" + codProduto  + '\'' +
                 ", Nome Produto= '"   + nomeProduto + '\'' +
-                ", Fornecedor= "      + fornecedor.toString() +
+                ", Fornecedor= "      + fornecedor +
               '}';
     }
 
