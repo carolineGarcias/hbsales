@@ -2,13 +2,14 @@ package br.com.hbsis.usuario;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-@SpringBootTest
+@ExtendWith({MockitoExtension.class})
 class UsuarioServiceTest {
 
 	@Mock
@@ -58,7 +59,8 @@ class UsuarioServiceTest {
 		});
 	}
 
-	@Test void usuarioComLoginVazio() {
+	@Test
+	void usuarioComLoginVazio() {
 		assertThrows(IllegalArgumentException.class, () -> {
 			UsuarioDTO usuarioDTO = new UsuarioDTO("minha_senha_ponto_com_arroba", "");
 			this.usuarioService.save(usuarioDTO);
