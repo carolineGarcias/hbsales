@@ -32,15 +32,6 @@ public class Fornecedor {
 	public Fornecedor() {
 	}
 
-	public Fornecedor(String razaoSocial, String cnpj, String nomeFantasia, String endereco, String emailContato, String telefoneContato) {
-		this.razaoSocial = razaoSocial;
-		this.cnpj = cnpj;
-		this.nomeFantasia = nomeFantasia;
-		this.endereco = endereco;
-		this.emailContato = emailContato;
-		this.telefoneContato = telefoneContato;
-	}
-
 	public Long getId() {
 		return id;
 	}
