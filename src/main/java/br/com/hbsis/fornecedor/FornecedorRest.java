@@ -56,7 +56,6 @@ public class FornecedorRest {
         LOGGER.info("Recebendo Delete para fornecedor de ID: {}", id);
         this.fornecedorService.delete(id);
 
-
     }
 
 }

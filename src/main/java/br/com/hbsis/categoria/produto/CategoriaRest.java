@@ -30,7 +30,6 @@ public class CategoriaRest {
         LOGGER.debug("Payload: {}", categoriaDTO);
 
         return this.categoriaService.save(categoriaDTO);
-
     }
 
     @RequestMapping("/listar")
@@ -39,7 +38,6 @@ public class CategoriaRest {
         List<Categoria> categoria = categoriaService.findAll();
         return categoria;
     }
-
 
     @GetMapping("/export-csv-categorias")
     public void exportCSV(HttpServletResponse response) throws Exception {
@@ -77,9 +75,5 @@ public class CategoriaRest {
 
         this.categoriaService.delete(id);
     }
-
-
-
-
 
 }
