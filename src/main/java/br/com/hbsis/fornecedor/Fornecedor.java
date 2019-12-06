@@ -2,33 +2,32 @@ package br.com.hbsis.fornecedor;
 
 import javax.persistence.Table;
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "seg_fornecedores")
  public class Fornecedor {
-
-
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_fornecedor", updatable = false, insertable = false)
     private Long id;
 
     @Column(name = "razao_social", unique = true, nullable = false, length = 100)
     private String razaoSocial;
 
-    @Column(name = "cnpj", unique = true, nullable = false, length = 50)
+    @Column(name = "cnpj", unique = true, nullable = false, length = 14)
     private String cnpj;
 
-    @Column(name = "nome_fantasia", length = 100, nullable = false)
+    @Column(name = "nome_fantasia", nullable = false, length = 100)
     private String nomeFantasia;
 
-    @Column(name = "endereco", nullable = false)
+    @Column(name = "endereco",length = 100)
     private String endereco;
 
-    @Column(name = "telefone", length = 20, nullable = false)
+    @Column(name = "telefone",length = 14, nullable = false)
     private String telefone;
 
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", length = 11)
     private String email;
 
     public Long getId() {
