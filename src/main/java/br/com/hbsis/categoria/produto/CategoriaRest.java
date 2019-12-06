@@ -26,7 +26,7 @@ public class CategoriaRest {
     @PostMapping
     public CategoriaDTO save(@RequestBody CategoriaDTO categoriaDTO){
 
-        LOGGER.info("Recebendo solicitação de persistência de categoria produto...");
+        LOGGER.info("Recebendo solicitação de persistência de categoria...");
         LOGGER.debug("Payload: {}", categoriaDTO);
 
         return this.categoriaService.save(categoriaDTO);
@@ -39,7 +39,7 @@ public class CategoriaRest {
         return categoria;
     }
 
-    @GetMapping("/export-csv-categorias")
+    @GetMapping("/exportar")
     public void exportCSV(HttpServletResponse response) throws Exception {
 
         LOGGER.info("Exportando arquivo 'categorias.csv'");
@@ -47,7 +47,7 @@ public class CategoriaRest {
         this.categoriaService.exportCSV(response);
     }
 
-    @PostMapping("/import-csv-categorias")
+    @PostMapping("/importar")
     public void importCSV(@RequestParam("file") MultipartFile file) throws Exception {
 
         categoriaService.readAll(file);
@@ -63,7 +63,7 @@ public class CategoriaRest {
 
     @PutMapping("/{id}")
     public CategoriaDTO update(@PathVariable("id") Long id, @RequestBody CategoriaDTO categoriaDTO) {
-        LOGGER.info("Recebendo Update para Categoria Produto de ID: {}", id);
+        LOGGER.info("Recebendo Update para Categoria de ID: {}", id);
         LOGGER.debug("Payload: {}", categoriaDTO);
 
         return this.categoriaService.update(categoriaDTO, id);
@@ -71,7 +71,7 @@ public class CategoriaRest {
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable("id") Long id) {
-        LOGGER.info("Recebendo Delete para Categoria Produtos de ID: {}", id);
+        LOGGER.info("Recebendo Delete para Categoria de ID: {}", id);
 
         this.categoriaService.delete(id);
     }

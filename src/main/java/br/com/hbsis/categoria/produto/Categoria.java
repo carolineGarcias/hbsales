@@ -25,6 +25,17 @@ public class Categoria {
     @JsonDeserialize
     private Fornecedor fornecedor;
 
+    public Categoria() {
+    }
+
+    public Categoria(String codCategoria, String nomeCategoria, Fornecedor fornecedor) {
+        this.codCategoria = codCategoria;
+        this.nomeCategoria = nomeCategoria;
+        this.fornecedor= fornecedor;
+    }
+
+
+
     public Long getId() {
         return id;
     }
@@ -61,9 +72,9 @@ public class Categoria {
     public String toString() {
         return "Categoria{" +
                 "id=" + id +
-                ", codCategoria="   + codCategoria  +
-                ", nomeCategoria='" + nomeCategoria + '\'' +
-                ", fornecedor="     + fornecedor.toString()    +
+                ", codCategoria="   + this.getCodCategoria()  +
+                ", nomeCategoria='" + this.getNomeCategoria() + '\'' +
+                ", fornecedor="     + this.getFornecedor().getId()    +
                 '}';
     }
 }

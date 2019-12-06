@@ -1,5 +1,8 @@
 package br.com.hbsis.categoria.produto;
 
+import br.com.hbsis.acesso.CNPJCat;
+import br.com.hbsis.fornecedor.Fornecedor;
+import br.com.hbsis.fornecedor.FornecedorService;
 import br.com.hbsis.fornecedor.IFornecedorRepository;
 import com.microsoft.sqlserver.jdbc.StringUtils;
 import com.opencsv.*;
@@ -9,9 +12,11 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
+import javax.swing.text.MaskFormatter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -23,16 +28,28 @@ public class CategoriaService {
 
     private final ICategoriaRepository iCategoriaRepository;
     private final IFornecedorRepository iFornecedorRepository;
+    private final FornecedorService fornecedorService;
 
     public CategoriaService(ICategoriaRepository iCategoriaRepository,
-                            IFornecedorRepository iFornecedorRepository) {
+                            IFornecedorRepository iFornecedorRepository,
+                            FornecedorService fornecedorService) {
 
         this.iCategoriaRepository = iCategoriaRepository;
         this.iFornecedorRepository = iFornecedorRepository;
+        this.fornecedorService = fornecedorService;
     }
 
-    public List<Categoria
-                > findAll() {
+    private String formatarCnpj(String cnpj) throws ParseException {
+        try {
+            MaskFormatter mask = new MaskFormatter("###.###.###/####-##");
+            mask.setValueContainsLiteralCharacters(false);
+            return mask.valueToString(cnpj);
+        } catch (ParseException ex) {
+            throw new ParseException("Error!", 2);
+        }
+    }
+
+    public List<Categoria> findAll() {
         return iCategoriaRepository.findAll();
     }
 
@@ -51,7 +68,7 @@ public class CategoriaService {
                     .withLineEnd(CSVWriter.DEFAULT_LINE_END)
                     .build();
 
-            String headerCSV[] = {"id_categoria_produto", "codigo_categoria_produto", "nome_categoria_produto", "id_fornecedor"};
+            String headerCSV[] = {"id_categoria", "codigo_categoria", "nome_categoria", "id_fornecedor"};
             csvWriter.writeNext(headerCSV);
 
             for (Categoria linha : iCategoriaRepository.findAll()) {
@@ -61,7 +78,6 @@ public class CategoriaService {
             e.printStackTrace();
         }
     }
-
 
     public List<Categoria> readAll(MultipartFile file) throws Exception {
 
@@ -102,42 +118,48 @@ public class CategoriaService {
 
         this.validate(categoriaDTO);
 
-        LOGGER.info("Salvando Categoria Produto");
-        LOGGER.debug("Categoria Produto: {}", categoriaDTO);
+        Fornecedor fornecedor = fornecedorService.findFornecedorById(categoriaDTO.getFornecedorId());
 
-        Categoria categoria = new Categoria();
+        LOGGER.info("Salvando Categoria");
+        LOGGER.debug("Categoria: {}", categoriaDTO);
 
-        categoria.setNomeCategoria(categoriaDTO.getNomeCategoria());
-        categoria.setCodCategoria(categoriaDTO.getCodCategoria());
-        categoria.setFornecedor(iFornecedorRepository.findById(categoriaDTO.getFornecedorId()).get());
+        Categoria categoria = new Categoria(
+                categoriaDTO.getCodCategoria(),
+                categoriaDTO.getNomeCategoria(),
+                fornecedor);
 
         categoria = this.iCategoriaRepository.save(categoria);
 
         return CategoriaDTO.of(categoria);
-
     }
 
     private void validate(CategoriaDTO categoriaDTO) {
 
-        LOGGER.info("Validando Categoria Produto");
+        LOGGER.info("Validando Categoria");
 
         if (categoriaDTO == null) {
-            throw new IllegalArgumentException("Categoria Produto não deve ser nulo");
+            throw new IllegalArgumentException("ProdutoDTO não deve ser nulo");
         }
-        if (StringUtils.isEmpty(categoriaDTO.getNomeCategoria())) {
-            throw new IllegalArgumentException("Nome não deve ser nulo/vazio");
-        }
-        if (StringUtils.isEmpty(categoriaDTO.getCodCategoria())) {
-            throw new IllegalArgumentException("Codigo não deve ser nulo/vazio");
-        }
-        if (StringUtils.isEmpty(categoriaDTO.getFornecedorId().toString())) {
-            throw new IllegalArgumentException("ID Fornecedor não deve ser nulo/vazio");
 
+        if (StringUtils.isEmpty(categoriaDTO.getCodCategoria())) {
+            throw new IllegalArgumentException("Codigo da categoria não deve ser nulo");
+        }
+
+        if (!(CNPJCat.isCodCategoriaValid(categoriaDTO.getCodCategoria()))) {
+            throw new IllegalArgumentException("Código informado deve conter apenas números e ser menor ou igual a 3 digitos");
+        }
+
+        if (StringUtils.isEmpty(categoriaDTO.getNomeCategoria())) {
+            throw new IllegalArgumentException("Nome não deve ser nula/vazia");
+        }
+
+        if (categoriaDTO.getFornecedorId() == null || categoriaDTO.getFornecedorId() < 1) {
+            throw new IllegalArgumentException("ID do fornecedor não deve ser nulo ou menor que 1!!");
         }
     }
 
     public void delete(Long id) {
-        LOGGER.info("Executando delete para categoria produto de ID> [{}]", id);
+        LOGGER.info("Executando delete para categoria de ID> [{}]", id);
 
         this.iCategoriaRepository.deleteById(id);
     }
@@ -163,10 +185,12 @@ public class CategoriaService {
             LOGGER.debug("Payload: {}", categoriaDTO);
             LOGGER.debug("Fornecedor Existente: {}", categoriaExistente);
 
-
+            Fornecedor fornecedor = new Fornecedor();
             categoriaExistente.setCodCategoria(categoriaDTO.getCodCategoria());
             categoriaExistente.setNomeCategoria(categoriaDTO.getNomeCategoria());
-            categoriaExistente.setFornecedor(iFornecedorRepository.findById(categoriaDTO.getFornecedorId()).get());
+
+            categoriaExistente.setFornecedor(fornecedor);
+            categoriaExistente.setCodCategoria(CNPJCat.codCategoriaGenerator(categoriaExistente));
 
             categoriaExistente = this.iCategoriaRepository.save(categoriaExistente);
 

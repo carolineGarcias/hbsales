@@ -32,8 +32,6 @@ public class FornecedorService {
         LOGGER.debug("Payload: {}", fornecedorDTO);
 
         Fornecedor fornecedor = this.fromDto(fornecedorDTO, new Fornecedor());
-
-
         fornecedor = this.fornecedorRepository.save(fornecedor);
 
         LOGGER.trace("Fornecedor Salvo {}", fornecedor);
@@ -64,7 +62,6 @@ public class FornecedorService {
             return fornecedorOptional.get();
         }
 
-
         throw new NoSuchElementException(String.format("Id [%s] não existe...", id));
     }
     public List<FornecedorDTO> findAll() {
@@ -72,7 +69,6 @@ public class FornecedorService {
         List<Fornecedor> fornecedores = fornecedorRepository.findAll();
         List<FornecedorDTO> fornecedorDTO = new ArrayList<>();
         fornecedores.forEach(fornecedor -> fornecedorDTO.add(FornecedorDTO.of(fornecedor)));
-
         return fornecedorDTO;
     }
 

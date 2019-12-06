@@ -6,6 +6,8 @@ public class CategoriaDTO {
     private String nomeCategoria,codCategoria;
 
 
+    public CategoriaDTO() {
+    }
 
     public CategoriaDTO(Long id, String nomeCategoria, String codCategoria, Long fornecedorId) {
         this.id = id;
@@ -59,7 +61,7 @@ public class CategoriaDTO {
     public String toString() {
         return "CategoriaDTO{" +
                 "id=" + id +
-                ", codCategoria="   + codCategoria  +
+                /*", codCategoria="   + codCategoria  +*/
                 ", nomeCategoria='" + nomeCategoria + '\'' +
                 ", idFornecedor="   + fornecedorId  +
                 '}';
