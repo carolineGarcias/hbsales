@@ -59,7 +59,6 @@ public class FornecedorService {
         return FornecedorDTO.of(fornecedor);
     }
 
-
     public FornecedorDTO findById(Long idFornecedor) {
         Optional<Fornecedor> fornecedorOptional = this.ifornecedorRepository.findById(idFornecedor);
 

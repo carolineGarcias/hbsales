@@ -27,7 +27,6 @@ public class CategoriaService {
     private final FornecedorService fornecedorService;
     private final IFornecedorRepository ifornecedorRepository;
 
-
     public CategoriaService(ICategoriaRepository iCategoriaRepository,
                             FornecedorService fornecedorService,
                             IFornecedorRepository ifornecedorRepository) {
@@ -75,25 +74,6 @@ public class CategoriaService {
         return reading;
     }
 
-    /*public CategoriaDTO save(CategoriaDTO categoriaDTO) {
-
-       this.validate(categoriaDTO);
-
-        LOGGER.info("Salvando Categoria Produto");
-        LOGGER.debug("Categoria Produto: {}", categoriaDTO);
-
-        Categoria categoria = new Categoria();
-
-        categoria.setNomeCategoria(categoriaDTO.getNomeCategoria());
-        categoria.setFornecedor(fornecedorService.fromDto(fornecedorService.findById(categoriaDTO.getFornecedorId()), new Fornecedor()));
-        categoria.setCodCategoria(codeContrutor(categoriaDTO.getCodCategoria(), categoriaDTO.getFornecedorId()));
-        categoria.setId(categoriaDTO.getId());
-
-        categoria = this.iCategoriaRepository.save(categoria);
-
-        return CategoriaDTO.of(categoria);
-    }
-*/
     public CategoriaDTO save(CategoriaDTO categoriaDTO) {
         this.validate(categoriaDTO);
 
@@ -211,7 +191,6 @@ public class CategoriaService {
         throw new IllegalArgumentException(String.format("ID %s não existe", id));
     }
 
-
     public CategoriaDTO update(CategoriaDTO categoriaDTO, Long id) {
 
         Optional<Categoria> categoriaExistenteOptional = this.iCategoriaRepository.findById(id);
@@ -246,5 +225,4 @@ public class CategoriaService {
         categoria = this.iCategoriaRepository.findAll();
         return categoria;
     }
-
 }
