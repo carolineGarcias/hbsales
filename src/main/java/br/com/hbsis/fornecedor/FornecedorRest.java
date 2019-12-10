@@ -20,7 +20,8 @@ public class FornecedorRest {
     }
 
     @PostMapping()
-       public FornecedorDTO save(@RequestBody @Valid FornecedorDTO fornecedorDTO){
+       public FornecedorDTO save(@Valid @RequestBody FornecedorDTO fornecedorDTO){
+
         LOGGER.info("Recebendo solicitação de persistência de Fornecedor...");
         LOGGER.debug("Payaload: {}", fornecedorDTO);
 
@@ -28,33 +29,35 @@ public class FornecedorRest {
     }
 
     @GetMapping("/{id}")
-    public FornecedorDTO update(@PathVariable("id") Long id){
+    public FornecedorDTO update(@PathVariable("id") Long idFornecedor){
 
-        LOGGER.info("Recebendo find by ID... id: [{}]", id);
+        LOGGER.info("Recebendo find by ID... id: [{}]", idFornecedor);
 
-        return this.fornecedorService.findById(id);
+        return this.fornecedorService.findById(idFornecedor);
     }
-    @GetMapping("/listar")
-    public List<FornecedorDTO> findAll() {
 
-        LOGGER.info("Recebendo consulta ");
+    @RequestMapping("/listar")
+    public List<Fornecedor> findFornecedor(){
+        List<Fornecedor> fornecedor = fornecedorService.findAll();
 
-        return this.fornecedorService.findAll();
+        return fornecedor;
     }
 
     @PutMapping("{id}")
-    public FornecedorDTO update(@PathVariable Long id, @RequestBody FornecedorDTO fornecedorDTO) {
+    public FornecedorDTO update(@PathVariable Long idFornecedor, @RequestBody FornecedorDTO fornecedorDTO) {
 
         LOGGER.info("Recebendo requisição para alteração do fornecedor...");
         LOGGER.debug("Payload: {}", fornecedorDTO);
 
-        return this.fornecedorService.update(id, fornecedorDTO);
+        return this.fornecedorService.update(idFornecedor, fornecedorDTO);
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable("id") Long id) {
-        LOGGER.info("Recebendo Delete para fornecedor de ID: {}", id);
-        this.fornecedorService.delete(id);
+    public void delete(@PathVariable("id") Long idFornecedor) {
+
+        LOGGER.info("Recebendo Delete para fornecedor de ID: {}", idFornecedor);
+
+        this.fornecedorService.delete(idFornecedor);
 
     }
 

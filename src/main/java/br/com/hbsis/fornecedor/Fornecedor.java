@@ -10,7 +10,7 @@ import javax.validation.constraints.Size;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_fornecedor", updatable = false, insertable = false)
-    private Long id;
+    private Long idFornecedor;
 
     @Column(name = "razao_social", unique = true, nullable = false, length = 100)
     private String razaoSocial;
@@ -30,12 +30,12 @@ import javax.validation.constraints.Size;
     @Column(name = "email", length = 11)
     private String email;
 
-    public Long getId() {
-        return id;
+    public Long getIdFornecedor() {
+        return idFornecedor;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setId(Long idFornecedor) {
+        this.idFornecedor = idFornecedor;
     }
 
     public String getRazaoSocial() {
@@ -89,7 +89,7 @@ import javax.validation.constraints.Size;
     @Override
     public String toString() {
         return "Fornecedor{" +
-                "id= '" + id +
+                "id= '" + idFornecedor +
                 ", Razao Social= '"  + razaoSocial  + '\'' +
                 ", CNPJ= '"          + cnpj         + '\'' +
                 ", Nome Fantasia= '" + nomeFantasia + '\'' +

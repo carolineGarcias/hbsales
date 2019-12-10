@@ -2,26 +2,25 @@ package br.com.hbsis.categoria.produto;
 
 public class CategoriaDTO {
 
-    private Long id,  fornecedorId;
-    private String nomeCategoria,codCategoria;
+    private Long id, fornecedorId;
+    private String nomeCategoria, codCategoria;
 
-
-    public CategoriaDTO() {
+    public CategoriaDTO(){
     }
 
-    public CategoriaDTO(Long id, String nomeCategoria, String codCategoria, Long fornecedorId) {
+    public CategoriaDTO(Long id, Long fornecedorId, String nomeCategoria, String codCategoria) {
         this.id = id;
-        this.codCategoria  = codCategoria;
-        this.nomeCategoria = nomeCategoria;
         this.fornecedorId  = fornecedorId;
+        this.nomeCategoria = nomeCategoria;
+        this.codCategoria  = codCategoria;
     }
 
     public static CategoriaDTO of(Categoria categoria) {
         return new CategoriaDTO(
-                categoria.getId(),
-                categoria.getNomeCategoria(),
-                categoria.getCodCategoria(),
-                categoria.getFornecedor().getId()
+                    categoria.getId(),
+                    categoria.getFornecedor().getIdFornecedor(),
+                    categoria.getNomeCategoria(),
+                    categoria.getCodCategoria()
         );
     }
 
@@ -31,14 +30,6 @@ public class CategoriaDTO {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getCodCategoria() {
-        return codCategoria;
-    }
-
-    public void setCodCategoria(String codCategoria) {
-        this.codCategoria = codCategoria;
     }
 
     public Long getFornecedorId() {
@@ -57,14 +48,21 @@ public class CategoriaDTO {
         this.nomeCategoria = nomeCategoria;
     }
 
+    public String getCodCategoria() {
+        return codCategoria;
+    }
+
+    public void setCodCategoria(String codCategoria) {
+        this.codCategoria = codCategoria;
+    }
+
     @Override
     public String toString() {
         return "CategoriaDTO{" +
                 "id=" + id +
-                /*", codCategoria="   + codCategoria  +*/
+                ", fornecedorId="   + fornecedorId +
                 ", nomeCategoria='" + nomeCategoria + '\'' +
-                ", idFornecedor="   + fornecedorId  +
+                ", codCategoria='"  + codCategoria  + '\'' +
                 '}';
     }
 }
-
