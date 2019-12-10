@@ -47,7 +47,6 @@ public class CategoriaService {
                 .withSkipLines(1)
                 .build();
 
-
         List<String[]> linhaString = csvReader.readAll();
         List<CategoriaDTO> reading = new ArrayList<>();
 
@@ -55,16 +54,19 @@ public class CategoriaService {
             try {
 
                 String[] bean = linha[0].replaceAll("\"", "").split(";");
+
                 CategoriaDTO categoriaDTO = new CategoriaDTO();
-                FornecedorDTO fornecedorDTO = this.fornecedorService.findByCnpj(bean[3].replaceAll("[-/.]", ""));
+                Fornecedor fornecedor = this.fornecedorService.findByCnpj(bean[3].replaceAll("[-/.]", ""));
+
                 categoriaDTO.setCodCategoria(bean[0]);
                 categoriaDTO.setNomeCategoria(bean[1]);
-                categoriaDTO.setFornecedorId(fornecedorDTO.getIdFornecedor());
+                categoriaDTO.setFornecedorId(fornecedor.getIdFornecedor());
 
                 if (!(iCategoriaRepository.existsCategoriaByCodCategoria(categoriaDTO.getCodCategoria())) ||
-                        !(iCategoriaRepository.existsCategoriaByCodCategoria(codeContrutor(categoriaDTO.getCodCategoria(), categoriaDTO.getFornecedorId())))) {
-                    save(categoriaDTO);
-                    reading.add(categoriaDTO);
+                        !(iCategoriaRepository.existsCategoriaByCodCategoria
+                                (codeContrutor(categoriaDTO.getCodCategoria(), categoriaDTO.getFornecedorId())))) {
+                                        save(categoriaDTO);
+                                        reading.add(categoriaDTO);
                 }
 
             } catch (Exception e) {
@@ -111,7 +113,7 @@ public class CategoriaService {
                     .withLineEnd(CSVWriter.DEFAULT_LINE_END)
                     .build();
 
-            String headerCSV[] = {"codigo_categoria", "nome_categoria", "cnpj", "razao_social"};
+            String headerCSV[] = {"CÓDIGO CATEGORIA", "NOME", "CNPJ", "RAZÃO SOCIAL"};
             csvWriter.writeNext(headerCSV);
 
             for (Categoria linha : iCategoriaRepository.findAll()) {
@@ -121,7 +123,8 @@ public class CategoriaService {
                 csvWriter.writeNext(new String[]{
                         linha.getCodCategoria(),
                         linha.getNomeCategoria(),
-                        formatarCNPJ
+                        formatarCNPJ,
+                        linha.getFornecedor().getRazaoSocial()
                 });
             }
 
@@ -175,7 +178,8 @@ public class CategoriaService {
     }
 
     public CategoriaDTO findByCodCategoria(String codCategoria){
-        Optional<Categoria> categoriaOpcional = (Optional<Categoria>) Optional.ofNullable(this.iCategoriaRepository.findByCodCategoria(codCategoria));
+
+        Optional<Categoria> categoriaOpcional = this.iCategoriaRepository.findByCodCategoria(codCategoria);
 
         if (categoriaOpcional.isPresent()) {
             return CategoriaDTO.of(categoriaOpcional.get());

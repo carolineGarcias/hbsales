@@ -60,8 +60,8 @@ public class Categoria{
     public String toString() {
         return "Categoria{" +
                 "id=" + id +
-                ", codCategoria='"  + codCategoria  + '\''  +
-                ", nomeCategoria='" + nomeCategoria + '\''  +
+                ", codCategoria='"  + codCategoria  + '\'' +
+                ", nomeCategoria='" + nomeCategoria + '\'' +
                 ", fornecedor="     + fornecedor.toString() +
                 '}';
     }

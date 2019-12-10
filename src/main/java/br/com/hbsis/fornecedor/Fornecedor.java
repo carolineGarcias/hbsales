@@ -2,7 +2,6 @@ package br.com.hbsis.fornecedor;
 
 import javax.persistence.Table;
 import javax.persistence.*;
-import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "seg_fornecedores")

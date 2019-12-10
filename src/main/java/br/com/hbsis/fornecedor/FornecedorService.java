@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -78,14 +77,18 @@ public class FornecedorService {
         throw new IllegalArgumentException(String.format("ID %s não existe", id));
     }
 
-    public FornecedorDTO findByCnpj(String cnpj){
-        Optional<Fornecedor> fornecedorOptional = this.ifornecedorRepository.findByCnpj(cnpj);
+    public Fornecedor findByCnpj(String cnpj){
 
+        return this.ifornecedorRepository.findByCnpj(cnpj);
+    }
+
+
+      /*
         if (fornecedorOptional.isPresent()) {
             return FornecedorDTO.of(fornecedorOptional.get());
         }
-        throw new IllegalArgumentException(String.format("Cnpj %s não existe", cnpj));
-    }
+        throw new IllegalArgumentException(String.format("Cnpj %s não existe", cnpj));*/
+
 
     public FornecedorDTO update(Long idFornecedor, FornecedorDTO fornecedorDTO) {
         Optional<Fornecedor> fornecedorExistenteOptional = this.ifornecedorRepository.findById(idFornecedor);
@@ -112,10 +115,10 @@ public class FornecedorService {
         throw new IllegalArgumentException(String.format("ID %s não existe", idFornecedor));
 
     }
-    public void delete(Long id) {
-        LOGGER.info("Executando delete para fornecedor de ID: [{}]", id);
+    public void delete(Long idFornecedor) {
+        LOGGER.info("Executando delete para fornecedor de ID: [{}]", idFornecedor);
 
-        this.ifornecedorRepository.deleteById(id);
+        this.ifornecedorRepository.deleteById(idFornecedor);
     }
 
   private void validate(FornecedorDTO fornecedorDTO) {

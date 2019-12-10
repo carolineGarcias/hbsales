@@ -53,7 +53,7 @@ public class FornecedorRest {
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable("id") Long idFornecedor) {
+    public void deleteById(@PathVariable("id") Long idFornecedor) {
 
         LOGGER.info("Recebendo Delete para fornecedor de ID: {}", idFornecedor);
 

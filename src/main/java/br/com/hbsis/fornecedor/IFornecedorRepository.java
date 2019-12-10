@@ -10,7 +10,7 @@ public interface IFornecedorRepository extends JpaRepository<Fornecedor, Long> {
 
     @Override
     boolean existsById(Long idFornecedor);
-    Optional<Fornecedor> findByCnpj(String cnpj);
+    Fornecedor findByCnpj(String cnpj);
 }
 
 
