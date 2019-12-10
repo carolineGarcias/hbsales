@@ -53,7 +53,7 @@ public class CategoriaRest {
 
     @GetMapping("/exportar")
     public void exportarCSV(HttpServletResponse httpServletResponse){
-        LOGGER.info("Exportando arquivo 'categorias.csv'");
+        LOGGER.info("Exportando arquivo categorias.csv'");
 
         this.categoriaService.exportCSV(httpServletResponse);
     }

@@ -77,8 +77,8 @@ public class CategoriaService {
     public CategoriaDTO save(CategoriaDTO categoriaDTO) {
         this.validate(categoriaDTO);
 
-        LOGGER.info("\"Salvando br.com.hbsis.Categoria");
-        LOGGER.debug("br.com.hbsis.Categoria: {}", categoriaDTO);
+        LOGGER.info("Salvando Categoria");
+        LOGGER.debug("Categoria: {}", categoriaDTO);
 
         Categoria categoria = new Categoria();
 
@@ -90,6 +90,7 @@ public class CategoriaService {
         categoria.setNomeCategoria(categoriaDTO.getNomeCategoria());
         categoria.setFornecedor(fornecedorService.findByIdFornecedor(categoriaDTO.getFornecedorId()));
         categoria.setCodCategoria("CAT" + categoria.getFornecedor().getCnpj().substring(10, 14) + cont);
+        categoria.getFornecedor().getRazaoSocial();
         System.out.println(categoria.getCodCategoria());
 
         Categoria save = this.iCategoriaRepository.save(categoria);
@@ -110,7 +111,7 @@ public class CategoriaService {
                     .withLineEnd(CSVWriter.DEFAULT_LINE_END)
                     .build();
 
-            String headerCSV[] = {"codigo_categoria", "nome_categoria", "razao_social", "cnpj"};
+            String headerCSV[] = {"codigo_categoria", "nome_categoria", "cnpj", "razao_social"};
             csvWriter.writeNext(headerCSV);
 
             for (Categoria linha : iCategoriaRepository.findAll()) {
