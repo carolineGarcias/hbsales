@@ -60,7 +60,7 @@ public class Linha {
         return "Linha { " +
                 "id= "              + idLinha   +
                 ", Nome linha= '"   + nomeLinha + '\'' +
-                ", Categoria= "     + categoria + '\'' +
+                ", ID Categoria= "  + categoria.toString() + '\'' +
                 ", Codigo Linha= "  +
                 '}';
 

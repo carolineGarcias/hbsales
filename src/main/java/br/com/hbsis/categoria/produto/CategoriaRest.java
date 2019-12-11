@@ -52,21 +52,21 @@ public class CategoriaRest {
     }
 
     @GetMapping("/exportar")
-    public void exportarCSV(HttpServletResponse httpServletResponse){
+    public void exportarCSV(HttpServletResponse httpResponse){
         LOGGER.info("Exportando arquivo categorias.csv'");
 
-        this.categoriaService.exportCSV(httpServletResponse);
+        this.categoriaService.exportCSV(httpResponse);
     }
 
     @PostMapping("/importar")
     public void importarCSV(@RequestParam("file") MultipartFile file) throws Exception {
+        LOGGER.info("Importando arquivo categorias.csv'");
 
         categoriaService.readAll(file);
     }
 
     @GetMapping("/listar")
     public List<Categoria> listar(){
-
         LOGGER.info("Gerando lista de Categorias.");
 
         return this.categoriaService.listar();

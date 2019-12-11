@@ -83,13 +83,6 @@ public class FornecedorService {
     }
 
 
-      /*
-        if (fornecedorOptional.isPresent()) {
-            return FornecedorDTO.of(fornecedorOptional.get());
-        }
-        throw new IllegalArgumentException(String.format("Cnpj %s não existe", cnpj));*/
-
-
     public FornecedorDTO update(Long idFornecedor, FornecedorDTO fornecedorDTO) {
         Optional<Fornecedor> fornecedorExistenteOptional = this.ifornecedorRepository.findById(idFornecedor);
 

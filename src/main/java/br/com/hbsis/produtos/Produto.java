@@ -108,12 +108,12 @@ public class Produto {
     @Override
     public String toString() {
         return "Produto{" +
-                "idProduto="          + idProduto        +
-                ", codProduto="       + codProduto       +
+                "idProduto="          + idProduto        + '\'' +
+                ", codProduto="       + codProduto       + '\'' +
                 ", nomeProduto='"     + nomeProduto      + '\'' +
-                ", precoProd="        + precoProd        +
-                ", unidadeCaixaProd=" + unidadeCaixaProd +
-                ", pesoProd="         + pesoProd         +
+                ", precoProd="        + precoProd        + '\'' +
+                ", unidadeCaixaProd=" + unidadeCaixaProd + '\'' +
+                ", pesoProd="         + pesoProd         + '\'' +
                 ", validadeProd='"    + validadeProd     + '\'' +
                 ", linha="            + linha.toString() +
                 '}';

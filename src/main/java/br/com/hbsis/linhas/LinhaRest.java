@@ -38,16 +38,16 @@ public class LinhaRest {
         return linhas;
     }
 
-    @GetMapping("/exportLinhas")
+    @GetMapping("/exportar")
     public void exportCSV(HttpServletResponse httpResponse) throws Exception {
 
-        LOGGER.info("Exportando arquivo linhas.csv");
+        LOGGER.info("Exportando arquivo response.csv");
 
         this.linhaService.exportCSV(httpResponse);
 
     }
 
-    @PostMapping("/importLinhas")
+    @PostMapping("/importar")
     public void importCSV(@RequestParam("file") MultipartFile file) throws Exception {
 
         linhaService.readAll(file);

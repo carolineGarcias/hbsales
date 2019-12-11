@@ -5,6 +5,9 @@ public class LinhaDTO {
     private Long    idLinha, idCategoria;
     private String  nomeLinha, codLinha;
 
+    public LinhaDTO(){
+
+    }
 
     public LinhaDTO(Long idLinha, Long idCategoria, String nomeLinha, String codLinha) {
         this.idLinha     = idLinha;
@@ -56,14 +59,13 @@ public class LinhaDTO {
     }
 
 
-
     @Override
     public String toString() {
         return "Linha { " +
                 "  id= "           + idLinha     +
                 ", Nome linha= '"  + nomeLinha   + '\'' +
                 ", Categoria= "    + idCategoria + '\'' +
-                ", Codigo Linha= " +
+                ", Codigo Linha= " + codLinha    + '\'' +
                 '}';
     }
 

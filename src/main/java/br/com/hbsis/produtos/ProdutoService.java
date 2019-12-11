@@ -22,16 +22,16 @@ public class ProdutoService {
 
     private final Logger LOGGER = LoggerFactory.getLogger(ProdutoService.class);
 
-    private final IProdutoRepository    iProdutoRepository;
-    private final ILinhaRepository      iLinhaRepository;
+    private final IProdutoRepository iProdutoRepository;
+    private final ILinhaRepository iLinhaRepository;
     private final IFornecedorRepository iFornecedorRepository;
 
     public ProdutoService(IProdutoRepository iProdutoRepository,
                           IFornecedorRepository iFornecedorRepository,
                           ILinhaRepository iLinhaRepository) {
 
-        this.iProdutoRepository    = iProdutoRepository;
-        this.iLinhaRepository      = iLinhaRepository;
+        this.iProdutoRepository = iProdutoRepository;
+        this.iLinhaRepository = iLinhaRepository;
         this.iFornecedorRepository = iFornecedorRepository;
     }
 
@@ -43,12 +43,12 @@ public class ProdutoService {
     }
 
     public List<Produto> readAll(MultipartFile file) throws Exception {
-        InputStreamReader reader  = new InputStreamReader(file.getInputStream());
+        InputStreamReader reader = new InputStreamReader(file.getInputStream());
 
-        CSVReader csvReader       = new CSVReaderBuilder(reader).withSkipLines(1).build();
+        CSVReader csvReader = new CSVReaderBuilder(reader).withSkipLines(1).build();
 
         List<String[]> lineString = csvReader.readAll();
-        List<Produto> reading     = new ArrayList<>();
+        List<Produto> reading = new ArrayList<>();
 
         for (String[] linhas : lineString) {
             try {
@@ -67,7 +67,7 @@ public class ProdutoService {
                 produto.setValidadeProd(LocalDate.parse(bean[7]));
 
                 reading.add(produto);
-            }  catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -149,7 +149,7 @@ public class ProdutoService {
         throw new IllegalArgumentException(String.format("ID %s não existe", id));
     }
 
-   /* public void exportCSV(HttpServletResponse httpResponse) {
+    public void exportCSV(HttpServletResponse httpResponse) {
         try {
             String filename = "produtos.csv";
 
@@ -165,14 +165,14 @@ public class ProdutoService {
                     build();
 
             String readerCSV[] = {
-                    "id_produto",
-                    "cod_produto",
-                    "nome_produto",
-                    "preco_produto",
-                    "unidade_caixa",
-                    "peso_unidade",
-                    "validade_produto",
-                    "id_linha_produto"
+                    "ID PRODUTO",
+                    "CÓDIGO PRODUTO",
+                    "NOME PRODUTO",
+                    "PREÇO PRODUTO",
+                    "UNIDADE CAIXA",
+                    "PESO UNIDADE",
+                    "VALIDADE PRODUTO",
+                    "ID LINHA PRODUTO"
             };
 
             csvWriter.writeNext(readerCSV);
@@ -194,7 +194,7 @@ public class ProdutoService {
         }
     }
 
- /*   public void importFornecedor(Long id, MultipartFile file) throws Exception{
+/*   public void importFornecedor(Long id, MultipartFile file) throws Exception{
         InputStreamReader inputStreamReader = new InputStreamReader(file.getInputStream());
 
         CSVReader csvReader = new CSVReaderBuilder(inputStreamReader)
@@ -220,15 +220,15 @@ public class ProdutoService {
                     produto.setUnidadeCaixaProd(Double.parseDouble(bean[6]));
                     produto.setValidadeProd(LocalDate.parse(bean[7]));
 
-                    if (iProdutoRepository.existByCodigoProduto(produto.getCodProduto()) &&
-                         id == produto.getLinha().getCategoria().getFornecedor().getId()){
+                 /*   if (iProdutoRepository.existByCodigoProduto(produto.getCodProduto()) &&
+                         id == produto.getLinha().getCategoria().getFornecedor().getIdFornecedor()){
 
                         produto.setIdProduto(iProdutoRepository.findByCodigoProduto
                         (produto.getCodProduto()).get().getIdProduto());
                         update(ProdutoDTO.of(produto), produto.getIdProduto());
 
                     }
-                    else if(id == produto.getLinha().getCategoria().getFornecedor().getId()) {
+                    else if(id == produto.getLinha().getCategoria().getFornecedor().getIdFornecedor()) {
                         iProdutoRepository.save(produto);
                     }
                     else {
@@ -242,5 +242,6 @@ public class ProdutoService {
             }
         }
     }
-*/
+
+}*/
 }
