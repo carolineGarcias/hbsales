@@ -46,12 +46,12 @@ public class FornecedorService {
 
         Fornecedor fornecedor = new Fornecedor();
 
-        fornecedor.setRazaoSocial(fornecedorDTO.getRazaoSocial());
-        fornecedor.setCnpj(fornecedorDTO.getCnpj());
-        fornecedor.setNomeFantasia(fornecedorDTO.getNomeFantasia());
-        fornecedor.setEndereco(fornecedorDTO.getEndereco());
-        fornecedor.setTelefone(fornecedorDTO.getTelefone());
-        fornecedor.setEmail(fornecedorDTO.getEmail());
+        fornecedor.setRazaoSocial(fornecedorDTO.getRazaoSocial().toUpperCase());
+        fornecedor.setCnpj(fornecedorDTO.getCnpj().toUpperCase());
+        fornecedor.setNomeFantasia(fornecedorDTO.getNomeFantasia().toUpperCase());
+        fornecedor.setEndereco(fornecedorDTO.getEndereco().toUpperCase());
+        fornecedor.setTelefone(fornecedorDTO.getTelefone().toUpperCase());
+        fornecedor.setEmail(fornecedorDTO.getEmail().toUpperCase());
 
         fornecedor = this.ifornecedorRepository.save(fornecedor);
 
@@ -81,7 +81,6 @@ public class FornecedorService {
 
         return this.ifornecedorRepository.findByCnpj(cnpj);
     }
-
 
     public FornecedorDTO update(Long idFornecedor, FornecedorDTO fornecedorDTO) {
         Optional<Fornecedor> fornecedorExistenteOptional = this.ifornecedorRepository.findById(idFornecedor);

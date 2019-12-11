@@ -196,22 +196,16 @@ public class ProdutoService {
 
 /*   public void importFornecedor(Long id, MultipartFile file) throws Exception{
         InputStreamReader inputStreamReader = new InputStreamReader(file.getInputStream());
-
         CSVReader csvReader = new CSVReaderBuilder(inputStreamReader)
                 .withSkipLines(1)
                 .build();
-
         List<String[]> linhaString = csvReader.readAll();
-
         List<Produto> reading = new ArrayList<>();
-
         for (String[] linha : linhaString) {
             try{
                 String[] bean = linha[0].replaceAll("\"", "").split(";");
-
                 Produto produto = new Produto();
                 if(iFornecedorRepository.existsById(id)){
-
                     produto.setNomeProduto(bean[1]);
                     produto.setCodProduto(bean[2]);
                     produto.setPesoProd(Double.parseDouble(bean[3]));
@@ -219,22 +213,17 @@ public class ProdutoService {
                     produto.setPrecoProd(Double.parseDouble(bean[5]));
                     produto.setUnidadeCaixaProd(Double.parseDouble(bean[6]));
                     produto.setValidadeProd(LocalDate.parse(bean[7]));
-
                  /*   if (iProdutoRepository.existByCodigoProduto(produto.getCodProduto()) &&
                          id == produto.getLinha().getCategoria().getFornecedor().getIdFornecedor()){
-
                         produto.setIdProduto(iProdutoRepository.findByCodigoProduto
                         (produto.getCodProduto()).get().getIdProduto());
                         update(ProdutoDTO.of(produto), produto.getIdProduto());
-
                     }
                     else if(id == produto.getLinha().getCategoria().getFornecedor().getIdFornecedor()) {
                         iProdutoRepository.save(produto);
                     }
                     else {
-
                         LOGGER.info("Produto {} ... pertence a outro fornecedor.", produto.getCodProduto());
-
                     }
                 }
             }  catch (Exception e){
@@ -242,6 +231,5 @@ public class ProdutoService {
             }
         }
     }
-
 }*/
 }
