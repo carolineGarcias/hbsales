@@ -1,5 +1,7 @@
 package br.com.hbsis.produtos;
 
+import br.com.hbsis.linhas.Linha;
+
 import java.time.LocalDate;
 
 public class ProdutoDTO {
@@ -9,12 +11,21 @@ public class ProdutoDTO {
     private LocalDate validadeProd;
     private double pesoProd, unidadeCaixaProd, precoProd;
 
-
     public ProdutoDTO(Long idProduto, Long linhaId,
-                      String nomeProduto, String codProduto, LocalDate validadeProd,
-                      double pesoProd, double unidadeCaixaProd, double precoProd) {
+                      String nomeProduto, String codProduto,
+                      LocalDate validadeProd, double pesoProd,
+                      double unidadeCaixaProd, double precoProd) {
 
+        this.idProduto = idProduto;
+        this.linhaId = linhaId;
+        this.nomeProduto = nomeProduto;
+        this.codProduto = codProduto;
+        this.validadeProd = validadeProd;
+        this.pesoProd = pesoProd;
+        this.unidadeCaixaProd = unidadeCaixaProd;
+        this.precoProd = precoProd;
     }
+
 
     public ProdutoDTO() {
 
@@ -101,14 +112,15 @@ public class ProdutoDTO {
     @Override
     public String toString() {
         return "ProdutoDTO{" +
-                "idProduto="          + idProduto    +
-                ", codProduto="       + codProduto   +
+                "idProduto="          + idProduto    + '\'' +
+                ", codProduto="       + codProduto   + '\'' +
                 ", nomeProduto='"     + nomeProduto  + '\'' +
                 ", validadeProd='"    + validadeProd + '\'' +
-                ", pesoProd="         + pesoProd     +
-                ", unidadeCaixaProd=" + unidadeCaixaProd +
-                ", precoProd="        + precoProd    +
-                ", linhaId="          + linhaId      +
+                ", pesoProd="         + pesoProd     + '\'' +
+                ", unidadeCaixaProd=" + unidadeCaixaProd +'\'' +
+                ", precoProd="        + precoProd    + '\'' +
+                ", linhaId="          + linhaId      + '\'' +
                 '}';
     }
+
 }

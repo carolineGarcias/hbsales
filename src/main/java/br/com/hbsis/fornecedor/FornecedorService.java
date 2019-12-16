@@ -21,6 +21,20 @@ public class FornecedorService {
         this.ifornecedorRepository = ifornecedorRepository;
     }
 
+    public Fornecedor saveEntity(FornecedorDTO fornecedorDTO) {
+        LOGGER.info("Sanvando fornecedor");
+        LOGGER.debug("Payload: {}", fornecedorDTO);
+
+        Fornecedor fornecedor = this.fromDto(fornecedorDTO, new Fornecedor());
+
+        fornecedor = this.ifornecedorRepository.save(fornecedor);
+
+        LOGGER.trace("Fornecedor Salvo {}", fornecedor);
+
+        return fornecedor;
+    }
+
+
     public Fornecedor fromDto(FornecedorDTO fornecedorDTO, Fornecedor fornecedor) {
 
         fornecedor.setRazaoSocial(fornecedorDTO.getRazaoSocial());
@@ -61,7 +75,7 @@ public class FornecedorService {
     public FornecedorDTO findById(Long idFornecedor) {
         Optional<Fornecedor> fornecedorOptional = this.ifornecedorRepository.findById(idFornecedor);
 
-        if(fornecedorOptional.isPresent()){
+        if (fornecedorOptional.isPresent()) {
             return FornecedorDTO.of(fornecedorOptional.get());
         }
 
@@ -77,7 +91,7 @@ public class FornecedorService {
         throw new IllegalArgumentException(String.format("ID %s não existe", id));
     }
 
-    public Fornecedor findByCnpj(String cnpj){
+    public Fornecedor findByCnpj(String cnpj) {
 
         return this.ifornecedorRepository.findByCnpj(cnpj);
     }
@@ -86,7 +100,7 @@ public class FornecedorService {
     public FornecedorDTO update(Long idFornecedor, FornecedorDTO fornecedorDTO) {
         Optional<Fornecedor> fornecedorExistenteOptional = this.ifornecedorRepository.findById(idFornecedor);
 
-        if (fornecedorExistenteOptional.isPresent()){
+        if (fornecedorExistenteOptional.isPresent()) {
             Fornecedor fornecedorExistente = fornecedorExistenteOptional.get();
 
             LOGGER.info("Atualizando o fornecedor... id:{}", fornecedorExistente.getIdFornecedor());
@@ -108,36 +122,37 @@ public class FornecedorService {
         throw new IllegalArgumentException(String.format("ID %s não existe", idFornecedor));
 
     }
+
     public void delete(Long idFornecedor) {
         LOGGER.info("Executando delete para fornecedor de ID: [{}]", idFornecedor);
 
         this.ifornecedorRepository.deleteById(idFornecedor);
     }
 
-  private void validate(FornecedorDTO fornecedorDTO) {
+    private void validate(FornecedorDTO fornecedorDTO) {
 
-      LOGGER.info("Validando Fornecedor");
+        LOGGER.info("Validando Fornecedor");
 
-      if (fornecedorDTO == null) {
-          throw new IllegalArgumentException("FornecedorDTO não deve ser nulo");
-      }
-      if (StringUtils.isEmpty(fornecedorDTO.getRazaoSocial())) {
-          throw new IllegalArgumentException("Razão social não deve ser nula/vazia");
-      }
-      if (StringUtils.isEmpty((fornecedorDTO.getCnpj()))) {
-          throw new IllegalArgumentException("Cnpj não deve ser nulo/vazio");
-      }
-      if (StringUtils.isEmpty(fornecedorDTO.getNomeFantasia())) {
-          throw new IllegalArgumentException("Nome não deve ser nulo/vazio");
-      }
-      if (StringUtils.isEmpty(fornecedorDTO.getEmail())) {
-          throw new IllegalArgumentException("E-mail não deve ser nulo/vazio");
-      }
-      if (StringUtils.isEmpty(fornecedorDTO.getEndereco())) {
-          throw new IllegalArgumentException("Endereço não deve ser nulo/vazio");
-      }
-      if (StringUtils.isEmpty(fornecedorDTO.getTelefone())) {
-          throw new IllegalArgumentException("Telefone não deve ser nulo/vazio");
-      }
-  }
+        if (fornecedorDTO == null) {
+            throw new IllegalArgumentException("FornecedorDTO não deve ser nulo");
+        }
+        if (StringUtils.isEmpty(fornecedorDTO.getRazaoSocial())) {
+            throw new IllegalArgumentException("Razão social não deve ser nula/vazia");
+        }
+        if (StringUtils.isEmpty((fornecedorDTO.getCnpj()))) {
+            throw new IllegalArgumentException("Cnpj não deve ser nulo/vazio");
+        }
+        if (StringUtils.isEmpty(fornecedorDTO.getNomeFantasia())) {
+            throw new IllegalArgumentException("Nome não deve ser nulo/vazio");
+        }
+        if (StringUtils.isEmpty(fornecedorDTO.getEmail())) {
+            throw new IllegalArgumentException("E-mail não deve ser nulo/vazio");
+        }
+        if (StringUtils.isEmpty(fornecedorDTO.getEndereco())) {
+            throw new IllegalArgumentException("Endereço não deve ser nulo/vazio");
+        }
+        if (StringUtils.isEmpty(fornecedorDTO.getTelefone())) {
+            throw new IllegalArgumentException("Telefone não deve ser nulo/vazio");
+        }
+    }
 }

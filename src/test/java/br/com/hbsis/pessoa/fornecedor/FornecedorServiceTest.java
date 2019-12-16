@@ -1,5 +1,9 @@
 package br.com.hbsis.pessoa.fornecedor;
 
+import br.com.hbsis.fornecedor.Fornecedor;
+import br.com.hbsis.fornecedor.FornecedorDTO;
+import br.com.hbsis.fornecedor.FornecedorService;
+import br.com.hbsis.fornecedor.IFornecedorRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
@@ -36,8 +40,8 @@ class FornecedorServiceTest {
 		when(fornecedorEntityMock.getCnpj()).thenReturn(fornecedorDTO.getCnpj());
 		when(fornecedorEntityMock.getNomeFantasia()).thenReturn(fornecedorDTO.getNomeFantasia());
 		when(fornecedorEntityMock.getEndereco()).thenReturn(fornecedorDTO.getEndereco());
-		when(fornecedorEntityMock.getEmailContato()).thenReturn(fornecedorDTO.getEmailContato());
-		when(fornecedorEntityMock.getTelefoneContato()).thenReturn(fornecedorDTO.getTelefoneContato());
+		when(fornecedorEntityMock.getEmail()).thenReturn(fornecedorDTO.getEmail());
+		when(fornecedorEntityMock.getTelefone()).thenReturn(fornecedorDTO.getTelefone());
 
 		when(this.iFornecedorRepository.save(any())).thenReturn(fornecedorEntityMock);
 
@@ -49,8 +53,8 @@ class FornecedorServiceTest {
 		assertEquals(fornecedorDTO.getCnpj(), fornecedor.getCnpj());
 		assertEquals(fornecedorDTO.getNomeFantasia(), fornecedor.getNomeFantasia());
 		assertEquals(fornecedorDTO.getEndereco(), fornecedor.getEndereco());
-		assertEquals(fornecedorDTO.getEmailContato(), fornecedor.getEmailContato());
-		assertEquals(fornecedorDTO.getTelefoneContato(), fornecedor.getTelefoneContato());
+		assertEquals(fornecedorDTO.getEmail(), fornecedor.getEmail());
+		assertEquals(fornecedorDTO.getTelefone(), fornecedor.getTelefone());
 
 		assertEquals(fornecedorEntityMock, fornecedor);
 	}

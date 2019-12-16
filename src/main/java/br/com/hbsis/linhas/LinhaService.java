@@ -156,9 +156,10 @@ public class LinhaService{
             for (Linha linha : iLinhaRepository.findAll()) {
                 csvWriter.writeNext(new String[]{
                         linha.getIdLinha().toString(),
-                        linha.getCodLinha(),
+                        linha.getCodLinha().toUpperCase(),
                         linha.getCategoria().getId().toString(),
-                        linha.getNomeLinha()});
+                        linha.getNomeLinha().toUpperCase()
+                });
             }
 
             csvWriter.flush();

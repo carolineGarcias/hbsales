@@ -36,14 +36,14 @@ public class ProdutoRest{
 
         return this.produtoService.findById(id);
     }
-    /*@GetMapping("/exportar")
+    @GetMapping("/exportar")
     public void exportCSV(HttpServletResponse response) throws Exception {
 
         LOGGER.info("Exportando arquivo produtos.csv");
 
         this.produtoService.exportCSV(response);
     }
-*/
+
     @RequestMapping("/listar")
     public List<ProdutoDTO> findProduto(){
         List<ProdutoDTO> produto = produtoService.findAll();
@@ -51,7 +51,7 @@ public class ProdutoRest{
         return produto;
     }
 
- /*   @PutMapping("/importar-por-fornecedor/{id}")
+   @PutMapping("/importar-por-fornecedor/{id}")
     public void importFornecedor(@PathVariable("id") Long id, @RequestParam MultipartFile file) throws Exception{
 
         LOGGER.info("Adicionando Produtos do Fornecedor de ID... [{}]", id);
@@ -61,12 +61,12 @@ public class ProdutoRest{
 
 
     @PostMapping ("/importar")
-    public void importProduto(@PathVariable("id") Long id,
+    public void importProduto(@PathVariable("file") Long id,
                               @RequestParam MultipartFile file) throws Exception {
 
         produtoService.readAll(file);
     }
-*/
+
     @PutMapping("/{id}")
     public ProdutoDTO update(@PathVariable("id") Long id, @RequestBody ProdutoDTO produtoDTO){
 

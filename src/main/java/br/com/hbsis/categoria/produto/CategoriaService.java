@@ -13,9 +13,11 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.swing.text.MaskFormatter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -99,10 +101,10 @@ public class CategoriaService {
         for (; cont.length() < 3; ) {
             cont = "0" + cont;
         }
-        categoria.setNomeCategoria(categoriaDTO.getNomeCategoria());
+        categoria.setNomeCategoria(categoriaDTO.getNomeCategoria().toUpperCase());
         categoria.setFornecedor(fornecedorService.findByIdFornecedor(categoriaDTO.getFornecedorId()));
-        categoria.setCodCategoria("CAT" + categoria.getFornecedor().getCnpj().substring(10, 14) + cont);
-        categoria.getFornecedor().getRazaoSocial();
+        categoria.setCodCategoria("CAT" + categoria.getFornecedor().getCnpj().substring(10, 14).toUpperCase() + cont);
+        categoria.getFornecedor().getRazaoSocial().toUpperCase();
         System.out.println(categoria.getCodCategoria());
 
         Categoria save = this.iCategoriaRepository.save(categoria);
@@ -127,15 +129,15 @@ public class CategoriaService {
             csvWriter.writeNext(headerCSV);
 
             for (Categoria linha : iCategoriaRepository.findAll()) {
-                String formatarCNPJ = linha.getFornecedor()
-                        .getCnpj().replaceAll("(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})", "$1.$2.$3/$4-$5");
+                String formatarCNPJ = linha.getFornecedor().getCnpj().replaceAll("(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})", "$1.$2.$3/$4-$5");
 
                 csvWriter.writeNext(new String[]{
                         String.valueOf(linha.getId()),
-                        linha.getCodCategoria(),
-                        linha.getNomeCategoria(),
+                        linha.getCodCategoria().toUpperCase(),
+                        linha.getNomeCategoria().toUpperCase(),
                         formatarCNPJ,
-                        linha.getFornecedor().getRazaoSocial()
+                        linha.getFornecedor().getRazaoSocial().toUpperCase(),
+
                 });
             }
 

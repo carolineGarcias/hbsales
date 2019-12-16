@@ -134,8 +134,8 @@ public class ProdutoService {
             LOGGER.debug("Fornecedor Existente: {}", produtoExistente);
 
             produtoExistente.setIdProduto(produtoDTO.getIdProduto());
-            produtoExistente.setCodProduto(produtoDTO.getCodProduto());
-            produtoExistente.setNomeProduto(produtoDTO.getNomeProduto());
+            produtoExistente.setCodProduto(produtoDTO.getCodProduto().toUpperCase());
+            produtoExistente.setNomeProduto(produtoDTO.getNomeProduto().toUpperCase());
             produtoExistente.setLinha(iLinhaRepository.findById(produtoDTO.getIdProduto()).get());
             produtoExistente.setPrecoProd(produtoDTO.getPrecoProd());
             produtoExistente.setUnidadeCaixaProd(produtoDTO.getUnidadeCaixaProd());
@@ -172,20 +172,32 @@ public class ProdutoService {
                     "UNIDADE CAIXA",
                     "PESO UNIDADE",
                     "VALIDADE PRODUTO",
-                    "ID LINHA PRODUTO"
+                    "ID LINHA",
+                    "NOME LINHA",
+                    "CÓDIGO CATEGORIA",
+                    "NOME CATEGORIA",
+                    "CNPJ FORNECEDOR",
+                    "RAZAO SOCIAL FORNECEDOR"
             };
 
             csvWriter.writeNext(readerCSV);
             for (Produto produto : iProdutoRepository.findAll()) {
+                String formatarCNPJ = produto.getLinha().getCategoria().getFornecedor().getCnpj().replaceAll("(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})", "$1.$2.$3/$4-$5");
+
                 csvWriter.writeNext(new String[]{
                         produto.getIdProduto().toString(),
-                        produto.getCodProduto(),
-                        produto.getLinha().getIdLinha().toString(),
-                        produto.getNomeProduto(),
-                        produto.getValidadeProd().toString(),
+                        produto.getCodProduto().toUpperCase(),
+                        produto.getNomeProduto().toUpperCase(),
+                        "R$ " + produto.getPrecoProd(),
+                        produto.getUnidadeCaixaProd() + " UN.",
                         String.valueOf(produto.getPesoProd()),
-                        String.valueOf(produto.getUnidadeCaixaProd()),
-                        String.valueOf(produto.getPrecoProd()),
+                        produto.getValidadeProd().toString(),
+                        produto.getLinha().getIdLinha().toString(),
+                        produto.getLinha().getNomeLinha().toUpperCase(),
+                        produto.getLinha().getCategoria().getCodCategoria().toUpperCase(),
+                        produto.getLinha().getCategoria().getNomeCategoria().toUpperCase(),
+                        formatarCNPJ,
+                        produto.getLinha().getCategoria().getFornecedor().getRazaoSocial().toUpperCase()
 
                 });
             }
@@ -194,7 +206,7 @@ public class ProdutoService {
         }
     }
 
-/*   public void importFornecedor(Long id, MultipartFile file) throws Exception{
+  public void importFornecedor(Long id, MultipartFile file) throws Exception{
         InputStreamReader inputStreamReader = new InputStreamReader(file.getInputStream());
 
         CSVReader csvReader = new CSVReaderBuilder(inputStreamReader)
@@ -220,11 +232,11 @@ public class ProdutoService {
                     produto.setUnidadeCaixaProd(Double.parseDouble(bean[6]));
                     produto.setValidadeProd(LocalDate.parse(bean[7]));
 
-                 /*   if (iProdutoRepository.existByCodigoProduto(produto.getCodProduto()) &&
+                   if (iProdutoRepository.existByCodigoProduto(produto.getCodProduto()) &&
                          id == produto.getLinha().getCategoria().getFornecedor().getIdFornecedor()){
 
-                        produto.setIdProduto(iProdutoRepository.findByCodigoProduto
-                        (produto.getCodProduto()).get().getIdProduto());
+                        produto.setIdProduto((Long) iProdutoRepository.findByCodigoProduto
+                        (produto.getCodProduto()).get(id));
                         update(ProdutoDTO.of(produto), produto.getIdProduto());
 
                     }
@@ -242,6 +254,4 @@ public class ProdutoService {
             }
         }
     }
-
-}*/
 }
