@@ -40,14 +40,6 @@ public class VendasService {
         return VendasDTO.of(vendas);
     }
 
-    public void validate(VendasDTO periodoVendaDTO){
-        LOGGER.info("Validando Periodo Venda");
-
-        if(periodoVendaDTO == null){
-            throw new IllegalArgumentException("Periodo Venda não pode ser nulo.");
-        }
-    }
-
     public VendasDTO update(VendasDTO vendasDTO, Long id){
 
         Optional<Vendas> VendaOptional = this.iVendasRepository.findById(id);
@@ -79,23 +71,13 @@ public class VendasService {
         this.iVendasRepository.deleteById(id);
     }
 
-  public boolean vendaAtivo(FornecedorDTO fornecedorDTO) {
-      LocalDate diaHoje = LocalDate.now();
+    public void validate(VendasDTO periodoVendaDTO){
+        LOGGER.info("Validando Periodo Venda");
 
-      Optional<Vendas> periodoVendaOptional = this.iVendasRepository.findByIdVendasFornecedor(fornecedorDTO.getIdFornecedor());
-
-      if(periodoVendaOptional.isPresent()){
-          Vendas vendas = periodoVendaOptional.get();
-
-          if(diaHoje.compareTo(vendas.getInicioVendas()) >= 1  && diaHoje.compareTo(vendas.getFimVendas()) <= 0){
-              return true;
-          }
-          else{
-              return false;
-          }
-      }
-      throw new IllegalArgumentException(String.format("Não foi possível verificar o período de compras."));
-  }
+        if(periodoVendaDTO == null){
+            throw new IllegalArgumentException("Periodo Venda não pode ser nulo.");
+        }
+    }
 
     public VendasDTO findById(Long id){
         Optional<Vendas> vendaOptional = this.iVendasRepository.findById(id);
