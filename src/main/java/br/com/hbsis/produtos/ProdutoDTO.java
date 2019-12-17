@@ -1,15 +1,15 @@
 package br.com.hbsis.produtos;
 
-import br.com.hbsis.linhas.Linha;
-
 import java.time.LocalDate;
 
 public class ProdutoDTO {
-
     private Long   idProduto, linhaId;;
     private String nomeProduto, codProduto;
     private LocalDate validadeProd;
     private double pesoProd, unidadeCaixaProd, precoProd;
+
+    public ProdutoDTO() {
+    }
 
     public ProdutoDTO(Long idProduto, Long linhaId,
                       String nomeProduto, String codProduto,
@@ -26,11 +26,6 @@ public class ProdutoDTO {
         this.precoProd = precoProd;
     }
 
-
-    public ProdutoDTO() {
-
-    }
-
     public static ProdutoDTO of(Produto produto){
         return new ProdutoDTO(
                 produto.getIdProduto(),
@@ -41,7 +36,6 @@ public class ProdutoDTO {
                 produto.getPesoProd(),
                 produto.getUnidadeCaixaProd(),
                 produto.getPrecoProd()
-
         );
     }
 
@@ -122,5 +116,4 @@ public class ProdutoDTO {
                 ", linhaId="          + linhaId      + '\'' +
                 '}';
     }
-
 }

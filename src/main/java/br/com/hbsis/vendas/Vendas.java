@@ -87,9 +87,10 @@ public class Vendas {
         return "Vendas{" +
                 "id=" + id +
                 ", Id Fornecedor= " + fornecedor.toString() +
-                ", inicio Vendas=" + inicioVendas +
-                ", fim Vendas="    + fimVendas    +
-                ", Descrição= "   + descricao    +
+                ", inicio Vendas="  + inicioVendas +
+                ", fim Vendas="     + fimVendas    +
+                ", retirada Pedido="+ retiradaPedido +
+                ", Descrição= "     + descricao    +
                 '}';
     }
 }

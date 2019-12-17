@@ -1,14 +1,14 @@
 package br.com.hbsis.vendas;
 
 import br.com.hbsis.fornecedor.Fornecedor;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
-import java.util.List;
 import java.util.Optional;
 
-public interface IVendasRepository {
+public interface IVendasRepository extends JpaRepository<Vendas, Long> {
 
-    Optional<Vendas> findByFornecedorId(Long id);
-    Optional<Vendas> findById(Long id);
-    void deleteById(Long id);
-    void save(Vendas vendasExistente);
+    @Query(value = "SELECT * FROM dbo.seg_vendas WHERE id_vendas_fornecedor=:idFornecedor ",nativeQuery = true)
+    Optional<Vendas> findByIdVendasFornecedor(@Param("idFornecedor") Long idFornecedor);
 }

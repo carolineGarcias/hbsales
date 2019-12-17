@@ -5,8 +5,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -22,7 +22,7 @@ public class ProdutoRest{
     }
 
     @PostMapping
-    public ProdutoDTO save(@RequestBody ProdutoDTO produtoDTO){
+    public ProdutoDTO save(@Valid @RequestBody ProdutoDTO produtoDTO){
 
         LOGGER.info("Recebendo solicitação de persistência do produto...");
         LOGGER.debug("Payload: {}", produtoDTO);
@@ -33,14 +33,12 @@ public class ProdutoRest{
     public ProdutoDTO find(@PathVariable("id") Long id) {
 
         LOGGER.info("Recebendo find by ID... id: [{}]", id);
-
         return this.produtoService.findById(id);
     }
     @GetMapping("/exportar")
     public void exportCSV(HttpServletResponse response) throws Exception {
 
         LOGGER.info("Exportando arquivo produtos.csv");
-
         this.produtoService.exportCSV(response);
     }
 
@@ -51,18 +49,15 @@ public class ProdutoRest{
         return produto;
     }
 
-   @PutMapping("/importar-por-fornecedor/{id}")
+   @PutMapping("/fornecedor/{id}")
     public void importFornecedor(@PathVariable("id") Long id, @RequestParam MultipartFile file) throws Exception{
 
         LOGGER.info("Adicionando Produtos do Fornecedor de ID... [{}]", id);
-
         produtoService.importFornecedor(id, file);
     }
 
-
     @PostMapping ("/importar")
-    public void importProduto(@PathVariable("file") Long id,
-                              @RequestParam MultipartFile file) throws Exception {
+    public void importProduto(@PathVariable("file") @RequestParam MultipartFile file) throws Exception {
 
         produtoService.readAll(file);
     }
@@ -83,5 +78,4 @@ public class ProdutoRest{
 
         this.produtoService.delete(id);
     }
-
 }

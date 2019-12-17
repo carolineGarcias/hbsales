@@ -8,7 +8,10 @@ public class VendasDTO {
     private LocalDate inicioVendas, fimVendas, retiradaPedido;
     private String descricao;
 
-    public VendasDTO(Long id, Long fornecedorId, LocalDate inicioVendas, LocalDate fimVendas, LocalDate retiradaPedido, String descricao) {
+    public VendasDTO(Long id, Long fornecedorId,
+                     LocalDate inicioVendas, LocalDate fimVendas,
+                     LocalDate retiradaPedido, String descricao) {
+
         this.id = id;
         this.inicioVendas = inicioVendas;
         this.fimVendas = fimVendas;
@@ -31,12 +34,12 @@ public class VendasDTO {
     public VendasDTO() {
     }
 
-    public String getDescricao() {
-        return descricao;
+    public Long getId() {
+        return id;
     }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Long getFornecedorId() {
@@ -45,22 +48,6 @@ public class VendasDTO {
 
     public void setFornecedorId(Long fornecedorId) {
         this.fornecedorId = fornecedorId;
-    }
-
-    public LocalDate getRetiradaPedido() {
-        return retiradaPedido;
-    }
-
-    public void setRetiradaPedido(LocalDate retiradaPedido) {
-        this.retiradaPedido = retiradaPedido;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public LocalDate getInicioVendas() {
@@ -79,6 +66,21 @@ public class VendasDTO {
         this.fimVendas = fimVendas;
     }
 
+    public LocalDate getRetiradaPedido() {
+        return retiradaPedido;
+    }
+
+    public void setRetiradaPedido(LocalDate retiradaPedido) {
+        this.retiradaPedido = retiradaPedido;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
     @Override
     public String toString() {
         return "VendasDTO{" +
@@ -86,7 +88,8 @@ public class VendasDTO {
                 ", Id Fornecedor= " + fornecedorId +
                 ", inicio Vendas= "  + inicioVendas +
                 ", fim Vendas= "     + fimVendas    +
-                ", Descrção= "      + descricao    +
+                ", retirada Pedido=" + retiradaPedido +
+                ", Descrção= "       + descricao    +
                 '}';
     }
 }

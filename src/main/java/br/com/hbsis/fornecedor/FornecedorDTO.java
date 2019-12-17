@@ -12,7 +12,6 @@ public class FornecedorDTO {
     private Long idFornecedor;
     private String razaoSocial;
 
-    @ValidationCNPJ(length = 14, message = "Deve conter somente números e exatamente 14 caracteres")
     private String cnpj;
 
     private String nomeFantasia;
