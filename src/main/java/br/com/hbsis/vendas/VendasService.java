@@ -42,6 +42,7 @@ public class VendasService {
         vendas.setFornecedor(fornecedorService.findByIdFornecedor(vendasDTO.getFornecedorId()));
         vendas.setDescricao(vendasDTO.getDescricao().toUpperCase());
 
+
         vendas = this.iVendasRepository.save(vendas);
 
         return VendasDTO.of(vendas);
