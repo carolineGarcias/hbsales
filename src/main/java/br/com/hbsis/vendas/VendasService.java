@@ -73,6 +73,7 @@ public class VendasService {
 
     public void delete(Long id){
 
+
         LOGGER.info("Excluindo periodo de vendas de ID: [{}]", id);
 
         this.iVendasRepository.deleteById(id);
