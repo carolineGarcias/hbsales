@@ -33,10 +33,6 @@ public class LinhaService{
         return iLinhaRepository.findAll();
     }
 
-    /*public List<Linha> saveAll(List<Linha> linha) {
-        return iLinhaRepository.saveAll(linha);
-    }*/
-
     public LinhaDTO save(LinhaDTO linhaDTO) {
 
         this.validate(linhaDTO);
@@ -47,9 +43,10 @@ public class LinhaService{
         Linha linha = new Linha();
 
         String codigo = String.format("%1$10s", linhaDTO.getCodLinha());
+        String upperCase = codigo.toUpperCase();
         codigo = codigo.replaceAll(" ", "0");
 
-        linha.setNomeLinha(linhaDTO.getNomeLinha());
+        linha.setNomeLinha(linhaDTO.getNomeLinha().toUpperCase());
         linha.setCodLinha(codigo);
         linha.setCategoria(iCategoriaRepository.findById(linhaDTO.getIdCategoria()).get());
 
@@ -102,10 +99,10 @@ public class LinhaService{
         Optional<Linha> linhaOptional = this.iLinhaRepository.findById(id);
 
         if (linhaOptional.isPresent()) {
-        return LinhaDTO.of(linhaOptional.get());
-    }
-        throw new IllegalArgumentException(String.format("ID %s não existe", id));
+            return LinhaDTO.of(linhaOptional.get());
         }
+        throw new IllegalArgumentException(String.format("ID %s não existe", id));
+    }
 
     public LinhaDTO update(LinhaDTO linhaDTO, Long id){
         Optional<Linha> linhaOptional = this.iLinhaRepository.findById(id);
@@ -133,7 +130,7 @@ public class LinhaService{
     public  void delete(Long id){
         LOGGER.info("Executando delete para linha de ID [{}]", id);
         this.iLinhaRepository.deleteById(id);
-   }
+    }
 
     public void exportCSV(HttpServletResponse httpResponse) throws Exception {
         try {
@@ -156,9 +153,9 @@ public class LinhaService{
             for (Linha linha : iLinhaRepository.findAll()) {
                 csvWriter.writeNext(new String[]{
                         linha.getIdLinha().toString(),
-                        linha.getCodLinha(),
+                        linha.getCodLinha().toUpperCase(),
                         linha.getCategoria().getId().toString(),
-                        linha.getNomeLinha()});
+                        linha.getNomeLinha().toUpperCase()});
             }
 
             csvWriter.flush();

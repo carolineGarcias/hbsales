@@ -93,17 +93,17 @@ public class CategoriaService {
         LOGGER.debug("Categoria: {}", categoriaDTO);
 
         Categoria categoria = new Categoria();
-
         String cont = String.valueOf(categoriaDTO.getCodCategoria());
+
 
         for (; cont.length() < 3; ) {
             cont = "0" + cont;
         }
-        categoria.setNomeCategoria(categoriaDTO.getNomeCategoria());
+        categoria.setNomeCategoria(categoriaDTO.getNomeCategoria().toUpperCase());
         categoria.setFornecedor(fornecedorService.findByIdFornecedor(categoriaDTO.getFornecedorId()));
         categoria.setCodCategoria("CAT" + categoria.getFornecedor().getCnpj().substring(10, 14) + cont);
-        categoria.getFornecedor().getRazaoSocial();
-        System.out.println(categoria.getCodCategoria());
+        categoria.getFornecedor().getRazaoSocial().toUpperCase();
+        System.out.println(categoria.getCodCategoria().toUpperCase());
 
         Categoria save = this.iCategoriaRepository.save(categoria);
         return CategoriaDTO.of(save);
@@ -132,10 +132,10 @@ public class CategoriaService {
 
                 csvWriter.writeNext(new String[]{
                         String.valueOf(linha.getId()),
-                        linha.getCodCategoria(),
-                        linha.getNomeCategoria(),
+                        linha.getCodCategoria().toUpperCase(),
+                        linha.getNomeCategoria().toUpperCase(),
                         formatarCNPJ,
-                        linha.getFornecedor().getRazaoSocial()
+                        linha.getFornecedor().getRazaoSocial().toUpperCase()
                 });
             }
 
@@ -222,4 +222,14 @@ public class CategoriaService {
         categoria = this.iCategoriaRepository.findAll();
         return categoria;
     }
+
+    public CategoriaDTO findByCodCategoria(String cod) {
+        Optional<Categoria> categoriaOpcional = this.iCategoriaRepository.findByCodCategoria(cod);
+
+        if (categoriaOpcional.isPresent()) {
+            return CategoriaDTO.of(categoriaOpcional.get());
+        }
+        throw new IllegalArgumentException(String.format("ID %s não existe", cod));
+    }
+
 }
