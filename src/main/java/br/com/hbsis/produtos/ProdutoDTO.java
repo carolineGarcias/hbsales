@@ -3,21 +3,27 @@ package br.com.hbsis.produtos;
 import java.time.LocalDate;
 
 public class ProdutoDTO {
-
     private Long   idProduto, linhaId;;
     private String nomeProduto, codProduto;
     private LocalDate validadeProd;
     private double pesoProd, unidadeCaixaProd, precoProd;
 
-
-    public ProdutoDTO(Long idProduto, Long linhaId,
-                      String nomeProduto, String codProduto, LocalDate validadeProd,
-                      double pesoProd, double unidadeCaixaProd, double precoProd) {
-
+    public ProdutoDTO() {
     }
 
-    public ProdutoDTO() {
+    public ProdutoDTO(Long idProduto, Long linhaId,
+                      String nomeProduto, String codProduto,
+                      LocalDate validadeProd, double pesoProd,
+                      double unidadeCaixaProd, double precoProd) {
 
+        this.idProduto = idProduto;
+        this.linhaId = linhaId;
+        this.nomeProduto = nomeProduto;
+        this.codProduto = codProduto;
+        this.validadeProd = validadeProd;
+        this.pesoProd = pesoProd;
+        this.unidadeCaixaProd = unidadeCaixaProd;
+        this.precoProd = precoProd;
     }
 
     public static ProdutoDTO of(Produto produto){
@@ -30,7 +36,6 @@ public class ProdutoDTO {
                 produto.getPesoProd(),
                 produto.getUnidadeCaixaProd(),
                 produto.getPrecoProd()
-
         );
     }
 
@@ -101,14 +106,14 @@ public class ProdutoDTO {
     @Override
     public String toString() {
         return "ProdutoDTO{" +
-                "idProduto="          + idProduto    +
-                ", codProduto="       + codProduto   +
+                "idProduto="          + idProduto    + '\'' +
+                ", codProduto="       + codProduto   + '\'' +
                 ", nomeProduto='"     + nomeProduto  + '\'' +
                 ", validadeProd='"    + validadeProd + '\'' +
-                ", pesoProd="         + pesoProd     +
-                ", unidadeCaixaProd=" + unidadeCaixaProd +
-                ", precoProd="        + precoProd    +
-                ", linhaId="          + linhaId      +
+                ", pesoProd="         + pesoProd     + '\'' +
+                ", unidadeCaixaProd=" + unidadeCaixaProd +'\'' +
+                ", precoProd="        + precoProd    + '\'' +
+                ", linhaId="          + linhaId      + '\'' +
                 '}';
     }
 }

@@ -23,17 +23,18 @@ import java.util.Optional;
 @Service
 public class CategoriaService {
     private static final Logger LOGGER = LoggerFactory.getLogger(CategoriaService.class);
-    private final ICategoriaRepository iCategoriaRepository;
-    private final FornecedorService fornecedorService;
+    private final ICategoriaRepository  iCategoriaRepository;
+    private final FornecedorService     fornecedorService;
     private final IFornecedorRepository ifornecedorRepository;
+    private Long idFornecedor;
 
 
     public CategoriaService(ICategoriaRepository iCategoriaRepository,
                             FornecedorService fornecedorService,
                             IFornecedorRepository ifornecedorRepository) {
 
-        this.iCategoriaRepository = iCategoriaRepository;
-        this.fornecedorService = fornecedorService;
+        this.iCategoriaRepository  = iCategoriaRepository;
+        this.fornecedorService     = fornecedorService;
         this.ifornecedorRepository = ifornecedorRepository;
     }
 
@@ -41,7 +42,7 @@ public class CategoriaService {
         return iCategoriaRepository.findAll();
     }
 
-    public List<Categoria> readAll(MultipartFile file) throws Exception {
+    public List<CategoriaDTO> readAll(MultipartFile file) throws Exception {
 
         InputStreamReader reader = new InputStreamReader(file.getInputStream());
         CSVReader csvReader = new CSVReaderBuilder(reader)
@@ -49,38 +50,31 @@ public class CategoriaService {
                 .build();
 
         List<String[]> linhaString = csvReader.readAll();
-        List<Categoria> reading = new ArrayList<>();
+        List<CategoriaDTO> reading = new ArrayList<>();
 
         for (String[] linha : linhaString) {
             try {
 
                 String[] bean = linha[0].replaceAll("\"", "").split(";");
 
-                Categoria categoria = new Categoria();
-                Fornecedor fornecedor = new Fornecedor();
-                FornecedorDTO fornecedorDTO = new FornecedorDTO();
+                CategoriaDTO categoriaDTO = new CategoriaDTO();
+                //Fornecedor fornecedor = new Fornecedor();
+               // FornecedorDTO fornecedorDTO = new FornecedorDTO();
 
-                Optional<Categoria> optionalCategoria = this.iCategoriaRepository.findByCodCategoria(bean[0]);
+               // Optional<Categoria> optionalCategoria = Optional.ofNullable(this.iCategoriaRepository.findByCodCategoria(bean[0]));
 
-                if (!optionalCategoria.isPresent()) {
-                    categoria.setNomeCategoria(bean[1]);
-                    categoria.setCodCategoria(bean[0]);
-                    Optional<Fornecedor> optionalFornecedor = Optional.ofNullable(this.ifornecedorRepository.findByCnpj(bean[3]));
+                Fornecedor fornecedor = this.fornecedorService.findByCnpj(bean[3].replaceAll("[-/.]", ""));
 
-                    if (optionalFornecedor.isPresent()) {
-                        fornecedorDTO = fornecedorService.findByCnpj(bean[3]);
-                        bean[3] = String.valueOf(fornecedorDTO.getIdFornecedor());
-                        fornecedor.setId(Long.parseLong(bean[3]));
-                        categoria.setFornecedor(fornecedor);
-                        reading.add(categoria);
 
-                        iCategoriaRepository.saveAll(reading);
-                    } else {
-                        throw new IllegalArgumentException("Fornecedor não encontrado!!!!!!");
-                    }
+                if (!(iCategoriaRepository.existsCategoriaByCodCategoria(categoriaDTO.getCodCategoria().toUpperCase())) ||
+                        !(iCategoriaRepository.existsCategoriaByCodCategoria(codeContrutor(categoriaDTO.getCodCategoria()
+                                .toUpperCase(), categoriaDTO.getFornecedorId())))) {
+                    save(categoriaDTO);
+                    reading.add(categoriaDTO);
                 }
-            } catch (Exception ex) {
-                ex.printStackTrace();
+
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
         return reading;
@@ -99,17 +93,17 @@ public class CategoriaService {
         for (; cont.length() < 3; ) {
             cont = "0" + cont;
         }
-        categoria.setNomeCategoria(categoriaDTO.getNomeCategoria());
+        categoria.setNomeCategoria(categoriaDTO.getNomeCategoria().toUpperCase());
         categoria.setFornecedor(fornecedorService.findByIdFornecedor(categoriaDTO.getFornecedorId()));
         categoria.setCodCategoria("CAT" + categoria.getFornecedor().getCnpj().substring(10, 14) + cont);
-        categoria.getFornecedor().getRazaoSocial();
-        System.out.println(categoria.getCodCategoria());
+        categoria.getFornecedor().getRazaoSocial().toUpperCase();
+        System.out.println(categoria.getCodCategoria().toUpperCase());
 
         Categoria save = this.iCategoriaRepository.save(categoria);
         return CategoriaDTO.of(save);
     }
 
-   public void exportCSV(HttpServletResponse httpServletResponse) {
+    public void exportCSV(HttpServletResponse httpServletResponse) {
         try {
             String filename = "categorias.csv";
             httpServletResponse.setContentType("text/csv");
@@ -127,15 +121,14 @@ public class CategoriaService {
             csvWriter.writeNext(headerCSV);
 
             for (Categoria linha : iCategoriaRepository.findAll()) {
-                String formatarCNPJ = linha.getFornecedor()
-                        .getCnpj().replaceAll("(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})", "$1.$2.$3/$4-$5");
+                String formatarCNPJ = linha.getFornecedor().getCnpj().replaceAll("(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})", "$1.$2.$3/$4-$5").toUpperCase();
 
                 csvWriter.writeNext(new String[]{
                         String.valueOf(linha.getId()),
-                        linha.getCodCategoria(),
-                        linha.getNomeCategoria(),
+                        linha.getCodCategoria().toUpperCase(),
+                        linha.getNomeCategoria().toUpperCase(),
                         formatarCNPJ,
-                        linha.getFornecedor().getRazaoSocial()
+                        linha.getFornecedor().getRazaoSocial().toUpperCase(),
                 });
             }
 
@@ -149,7 +142,7 @@ public class CategoriaService {
         String codigoCat = null;
         FornecedorDTO fornecedorDto = fornecedorService.findById(id);
         if (codigo.length() < 3) {
-            codigo = String.format("%1$3s", codigo);
+            codigo = String.format("%1$3s", codigo).toUpperCase();
             codigo = codigo.replaceAll(" ", "0");
         }
         codigoCat = fornecedorDto.getCnpj().substring(10, 14) + codigo;
@@ -176,16 +169,6 @@ public class CategoriaService {
         if (StringUtils.isEmpty(categoriaDTO.getFornecedorId())) {
             throw new IllegalArgumentException("ID Fornecedor não deve ser nulo/vazio");
         }
-    }
-
-    public CategoriaDTO findById(Long id) {
-        Optional<Categoria> categoriaOptional = this.iCategoriaRepository.findById(id);
-
-        if (categoriaOptional.isPresent()) {
-            return CategoriaDTO.of(categoriaOptional.get());
-        }
-
-        throw new IllegalArgumentException(String.format("ID %s não existe", id));
     }
 
     public CategoriaDTO update(CategoriaDTO categoriaDTO, Long id) {
@@ -221,5 +204,29 @@ public class CategoriaService {
         List<Categoria> categoria;
         categoria = this.iCategoriaRepository.findAll();
         return categoria;
+    }
+
+    public CategoriaDTO findById(Long id) {
+        Optional<Categoria> categoriaOptional = this.iCategoriaRepository.findById(id);
+
+        if (categoriaOptional.isPresent()) {
+            return CategoriaDTO.of(categoriaOptional.get());
+        }
+
+        throw new IllegalArgumentException(String.format("ID %s não existe", id));
+    }
+
+   /* public boolean existsCategoriaByFornecedorId(Long idFornecedor){
+        this.idFornecedor = idFornecedor;
+        return this.iCategoriaRepository.existsCategoriaByFornecedorId(idFornecedor);
+    }*/
+
+    public boolean existsCategoriaByCodCategoria(String codCategoria) {
+        return this.iCategoriaRepository.existsCategoriaByCodCategoria(codCategoria);
+    }
+
+    public Categoria findByCodCategoria(String codCategoria) {
+        return this.iCategoriaRepository.findByCodCategoria(codCategoria);
+
     }
 }

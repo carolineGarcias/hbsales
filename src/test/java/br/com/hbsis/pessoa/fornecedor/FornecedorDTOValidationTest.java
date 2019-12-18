@@ -1,5 +1,6 @@
 package br.com.hbsis.pessoa.fornecedor;
 
+import br.com.hbsis.fornecedor.FornecedorDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
