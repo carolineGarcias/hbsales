@@ -1,5 +1,6 @@
 package br.com.hbsis.fornecedor;
 
+import br.com.hbsis.categoria.produto.Categoria;
 import br.com.hbsis.validation.ValidationCNPJ;
 
 import javax.validation.constraints.NotBlank;
@@ -8,32 +9,24 @@ import javax.validation.constraints.Size;
 
 public class FornecedorDTO {
 
-    private Long id;
-    @Size(max = 100)
-    @NotBlank(message = "razaoSocial é obrigatória")
+    private Long idFornecedor;
     private String razaoSocial;
 
-    @ValidationCNPJ(length = 14, message = "Deve conter somente números e exatamente 14 caracteres")
     private String cnpj;
 
-    @Size(max = 100)
-    @NotBlank(message = "nomeFantasia é obrigatório")
     private String nomeFantasia;
-    @NotBlank(message = "endereco é obrigatório")
     private String endereco;
-    @NotBlank
-    @Pattern(regexp = "\\d{14}", message = "Telefone de contato deve ter 14 caracteres numéricos")
     private String telefone;
-    @NotBlank(message = "e-mail de contato é obrigatório")
     private String email;
 
     public FornecedorDTO() {
     }
 
-    public FornecedorDTO(Long id, String razaoSocial,
+    public FornecedorDTO(Long idFornecedor, String razaoSocial,
                          String nomeFantasia, String endereco,
                          String email, String cnpj, String telefone) {
-        this.id = id;
+
+        this.idFornecedor = idFornecedor;
         this.razaoSocial = razaoSocial;
         this.nomeFantasia = nomeFantasia;
         this.endereco = endereco;
@@ -42,24 +35,24 @@ public class FornecedorDTO {
         this.telefone = telefone;
     }
 
-    public static FornecedorDTO of(Fornecedor fornecedor){
+    public static FornecedorDTO of(Fornecedor fornecedor) {
         return new FornecedorDTO(
-            fornecedor.getId(),
-            fornecedor.getRazaoSocial(),
-            fornecedor.getNomeFantasia(),
-            fornecedor.getEndereco(),
-            fornecedor.getEmail(),
-            fornecedor.getCnpj(),
-            fornecedor.getTelefone()
-         );
+                    fornecedor.getIdFornecedor(),
+                    fornecedor.getRazaoSocial(),
+                    fornecedor.getNomeFantasia(),
+                    fornecedor.getEndereco(),
+                    fornecedor.getEmail(),
+                    fornecedor.getCnpj(),
+                    fornecedor.getTelefone()
+        );
     }
 
-    public Long getId() {
-        return id;
+    public Long getIdFornecedor() {
+        return idFornecedor;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setIdFornecedor(Long idFornecedor) {
+        this.idFornecedor = idFornecedor;
     }
 
     public String getRazaoSocial() {
@@ -94,13 +87,6 @@ public class FornecedorDTO {
         this.email = email;
     }
 
-    public String getCnpj() {
-        return cnpj;
-    }
-
-    public void setCnpj(String cnpj) {
-        this.cnpj = cnpj;
-    }
 
     public String getTelefone() {
         return telefone;
@@ -110,10 +96,18 @@ public class FornecedorDTO {
         this.telefone = telefone;
     }
 
+    public String getCnpj() {
+        return cnpj;
+    }
+
+    public void setCnpj(String cnpj) {
+        this.cnpj = cnpj;
+    }
+
     @Override
     public String toString() {
         return "Fornecedor{" +
-                "id= '" + id +
+                "id= '" + idFornecedor +
                 ", Razao Social= '"  + razaoSocial  + '\'' +
                 ", CNPJ= '"          + cnpj         + '\'' +
                 ", Nome Fantasia= '" + nomeFantasia + '\'' +
@@ -123,6 +117,7 @@ public class FornecedorDTO {
                 '}';
     }
 
-    }
+
+}
 
 

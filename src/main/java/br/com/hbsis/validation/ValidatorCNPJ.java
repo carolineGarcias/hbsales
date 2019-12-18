@@ -20,7 +20,7 @@ public class ValidatorCNPJ implements ConstraintValidator<ValidationCNPJ, String
     }
 
     public boolean isValid(String cnpj, ConstraintValidatorContext context) {
-        LOGGER.info("Validando cnpj {}", cnpj);
+        LOGGER.info(" :D Validando CNPJ {} :D", cnpj);
 
         if (StringUtils.isEmpty(cnpj)) {
             return false;
@@ -57,12 +57,6 @@ public class ValidatorCNPJ implements ConstraintValidator<ValidationCNPJ, String
         int digito1 = calcularDigitoCnpj(cnpj.substring(0, 12));
         int digito2 = calcularDigitoCnpj(cnpj.substring(0, 12) + digito1);
         return cnpj.equals(cnpj.substring(0, 12) + digito1 + digito2);
-    }
-
-    public static String cleanCnpj(String cnpj){
-        cnpj = cnpj.trim().replace(".", "").replace("-", "").replace("/","");
-
-        return cnpj;
     }
 
 }

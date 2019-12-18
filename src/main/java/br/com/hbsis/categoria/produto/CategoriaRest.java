@@ -1,7 +1,5 @@
 package br.com.hbsis.categoria.produto;
 
-
-import br.com.hbsis.categoria.produto.CategoriaDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,45 +13,22 @@ import java.util.List;
 public class CategoriaRest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CategoriaRest.class);
-
     private final CategoriaService categoriaService;
 
     @Autowired
-    public CategoriaRest(CategoriaService categoriaService) {
-        this.categoriaService = categoriaService;
+    public CategoriaRest(CategoriaService categoriaService){
+        this.categoriaService= categoriaService;
     }
 
     @PostMapping
     public CategoriaDTO save(@RequestBody CategoriaDTO categoriaDTO){
-
         LOGGER.info("Recebendo solicitação de persistência de categoria...");
         LOGGER.debug("Payload: {}", categoriaDTO);
 
-        return this.categoriaService.save(categoriaDTO);
+       return this.categoriaService.save(categoriaDTO);
     }
 
-    @RequestMapping("/listar")
-    public List<Categoria> findFornecedor() {
-
-        List<Categoria> categoria = categoriaService.findAll();
-        return categoria;
-    }
-
-    @GetMapping("/exportar")
-    public void exportCSV(HttpServletResponse response) throws Exception {
-
-        LOGGER.info("Exportando arquivo 'categorias.csv'");
-
-        this.categoriaService.exportCSV(response);
-    }
-
-    @PostMapping("/importar")
-    public void importCSV(@RequestParam("file") MultipartFile file) throws Exception {
-
-        categoriaService.readAll(file);
-    }
-
-    @GetMapping("/{id}")
+       @GetMapping("/{id}")
     public CategoriaDTO find(@PathVariable("id") Long id) {
 
         LOGGER.info("Recebendo find by ID... id: [{}]", id);
@@ -71,9 +46,29 @@ public class CategoriaRest {
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable("id") Long id) {
-        LOGGER.info("Recebendo Delete para Categoria de ID: {}", id);
+        LOGGER.info("Recebendo Delete para Categoria Produtos de ID: {}", id);
 
         this.categoriaService.delete(id);
     }
 
+    @GetMapping("/exportar")
+    public void exportarCSV(HttpServletResponse httpResponse){
+        LOGGER.info("Exportando arquivo categorias.csv'");
+
+        this.categoriaService.exportCSV(httpResponse);
+    }
+
+    @PostMapping("/importar")
+    public void importarCSV(@RequestParam("file") MultipartFile file) throws Exception {
+        LOGGER.info("Importando arquivo categorias.csv'");
+
+        categoriaService.readAll(file);
+    }
+
+    @GetMapping("/listar")
+    public List<Categoria> listar(){
+        LOGGER.info("Gerando lista de Categorias.");
+
+        return this.categoriaService.listar();
+    }
 }

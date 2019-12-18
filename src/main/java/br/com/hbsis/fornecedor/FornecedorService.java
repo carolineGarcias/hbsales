@@ -1,95 +1,136 @@
 package br.com.hbsis.fornecedor;
 
 
+import com.microsoft.sqlserver.jdbc.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
 public class FornecedorService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FornecedorService.class);
-
-    private final IFornecedorRepository fornecedorRepository;
+    private final IFornecedorRepository ifornecedorRepository;
 
     @Autowired
-    public FornecedorService(IFornecedorRepository fornecedorRepository) {
-        this.fornecedorRepository = fornecedorRepository;
+    public FornecedorService(IFornecedorRepository ifornecedorRepository) {
+        this.ifornecedorRepository = ifornecedorRepository;
     }
 
-    public FornecedorDTO save(FornecedorDTO fornecedorDTO) {
-        return FornecedorDTO.of(this.saveEntity(fornecedorDTO));
-    }
-
-    private Fornecedor saveEntity(FornecedorDTO fornecedorDTO) {
+    public Fornecedor saveEntity(FornecedorDTO fornecedorDTO) {
         LOGGER.info("Sanvando fornecedor");
         LOGGER.debug("Payload: {}", fornecedorDTO);
 
         Fornecedor fornecedor = this.fromDto(fornecedorDTO, new Fornecedor());
-        fornecedor = this.fornecedorRepository.save(fornecedor);
+
+        fornecedor = this.ifornecedorRepository.save(fornecedor);
 
         LOGGER.trace("Fornecedor Salvo {}", fornecedor);
 
         return fornecedor;
     }
 
-    private Fornecedor fromDto(FornecedorDTO fornecedorDTO, Fornecedor fornecedor) {
 
-        fornecedor.setRazaoSocial(fornecedorDTO.getRazaoSocial());
-        fornecedor.setCnpj(fornecedorDTO.getCnpj());
-        fornecedor.setNomeFantasia(fornecedorDTO.getNomeFantasia());
-        fornecedor.setEndereco(fornecedorDTO.getEndereco());
-        fornecedor.setTelefone(fornecedorDTO.getTelefone());
-        fornecedor.setEmail(fornecedorDTO.getEmail());
+    public static Fornecedor fromDto(FornecedorDTO fornecedorDTO, Fornecedor fornecedor) {
+
+        fornecedor.setRazaoSocial(fornecedorDTO.getRazaoSocial().toUpperCase());
+        fornecedor.setCnpj(fornecedorDTO.getCnpj().toUpperCase());
+        fornecedor.setNomeFantasia(fornecedorDTO.getNomeFantasia().toUpperCase());
+        fornecedor.setEndereco(fornecedorDTO.getEndereco().toUpperCase());
+        fornecedor.setTelefone(fornecedorDTO.getTelefone().toUpperCase());
+        fornecedor.setEmail(fornecedorDTO.getEmail().toUpperCase());
 
         return fornecedor;
     }
 
-    public FornecedorDTO findById(Long id) {
-        return FornecedorDTO.of(findFornecedorById(id));
+    public List<Fornecedor> findAll() {
+        return ifornecedorRepository.findAll();
     }
 
-    public Fornecedor findFornecedorById(Long id) {
-        Optional<Fornecedor> fornecedorOptional = this.fornecedorRepository.findById(id);
+    public FornecedorDTO save(FornecedorDTO fornecedorDTO) {
+
+        this.validate(fornecedorDTO);
+
+        LOGGER.info("Salvando fornecedor");
+        LOGGER.debug("Fornecedor: {}", fornecedorDTO);
+
+        Fornecedor fornecedor = new Fornecedor();
+
+        fornecedor.setRazaoSocial(fornecedorDTO.getRazaoSocial().toUpperCase());
+        fornecedor.setCnpj(fornecedorDTO.getCnpj().toUpperCase());
+        fornecedor.setNomeFantasia(fornecedorDTO.getNomeFantasia().toUpperCase());
+        fornecedor.setEndereco(fornecedorDTO.getEndereco().toUpperCase());
+        fornecedor.setTelefone(fornecedorDTO.getTelefone().toUpperCase());
+        fornecedor.setEmail(fornecedorDTO.getEmail().toUpperCase());
+
+        fornecedor = this.ifornecedorRepository.save(fornecedor);
+
+        return FornecedorDTO.of(fornecedor);
+    }
+
+    public FornecedorDTO findById(Long idFornecedor) {
+        Optional<Fornecedor> fornecedorOptional = this.ifornecedorRepository.findById(idFornecedor);
+
+        if (fornecedorOptional.isPresent()) {
+            return FornecedorDTO.of(fornecedorOptional.get());
+        }
+
+        throw new IllegalArgumentException(String.format("ID %s não existe", idFornecedor));
+    }
+
+    public Fornecedor findByIdFornecedor(Long idFornecedor) {
+        Optional<Fornecedor> fornecedorOptional = this.ifornecedorRepository.findById(idFornecedor);
 
         if (fornecedorOptional.isPresent()) {
             return fornecedorOptional.get();
         }
-
-        throw new NoSuchElementException(String.format("Id [%s] não existe...", id));
-    }
-    public List<FornecedorDTO> findAll() {
-
-        List<Fornecedor> fornecedores = fornecedorRepository.findAll();
-        List<FornecedorDTO> fornecedorDTO = new ArrayList<>();
-        fornecedores.forEach(fornecedor -> fornecedorDTO.add(FornecedorDTO.of(fornecedor)));
-        return fornecedorDTO;
+        throw new IllegalArgumentException(String.format("ID %s não existe", idFornecedor));
     }
 
-    public FornecedorDTO update(Long id, FornecedorDTO fornecedorDTO) {
-        Fornecedor fornecedor = this.findFornecedorById(id);
+    public Fornecedor findByCnpj(String cnpj) {
 
-        LOGGER.debug("Atualizando fornecedor....");
-        LOGGER.debug("Fornecedor atual: {} / Fornecedor novo: {}", fornecedor, fornecedorDTO);
-
-        fornecedor = this.fornecedorRepository.save(this.fromDto(fornecedorDTO, fornecedor));
-
-        return FornecedorDTO.of(fornecedor);
+        return this.ifornecedorRepository.findByCnpj(cnpj);
     }
-    public void delete(Long id) {
-        LOGGER.info("Executando delete para fornecedor de ID: [{}]", id);
 
-        this.fornecedorRepository.deleteById(id);
+    public boolean existsById(Long idFornecedor){
+        return this.ifornecedorRepository.existsById(idFornecedor);
     }
-}
 
-  /*private void validate(FornecedorDTO fornecedorDTO) {
+    public FornecedorDTO update(Long idFornecedor, FornecedorDTO fornecedorDTO) {
+        Optional<Fornecedor> fornecedorExistenteOptional = this.ifornecedorRepository.findById(idFornecedor);
+
+        if (fornecedorExistenteOptional.isPresent()) {
+            Fornecedor fornecedorExistente = fornecedorExistenteOptional.get();
+
+            LOGGER.info("Atualizando o fornecedor... id:{}", fornecedorExistente.getIdFornecedor());
+            LOGGER.debug("Payload: {}", fornecedorDTO);
+            LOGGER.debug("Fornecedor Existente: {}", fornecedorExistente);
+
+            fornecedorExistente.setRazaoSocial(fornecedorDTO.getRazaoSocial().toUpperCase());
+            fornecedorExistente.setCnpj(fornecedorDTO.getCnpj().toUpperCase());
+            fornecedorExistente.setNomeFantasia(fornecedorDTO.getNomeFantasia().toUpperCase());
+            fornecedorExistente.setEndereco(fornecedorDTO.getEndereco().toUpperCase());
+            fornecedorExistente.setTelefone(fornecedorDTO.getTelefone().toUpperCase());
+            fornecedorExistente.setEmail(fornecedorDTO.getEmail().toUpperCase());
+
+            fornecedorExistente = this.ifornecedorRepository.save(fornecedorExistente);
+
+            return FornecedorDTO.of(fornecedorExistente);
+        }
+        throw new IllegalArgumentException(String.format("ID %s não existe", idFornecedor));
+    }
+
+    public void delete(Long idFornecedor) {
+        LOGGER.info("Executando delete para fornecedor de ID: [{}]", idFornecedor);
+
+        this.ifornecedorRepository.deleteById(idFornecedor);
+    }
+
+    private void validate(FornecedorDTO fornecedorDTO) {
 
         LOGGER.info("Validando Fornecedor");
 
@@ -99,7 +140,7 @@ public class FornecedorService {
         if (StringUtils.isEmpty(fornecedorDTO.getRazaoSocial())) {
             throw new IllegalArgumentException("Razão social não deve ser nula/vazia");
         }
-        if (StringUtils.isEmpty(fornecedorDTO.getCnpj())) {
+        if (StringUtils.isEmpty((fornecedorDTO.getCnpj()))) {
             throw new IllegalArgumentException("Cnpj não deve ser nulo/vazio");
         }
         if (StringUtils.isEmpty(fornecedorDTO.getNomeFantasia())) {
@@ -115,4 +156,4 @@ public class FornecedorService {
             throw new IllegalArgumentException("Telefone não deve ser nulo/vazio");
         }
     }
-*/
+ }
