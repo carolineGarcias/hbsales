@@ -199,10 +199,10 @@ public class ProdutoService {
 
             csvWriter.writeNext(readerCSV);
             for (Produto produto : iProdutoRepository.findAll()) {
-                String formatarCNPJ = produto.getLinha().getCategoria().getFornecedor().getCnpj().replaceAll
-                        ("(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})", "$1.$2.$3/$4-$5");
+           /*   String formatarCNPJ = produto.getLinha().getCategoria().getFornecedor().getCnpj().replaceAll
+                        ("(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})", "$1.$2.$3/$4-$5");*/
 
-                csvWriter.writeNext(new String[]{
+              csvWriter.writeNext(new String[]{
                         produto.getIdProduto().toString(),
                         produto.getCodProduto().toUpperCase(),
                         produto.getNomeProduto().toUpperCase(),
@@ -214,8 +214,8 @@ public class ProdutoService {
                         produto.getLinha().getNomeLinha().toUpperCase(),
                         produto.getLinha().getCategoria().getCodCategoria().toUpperCase(),
                         produto.getLinha().getCategoria().getNomeCategoria().toUpperCase(),
-                        formatarCNPJ,
-                        produto.getLinha().getCategoria().getFornecedor().getRazaoSocial().toUpperCase()
+                       /* formatarCNPJ,
+                          produto.getLinha().getCategoria().getFornecedor().getRazaoSocial().toUpperCase()*/
                 });
             }
         } catch (Exception e) {
@@ -246,6 +246,7 @@ public class ProdutoService {
 
             produtoDTO.setNomeProduto(bean[1]);
             produtoDTO.setCodProduto(bean[2]);
+            produtoDTO.setPesoProd(Double.parseDouble(bean[3]));
             produtoDTO.setPesoProd(Double.parseDouble(bean[3]));
             produtoDTO.setPrecoProd(Double.parseDouble(bean[5]));
             produtoDTO.setUnidadeCaixaProd(Double.parseDouble(bean[6]));
