@@ -96,6 +96,7 @@ public class FornecedorService {
         return this.ifornecedorRepository.findByCnpj(cnpj);
     }
 
+
     public boolean existsById(Long idFornecedor){
         return this.ifornecedorRepository.existsById(idFornecedor);
     }

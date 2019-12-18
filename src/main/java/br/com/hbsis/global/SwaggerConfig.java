@@ -1,5 +1,6 @@
-/*
-package br.com.hbsis.global;
+/*package br.com.hbsis.global;
+
+import com.google.common.collect.Iterables;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,5 +22,7 @@ public class SwaggerConfig {
 				.paths(PathSelectors.any())
 				.build();
 	}
-}
-*/
+}*/
+
+
+

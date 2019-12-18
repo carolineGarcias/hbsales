@@ -87,8 +87,8 @@ public class CategoriaService {
         LOGGER.debug("Categoria: {}", categoriaDTO);
 
         Categoria categoria = new Categoria();
-
         String cont = String.valueOf(categoriaDTO.getCodCategoria());
+
 
         for (; cont.length() < 3; ) {
             cont = "0" + cont;
@@ -128,7 +128,11 @@ public class CategoriaService {
                         linha.getCodCategoria().toUpperCase(),
                         linha.getNomeCategoria().toUpperCase(),
                         formatarCNPJ,
+
+                        linha.getFornecedor().getRazaoSocial().toUpperCase()
+
                         linha.getFornecedor().getRazaoSocial().toUpperCase(),
+
                 });
             }
 
@@ -205,6 +209,17 @@ public class CategoriaService {
         categoria = this.iCategoriaRepository.findAll();
         return categoria;
     }
+
+
+    public CategoriaDTO findByCodCategoria(String cod) {
+        Optional<Categoria> categoriaOpcional = this.iCategoriaRepository.findByCodCategoria(cod);
+
+        if (categoriaOpcional.isPresent()) {
+            return CategoriaDTO.of(categoriaOpcional.get());
+        }
+        throw new IllegalArgumentException(String.format("ID %s não existe", cod));
+    }
+
 
     public CategoriaDTO findById(Long id) {
         Optional<Categoria> categoriaOptional = this.iCategoriaRepository.findById(id);

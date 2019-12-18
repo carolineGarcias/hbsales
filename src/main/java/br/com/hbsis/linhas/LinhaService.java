@@ -46,6 +46,11 @@ public class LinhaService{
 
         Linha linha = new Linha();
 
+
+        String codigo = String.format("%1$10s", linhaDTO.getCodLinha());
+        String upperCase = codigo.toUpperCase();
+        codigo = codigo.replaceAll(" ", "0");
+
         String codigo = String.format("%1$10s", linhaDTO.getCodLinha().toUpperCase());
         codigo = codigo.replaceAll(" ", "0").toUpperCase();
 
@@ -110,10 +115,16 @@ public class LinhaService{
         Optional<Linha> linhaOptional = this.iLinhaRepository.findById(idLinha);
 
         if (linhaOptional.isPresent()) {
+
+            return LinhaDTO.of(linhaOptional.get());
+
         return LinhaDTO.of(linhaOptional.get());
     }
         throw new IllegalArgumentException(String.format("ID %s não existe", idLinha));
+
         }
+        throw new IllegalArgumentException(String.format("ID %s não existe", id));
+    }
 
     public LinhaDTO update(LinhaDTO linhaDTO, Long idLinha){
         Optional<Linha> linhaOptional = this.iLinhaRepository.findById(idLinha);
@@ -136,6 +147,12 @@ public class LinhaService{
         }
 
         throw new IllegalArgumentException(String.format("ID %S NAO EXISTE " ,  idLinha));
+    }
+
+
+    public  void delete(Long id){
+        LOGGER.info("Executando delete para linha de ID [{}]", id);
+        this.iLinhaRepository.deleteById(id);
     }
 
     public  void delete(Long idLinha){
@@ -163,11 +180,18 @@ public class LinhaService{
 
             for (Linha linha : iLinhaRepository.findAll()) {
                 csvWriter.writeNext(new String[]{
+
+                        linha.getIdLinha().toString(),
+                        linha.getCodLinha().toUpperCase(),
+                        linha.getCategoria().getId().toString(),
+                        linha.getNomeLinha().toUpperCase()});
+
                         linha.getIdLinha().toString().toUpperCase(),
                         linha.getCodLinha().toUpperCase().toUpperCase(),
                         linha.getCategoria().getId().toString().toUpperCase(),
                         linha.getNomeLinha().toUpperCase()
                 });
+
             }
 
         } catch (IOException e) {

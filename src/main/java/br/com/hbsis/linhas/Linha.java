@@ -62,6 +62,9 @@ public class Linha {
                 ", ID Categoria= "  + categoria.toString() + '\'' +
                 ", Codigo Linha= "  +
                 '}';
-
     }
+
 }
+
+}
+
