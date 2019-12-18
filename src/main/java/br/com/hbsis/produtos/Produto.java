@@ -37,9 +37,7 @@ public class Produto {
     private Linha linha;
 
     public Produto() {
-
     }
-
 
     public Long getIdProduto() {
         return idProduto;

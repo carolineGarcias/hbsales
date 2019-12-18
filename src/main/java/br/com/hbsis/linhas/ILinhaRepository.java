@@ -7,8 +7,15 @@ import java.util.Optional;
 
 @Repository
 public interface ILinhaRepository extends JpaRepository<Linha, Long> {
+
     Optional<Linha> findById(Long id);
     @Override
     boolean existsById(Long id); //true or false
 
+  Optional<Linha> findById(Long idLinha);
+
+    @Override
+    boolean existsById(Long idLinha); //true or false
+    boolean existsByCodLinha(String codLinha);
+    Linha findByCodLinha(String codLinha);
 }

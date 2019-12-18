@@ -23,7 +23,6 @@ public class Linha {
     @JoinColumn(name= "id_linha_categoria", referencedColumnName = "id_categoria")
     private Categoria categoria;
 
-
     public Long getIdLinha() {
         return idLinha;
     }
@@ -40,20 +39,20 @@ public class Linha {
         this.nomeLinha = nomeLinha;
     }
 
-    public Categoria getCategoria() {
-        return categoria;
-    }
-
-    public void setCategoria(Categoria categoria) {
-        this.categoria = categoria;
-    }
-
     public String getCodLinha() {
         return codLinha;
     }
 
     public void setCodLinha(String codLinha) {
         this.codLinha = codLinha;
+    }
+
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
     }
 
     public String toString(){
@@ -64,4 +63,8 @@ public class Linha {
                 ", Codigo Linha= "  +
                 '}';
     }
+
 }
+
+}
+

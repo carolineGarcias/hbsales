@@ -1,9 +1,7 @@
 package br.com.hbsis.usuario;
 
-/**
- * Classe para tráfego das informações do usuário
- */
 public class UsuarioDTO {
+
 	private Long id;
 	private String senha;
 	private String login;
@@ -11,7 +9,6 @@ public class UsuarioDTO {
 
 	public UsuarioDTO() {
 	}
-
 
 	public UsuarioDTO(String senha, String login) {
 		this.senha = senha;

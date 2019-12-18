@@ -6,7 +6,6 @@ public class LinhaDTO {
     private String  nomeLinha, codLinha;
 
     public LinhaDTO(){
-
     }
 
     public LinhaDTO(Long idLinha, Long idCategoria, String nomeLinha, String codLinha) {
@@ -22,7 +21,6 @@ public class LinhaDTO {
                 linha.getCategoria().getId(),
                 linha.getNomeLinha(),
                 linha.getCodLinha()
-
         );
     }
 
@@ -57,7 +55,6 @@ public class LinhaDTO {
     public void setNomeLinha(String nomeLinha) {
         this.nomeLinha = nomeLinha;
     }
-
 
     @Override
     public String toString() {

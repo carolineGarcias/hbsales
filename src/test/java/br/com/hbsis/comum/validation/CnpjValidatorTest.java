@@ -1,14 +1,15 @@
 package br.com.hbsis.comum.validation;
 
+import br.com.hbsis.validation.ValidatorCNPJ;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class CnpjValidatorTest {
+class ValidatorCNPJTest {
 
 	@Test
 	public void cnpjIsValido() {
-		CnpjValidator cnpjValidator = new CnpjValidator();
+		ValidatorCNPJ cnpjValidator = new ValidatorCNPJ();
 
 		final String cnpjHbsis = "81875973000176";
 
@@ -19,7 +20,7 @@ class CnpjValidatorTest {
 
 	@Test
 	public void cnpjComDigitoVerificadorErrado() {
-		CnpjValidator cnpjValidator = new CnpjValidator();
+		ValidatorCNPJ cnpjValidator = new ValidatorCNPJ();
 
 		final String cnpjHbsis = "81875973000172";
 
@@ -30,7 +31,7 @@ class CnpjValidatorTest {
 
 	@Test
 	public void cnpjContainsLetras() {
-		CnpjValidator cnpjValidator = new CnpjValidator();
+		ValidatorCNPJ cnpjValidator = new ValidatorCNPJ();
 
 		final String cnpjHbsis = "8187597300017A";
 
@@ -41,7 +42,7 @@ class CnpjValidatorTest {
 
 	@Test
 	public void cnpjContainsMuitosCaracteres() {
-		CnpjValidator cnpjValidator = new CnpjValidator();
+		ValidatorCNPJ cnpjValidator = new ValidatorCNPJ();
 
 		final String cnpjHbsis = "818759730001762";
 
