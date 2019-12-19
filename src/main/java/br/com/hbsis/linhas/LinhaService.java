@@ -51,9 +51,6 @@ public class LinhaService{
         String upperCase = codigo.toUpperCase();
         codigo = codigo.replaceAll(" ", "0");
 
-        String codigo = String.format("%1$10s", linhaDTO.getCodLinha().toUpperCase());
-        codigo = codigo.replaceAll(" ", "0").toUpperCase();
-
         linha.setNomeLinha(linhaDTO.getNomeLinha().toUpperCase());
         linha.setCodLinha(codigo);
         linha.setCategoria(iCategoriaRepository.findById(linhaDTO.getIdCategoria()).get());
@@ -118,12 +115,10 @@ public class LinhaService{
 
             return LinhaDTO.of(linhaOptional.get());
 
-        return LinhaDTO.of(linhaOptional.get());
-    }
-        throw new IllegalArgumentException(String.format("ID %s não existe", idLinha));
 
         }
-        throw new IllegalArgumentException(String.format("ID %s não existe", id));
+        throw new IllegalArgumentException(String.format("ID %s não existe", idLinha));
+
     }
 
     public LinhaDTO update(LinhaDTO linhaDTO, Long idLinha){
@@ -147,12 +142,6 @@ public class LinhaService{
         }
 
         throw new IllegalArgumentException(String.format("ID %S NAO EXISTE " ,  idLinha));
-    }
-
-
-    public  void delete(Long id){
-        LOGGER.info("Executando delete para linha de ID [{}]", id);
-        this.iLinhaRepository.deleteById(id);
     }
 
     public  void delete(Long idLinha){
@@ -184,13 +173,8 @@ public class LinhaService{
                         linha.getIdLinha().toString(),
                         linha.getCodLinha().toUpperCase(),
                         linha.getCategoria().getId().toString(),
-                        linha.getNomeLinha().toUpperCase()});
-
-                        linha.getIdLinha().toString().toUpperCase(),
-                        linha.getCodLinha().toUpperCase().toUpperCase(),
-                        linha.getCategoria().getId().toString().toUpperCase(),
-                        linha.getNomeLinha().toUpperCase()
-                });
+                        linha.getNomeLinha().toUpperCase()}
+                );
 
             }
 

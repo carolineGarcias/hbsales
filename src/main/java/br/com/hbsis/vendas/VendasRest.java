@@ -1,9 +1,12 @@
 package br.com.hbsis.vendas;
 
+import br.com.hbsis.categoria.produto.Categoria;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/vendas")
@@ -27,6 +30,13 @@ public class VendasRest {
     @PutMapping("/{id}")
     public VendasDTO update(@PathVariable("id") Long id, @RequestBody VendasDTO vendasDTO) {
         return this.vendasService.update(vendasDTO, id);
+    }
+
+    @GetMapping("/listar")
+    public List<Vendas> listar() {
+        LOGGER.info("Gerando lista de Vendas.");
+
+        return this.vendasService.listar();
     }
 
     @GetMapping("/{id}")

@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -42,6 +43,7 @@ public class VendasService {
         vendas.setFornecedor(fornecedorService.findByIdFornecedor(vendasDTO.getFornecedorId()));
         vendas.setDescricao(vendasDTO.getDescricao().toUpperCase());
 
+
         vendas = this.iVendasRepository.save(vendas);
 
         return VendasDTO.of(vendas);
@@ -72,6 +74,7 @@ public class VendasService {
     }
 
     public void delete(Long id){
+
 
         LOGGER.info("Excluindo periodo de vendas de ID: [{}]", id);
 
@@ -109,7 +112,6 @@ public class VendasService {
         if (vendasDTO.getFimVendas().isBefore(vendasDTO.getInicioVendas()))  {
             throw  new  IllegalArgumentException("Fim vendas não pode ser inferior a data de inicio vendas");
         }
-
     }
 
     public VendasDTO findById(Long id){
@@ -119,5 +121,11 @@ public class VendasService {
             return VendasDTO.of(vendaOptional.get());
         }
         throw new  IllegalArgumentException(String.format("Periodo de vendas de ID {} não encontrado.", id));
+    }
+
+    public List<Vendas> listar() {
+        List<Vendas> vendas;
+        vendas = this.iVendasRepository.findAll();
+        return vendas;
     }
 }

@@ -16,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
 import javax.servlet.http.HttpServletResponse;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -32,24 +33,24 @@ public class ProdutoService {
     private final Logger LOGGER = LoggerFactory.getLogger(ProdutoService.class);
 
     private final IProdutoRepository iProdutoRepository;
-    private final ILinhaRepository   iLinhaRepository;
+    private final ILinhaRepository iLinhaRepository;
     private final IFornecedorRepository iFornecedorRepository;
     private DateTimeFormatter LocalDateFormatt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private final FornecedorService fornecedorService;
-    private final CategoriaService  categoriaService;
-    private final LinhaService      linhaService;
+    private final CategoriaService categoriaService;
+    private final LinhaService linhaService;
 
     public ProdutoService(IProdutoRepository iProdutoRepository,
                           IFornecedorRepository iFornecedorRepository,
                           ILinhaRepository iLinhaRepository, FornecedorService fornecedorService,
                           CategoriaService categoriaService, LinhaService linhaService) {
 
-        this.iProdutoRepository    = iProdutoRepository;
-        this.iLinhaRepository      = iLinhaRepository;
+        this.iProdutoRepository = iProdutoRepository;
+        this.iLinhaRepository = iLinhaRepository;
         this.iFornecedorRepository = iFornecedorRepository;
-        this.fornecedorService     = fornecedorService;
-        this.categoriaService      = categoriaService;
-        this.linhaService          = linhaService;
+        this.fornecedorService = fornecedorService;
+        this.categoriaService = categoriaService;
+        this.linhaService = linhaService;
     }
 
     public List<ProdutoDTO> findAll() {
@@ -88,7 +89,8 @@ public class ProdutoService {
         }
         return iProdutoRepository.saveAll(reading);
     }
-    public ProdutoDTO save (ProdutoDTO produtoDTO){
+
+    public ProdutoDTO save(ProdutoDTO produtoDTO) {
 
         LOGGER.debug("Produto: {}", produtoDTO);
 
@@ -115,6 +117,7 @@ public class ProdutoService {
 
         return ProdutoDTO.of(produto);
     }
+
     public ProdutoDTO findById(Long id) {
         Optional<Produto> produtoOptional = this.iProdutoRepository.findById(id);
 
@@ -202,7 +205,7 @@ public class ProdutoService {
            /*   String formatarCNPJ = produto.getLinha().getCategoria().getFornecedor().getCnpj().replaceAll
                         ("(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})", "$1.$2.$3/$4-$5");*/
 
-              csvWriter.writeNext(new String[]{
+                csvWriter.writeNext(new String[]{
                         produto.getIdProduto().toString(),
                         produto.getCodProduto().toUpperCase(),
                         produto.getNomeProduto().toUpperCase(),
@@ -214,8 +217,8 @@ public class ProdutoService {
                         produto.getLinha().getNomeLinha().toUpperCase(),
                         produto.getLinha().getCategoria().getCodCategoria().toUpperCase(),
                         produto.getLinha().getCategoria().getNomeCategoria().toUpperCase(),
-                       /* formatarCNPJ,
-                          produto.getLinha().getCategoria().getFornecedor().getRazaoSocial().toUpperCase()*/
+                        /* formatarCNPJ,
+                           produto.getLinha().getCategoria().getFornecedor().getRazaoSocial().toUpperCase()*/
                 });
             }
         } catch (Exception e) {
@@ -227,7 +230,6 @@ public class ProdutoService {
         InputStreamReader inputStreamReader = new InputStreamReader(file.getInputStream());
 
 
-
         CSVParser parser = new CSVParserBuilder().withSeparator(',').build();
 
         CSVReader csvReader = new CSVReaderBuilder(inputStreamReader)
@@ -237,24 +239,6 @@ public class ProdutoService {
         List<String[]> linhaString = csvReader.readAll();
 
         List<Produto> reading = new ArrayList<>();
-        for (String[] linha : linhaString) {
-            try{
-                String[] bean = linha[0].replaceAll("\"", "").split(";");
-                Produto produto = new Produto();
-                if(iFornecedorRepository.existsById(id)){
-                    produto.setNomeProduto(bean[1]);
-                    produto.setCodProduto(bean[2]);
-                    produto.setPesoProd(Double.parseDouble(bean[3]));
-                    produto.setLinha(iLinhaRepository.findById(Long.parseLong(bean[4])).get());
-                    produto.setPrecoProd(Double.parseDouble(bean[5]));
-                    produto.setUnidadeCaixaProd(Double.parseDouble(bean[6]));
-                    produto.setValidadeProd(LocalDate.parse(bean[7]));
-                 /*   if (iProdutoRepository.existByCodigoProduto(produto.getCodProduto()) &&
-                         id == produto.getLinha().getCategoria().getFornecedor().getIdFornecedor()){
-                        produto.setIdProduto(iProdutoRepository.findByCodigoProduto
-                        (produto.getCodProduto()).get().getIdProduto());
-                        update(ProdutoDTO.of(produto), produto.getIdProduto());
-
 
         for (String[] bean : linhaString) {
 
@@ -285,7 +269,8 @@ public class ProdutoService {
                         categoria.setFornecedor(fornecedor);
                         categoria.setNomeCategoria(bean[10]);
                         categoria.setCodCategoria(bean[9]);
-                        categoria.setId(categoriaService.save(CategoriaDTO.of(categoria)).getId());
+                        categoriaService.save(CategoriaDTO.of(categoria));
+
 
                         linha.setCategoria(categoria);
 
@@ -295,13 +280,13 @@ public class ProdutoService {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                 try {
+                try {
                     if (!(linhaService.existsByCodLinha(bean[7])) && !(linhaService.existsByCodLinha(codigo))) {
 
-                        categoria = categoriaService.findByCodCategoria(bean[9]);
+                        CategoriaDTO categoriaDTO = categoriaService.findByCodCategoria(bean[9]);
 
-                        if (categoria == null) {
-                            categoria = categoriaService.findByCodCategoria(categoriaService.codeContrutor(bean[9], id));
+                        if (categoriaDTO == null) {
+                            categoriaDTO = categoriaService.findByCodCategoria(categoriaService.codeContrutor(bean[9], id));
                         }
 
                         linha.setCategoria(categoria);
@@ -313,22 +298,22 @@ public class ProdutoService {
                         produtoDTO.setLinhaId(linha.getIdLinha());
 
                         LOGGER.info(String.format("Linha... ID %d", linha.getIdLinha()));
-                    }
-
-                    else {
+                    } else {
+                        Produto produto = new Produto();
                         LOGGER.info("Produto {} ... pertence a outro fornecedor.", produto.getCodProduto());
 
-                 } catch (Exception e) {
+                    }
+                } catch (Exception e) {
                     e.printStackTrace();
-                 }
-                 try {
+                }
+                try {
                     if (linhaService.existsByCodLinha(bean[7]) || linhaService.existsByCodLinha(codigo)) {
 
-                        categoria = categoriaService.findByCodCategoria(bean[9]);
+                        CategoriaDTO categoriaDTO = categoriaService.findByCodCategoria(bean[9]);
 
-                        if (categoria == null) {
+                        if (categoriaDTO == null) {
 
-                             categoria = categoriaService.findByCodCategoria(categoriaService.codeContrutor(bean[9], id));
+                            categoriaDTO = categoriaService.findByCodCategoria(categoriaService.codeContrutor(bean[9], id));
                         }
                         linha.setCategoria(categoria);
                         linha.setNomeLinha(bean[8]);
@@ -380,8 +365,6 @@ public class ProdutoService {
         }
     }
 
-}*/
-
 
     public Produto findByCodProduto(String codProduto) {
         Optional<Produto> produtoOptional = this.iProdutoRepository.findByCodProduto(codProduto);
@@ -397,5 +380,4 @@ public class ProdutoService {
 
         return produtoOptional.isPresent();
     }
-
 }
