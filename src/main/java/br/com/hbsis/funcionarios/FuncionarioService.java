@@ -91,5 +91,17 @@ public class FuncionarioService {
 
         this.ifuncionarioRepository.deleteById(id);
     }
+
+
+    public Funcionario findByFuncionarioId(Long id) {
+        Optional<Funcionario> funcionarioOptional = this.ifuncionarioRepository.findById(id);
+
+        if (funcionarioOptional.isPresent()) {
+            return funcionarioOptional.get();
+        }
+
+        throw new IllegalArgumentException(String.format("ID %s não existe", id));
+    }
+
 }
 

@@ -9,7 +9,7 @@ public class Funcionario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_funcionario")
+    @Column(name = "id_funcionarios")
     private Long id;
 
     @Column(name = "nome_funcionario")
