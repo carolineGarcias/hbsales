@@ -128,4 +128,14 @@ public class VendasService {
         vendas = this.iVendasRepository.findAll();
         return vendas;
     }
+
+    public Vendas findByVendasId(Long id) {
+        Optional<Vendas> VendaOptional = this.iVendasRepository.findById(id);
+
+        if (VendaOptional.isPresent()) {
+            return VendaOptional.get();
+        }
+
+        throw new IllegalArgumentException(String.format("ID %s não existe", id));
+    }
 }

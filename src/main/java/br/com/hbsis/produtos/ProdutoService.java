@@ -365,6 +365,15 @@ public class ProdutoService {
         }
     }
 
+    public Produto findByProdutoId(Long id) {
+        Optional<Produto> produtoOptional = this.iProdutoRepository.findById(id);
+
+        if (produtoOptional.isPresent()) {
+            return produtoOptional.get();
+        }
+
+        throw new IllegalArgumentException(String.format("ID %s não existe", id));
+    }
 
     public Produto findByCodProduto(String codProduto) {
         Optional<Produto> produtoOptional = this.iProdutoRepository.findByCodProduto(codProduto);

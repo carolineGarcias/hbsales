@@ -1,11 +1,8 @@
 package br.com.hbsis.vendas;
 
 import br.com.hbsis.fornecedor.Fornecedor;
-
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Optional;
-
 
 @Entity
 @Table(name = "seg_vendas")
