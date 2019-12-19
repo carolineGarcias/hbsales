@@ -99,8 +99,8 @@ public class CategoriaService {
         categoria.getFornecedor().getRazaoSocial().toUpperCase();
         System.out.println(categoria.getCodCategoria().toUpperCase());
 
-        Categoria save = this.iCategoriaRepository.save(categoria);
-        return CategoriaDTO.of(save);
+        Categoria categoriaSave = this.iCategoriaRepository.save(categoria);
+        return CategoriaDTO.of(categoriaSave);
     }
 
     public void exportCSV(HttpServletResponse httpServletResponse) {
@@ -121,16 +121,15 @@ public class CategoriaService {
             csvWriter.writeNext(headerCSV);
 
             for (Categoria linha : iCategoriaRepository.findAll()) {
-                String formatarCNPJ = linha.getFornecedor().getCnpj().replaceAll("(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})", "$1.$2.$3/$4-$5").toUpperCase();
+                String formatarCNPJ = linha.getFornecedor().getCnpj().replaceAll
+                        ("(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})", "$1.$2.$3/$4-$5").toUpperCase();
 
                 csvWriter.writeNext(new String[]{
                         String.valueOf(linha.getId()),
                         linha.getCodCategoria().toUpperCase(),
                         linha.getNomeCategoria().toUpperCase(),
                         formatarCNPJ,
-
-                        linha.getFornecedor().getRazaoSocial().toUpperCase()
-
+                        linha.getFornecedor().getRazaoSocial().toUpperCase(),
                         linha.getFornecedor().getRazaoSocial().toUpperCase(),
 
                 });
@@ -211,15 +210,14 @@ public class CategoriaService {
     }
 
 
-    public CategoriaDTO findByCodCategoria(String cod) {
-        Optional<Categoria> categoriaOpcional = this.iCategoriaRepository.findByCodCategoria(cod);
+    public CategoriaDTO findByCodCategoria(String codCategoria) {
+        Optional<Categoria> categoriaOpcional = Optional.ofNullable(this.iCategoriaRepository.findByCodCategoria(codCategoria));
 
         if (categoriaOpcional.isPresent()) {
             return CategoriaDTO.of(categoriaOpcional.get());
         }
-        throw new IllegalArgumentException(String.format("ID %s não existe", cod));
+        throw new IllegalArgumentException(String.format("ID %s não existe", codCategoria));
     }
-
 
     public CategoriaDTO findById(Long id) {
         Optional<Categoria> categoriaOptional = this.iCategoriaRepository.findById(id);
@@ -238,10 +236,5 @@ public class CategoriaService {
 
     public boolean existsCategoriaByCodCategoria(String codCategoria) {
         return this.iCategoriaRepository.existsCategoriaByCodCategoria(codCategoria);
-    }
-
-    public Categoria findByCodCategoria(String codCategoria) {
-        return this.iCategoriaRepository.findByCodCategoria(codCategoria);
-
     }
 }

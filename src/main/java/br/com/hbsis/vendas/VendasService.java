@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -120,5 +121,11 @@ public class VendasService {
             return VendasDTO.of(vendaOptional.get());
         }
         throw new  IllegalArgumentException(String.format("Periodo de vendas de ID {} não encontrado.", id));
+    }
+
+    public List<Vendas> listar() {
+        List<Vendas> vendas;
+        vendas = this.iVendasRepository.findAll();
+        return vendas;
     }
 }
