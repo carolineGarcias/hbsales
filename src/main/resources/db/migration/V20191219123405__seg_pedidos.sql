@@ -7,9 +7,5 @@ create TABLE seg_pedidos(
     quantidade_pedido BIGINT NOT NULL,
     id_pedido_funcionario BIGINT FOREIGN KEY REFERENCES seg_funcionarios(id_funcionarios),
     id_pedido_produto BIGINT     FOREIGN KEY REFERENCES seg_produtos(id_produto),
-    id_pedido_vendas BIGINT      FOREIGN KEY REFERENCES seg_linhas(id_vendas),
-
-
-
-
+    id_pedido_vendas BIGINT      FOREIGN KEY REFERENCES seg_vendas(id_vendas)
 )

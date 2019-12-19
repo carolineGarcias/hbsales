@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
@@ -30,13 +29,13 @@ public class PedidoRest {
         pedidoService.PedidoVendas(response, id);
     }
 
-    @GetMapping("/funcionarios/{id}")
-    public void findAllFuncionario(@PathVariable("id") Long id, HttpServletResponse response) throws Exception {
+    @GetMapping("/funcionarios-pedido/{id}")
+    public void findAll(@PathVariable("id") HttpServletResponse response, Long id) throws Exception {
         pedidoService.PedidoFuncionario(id, response);
     }
 
     @GetMapping("/retirado/{id}")
-    public List<PedidoDTO> findAll1(@PathVariable Long id) {
+    public List<PedidoDTO> findAll(@PathVariable Long id) {
         return this.pedidoService.findAllByFornecedorId(id);
     }
 

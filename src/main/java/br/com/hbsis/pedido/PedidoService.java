@@ -87,7 +87,6 @@ public class PedidoService {
             if (StringUtils.isEmpty(String.valueOf(pedidoDTO.getStatus()))) {
                 throw new IllegalArgumentException("Status não pode ser nulo");
             }
-
             if (StringUtils.isEmpty(String.valueOf(pedidoDTO.getFuncionarioId()))) {
                 throw new IllegalArgumentException("Id Funcionario não pode ser nulo");
             }
