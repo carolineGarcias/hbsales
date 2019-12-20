@@ -183,7 +183,9 @@ public class PedidoService {
         Vendas vendas;
         vendas = vendasService.findByVendasId(id);
 
-        List<Pedido> pedidos = null;
+        List<Pedido> pedidos;
+
+        pedidos = iPedidoRepository.findByVendas(vendas);
 
         for (Pedido pedido : pedidos) {
             String formatarCNPJ = pedido.getVendas().getFornecedor().getCnpj().replaceAll
@@ -191,7 +193,7 @@ public class PedidoService {
             csvWriter.writeNext(new String[]{
                     pedido.getProduto().getNomeProduto(),
                     String.valueOf(pedido.getQuantidadePedido()),
-                    pedido.getVendas().getFornecedor().getRazaoSocial() + "-" + formatarCNPJ
+                    pedido.getVendas().getFornecedor().getRazaoSocial() + " / " + formatarCNPJ
             });
         }
     }
@@ -222,7 +224,7 @@ public class PedidoService {
                     pedido.getFuncionario().getNomeFuncionario(),
                     pedido.getProduto().getNomeProduto(),
                     String.valueOf(pedido.getQuantidadePedido()),
-                    pedido.getVendas().getFornecedor().getRazaoSocial() + "-" + formatarCNPJ
+                    pedido.getVendas().getFornecedor().getRazaoSocial() + " / " + formatarCNPJ
             });
         }
     }
