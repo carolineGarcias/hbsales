@@ -10,8 +10,10 @@ import java.util.Optional;
 
 public interface IVendasRepository extends JpaRepository<Vendas, Long> {
 
-    @Query(value = "SELECT * FROM dbo.seg_vendas WHERE id_vendas_fornecedor=:idFornecedor ",nativeQuery = true)
+    @Query(value = "select count(1) from seg_vendas where fim_vendas >= :inicioVendas and id_fornecedor = :fornecedorId", nativeQuery = true)
+    long existVendasHoje(
+            @Param("inicioVendas") LocalDate inicioVendas,
+            @Param("fornecedorId") long fornecedorId);
 
-    Optional<Vendas> findById(Long id);
 
 }

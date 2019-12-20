@@ -106,9 +106,9 @@ public class VendasService {
                 || vendasDTO.getFimVendas().isBefore(LocalDate.now()) || vendasDTO.getFimVendas().isBefore(LocalDate.now())) {
             throw new  IllegalArgumentException("Inicio Vendas não podem ser inferiores ao dia de HOJE");
         }
-       /* if (iVendasRepository.existVendasHoje(vendasDTO.getInicioVendas(), vendasDTO.getFornecedorId()) >= 1){
+        if (iVendasRepository.existVendasHoje(vendasDTO.getInicioVendas(), vendasDTO.getFornecedorId()) >= 1) {
             throw new  IllegalArgumentException("Fornecedor não pode ter duas vendas ao mesmo tempo");
-        }*/
+        }
         if (vendasDTO.getFimVendas().isBefore(vendasDTO.getInicioVendas()))  {
             throw  new  IllegalArgumentException("Fim vendas não pode ser inferior a data de inicio vendas");
         }
@@ -130,12 +130,11 @@ public class VendasService {
     }
 
     public Vendas findByVendasId(Long id) {
-        Optional<Vendas> VendaOptional = this.iVendasRepository.findById(id);
+        Optional<Vendas> vendasOptional = this.iVendasRepository.findById(id);
 
-        if (VendaOptional.isPresent()) {
-            return VendaOptional.get();
+        if (vendasOptional.isPresent()) {
+            return vendasOptional.get();
         }
-
         throw new IllegalArgumentException(String.format("ID %s não existe", id));
     }
 }
