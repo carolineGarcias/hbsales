@@ -14,7 +14,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
-
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -50,10 +49,14 @@ public class PedidoService {
 
         Pedido pedido = new Pedido();
 
-        pedido.setCodPedido(pedidoDTO.getCodPedido());
         pedido.setIdPedido(pedidoDTO.getIdPedido());
+        pedido.setCodPedido(pedidoDTO.getCodPedido());
         pedido.setStatus(pedidoDTO.getStatus());
+        pedido.setDataPedido(pedidoDTO.getDataPedido());
+        pedido.setQuantidadePedido(pedidoDTO.getQuantidadePedido());
         pedido.setFuncionario(funcionarioService.findByFuncionarioId(pedidoDTO.getFuncionarioId()));
+        pedido.setVendas(vendasService.findByVendasId(pedidoDTO.getVendasId()));
+        pedido.setProduto(produtoService.findByProdutoId(pedidoDTO.getProdutoId()));
 
         pedido = this.iPedidoRepository.save(pedido);
 

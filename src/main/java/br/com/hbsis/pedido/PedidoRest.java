@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @RestController
-@RequestMapping(name = "/pedidos")
+@RequestMapping("/pedidos")
 public class PedidoRest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PedidoRest.class);
