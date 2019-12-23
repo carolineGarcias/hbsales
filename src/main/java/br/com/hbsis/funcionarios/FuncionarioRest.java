@@ -1,14 +1,10 @@
 package br.com.hbsis.funcionarios;
 
-import com.sun.org.apache.xpath.internal.functions.FuncConcat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import javax.validation.Valid;
-import java.util.List;
-
 
 @RestController
 @RequestMapping("/funcionarios")

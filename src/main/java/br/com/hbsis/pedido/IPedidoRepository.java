@@ -10,6 +10,5 @@ public interface IPedidoRepository extends JpaRepository<Pedido, Long> {
     //List<Pedido> PedidoVendas(Vendas vendas);
     List<Pedido> findByFuncionario(Funcionario funcionario);
     boolean existsByCodPedido(String codPedido);
-
     List<Pedido> findByVendas(Vendas vendas);
 }

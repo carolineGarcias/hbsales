@@ -6,6 +6,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "seg_fornecedores")
  public class Fornecedor extends FornecedorDTO {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_fornecedor", updatable = false, insertable = false)

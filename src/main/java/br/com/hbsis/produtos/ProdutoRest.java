@@ -48,19 +48,6 @@ public class ProdutoRest{
         return produto;
     }
 
-
-    /*   @PutMapping("/importar-por-fornecedor/{id}")
-       public void importFornecedor(@PathVariable("id") Long id, @RequestParam MultipartFile file) throws Exception{
-           LOGGER.info("Adicionando Produtos do Fornecedor de ID... [{}]", id);
-           produtoService.importFornecedor(id, file);
-       }
-       @PostMapping ("/importar")
-       public void importProduto(@PathVariable("id") Long id,
-                                 @RequestParam MultipartFile file) throws Exception {
-           produtoService.readAll(file);
-       }
-   */
-
    @PutMapping("/fornecedor/{id}")
     public void importFornecedor(@PathVariable("id") Long id, @RequestParam MultipartFile file) throws Exception{
 
@@ -73,7 +60,6 @@ public class ProdutoRest{
 
         produtoService.readAll(file);
     }
-
 
     @PutMapping("/{id}")
     public ProdutoDTO update(@PathVariable("id") Long id, @RequestBody ProdutoDTO produtoDTO){

@@ -58,5 +58,4 @@ public class ValidatorCNPJ implements ConstraintValidator<ValidationCNPJ, String
         int digito2 = calcularDigitoCnpj(cnpj.substring(0, 12) + digito1);
         return cnpj.equals(cnpj.substring(0, 12) + digito1 + digito2);
     }
-
 }
