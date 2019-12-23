@@ -31,7 +31,7 @@ public class CategoriaRest {
        @GetMapping("/{id}")
     public CategoriaDTO find(@PathVariable("id") Long id) {
 
-        LOGGER.info("Recebendo find by ID... id: [{}]", id);
+           LOGGER.info("Recebendo find by ID... id: [{}]", id);
 
         return this.categoriaService.findById(id);
     }

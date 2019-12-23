@@ -59,9 +59,9 @@ public class CategoriaService {
 
                 CategoriaDTO categoriaDTO = new CategoriaDTO();
                 //Fornecedor fornecedor = new Fornecedor();
-               // FornecedorDTO fornecedorDTO = new FornecedorDTO();
+                // FornecedorDTO fornecedorDTO = new FornecedorDTO();
 
-               // Optional<Categoria> optionalCategoria = Optional.ofNullable(this.iCategoriaRepository.findByCodCategoria(bean[0]));
+                // Optional<Categoria> optionalCategoria = Optional.ofNullable(this.iCategoriaRepository.findByCodCategoria(bean[0]));
 
                 Fornecedor fornecedor = this.fornecedorService.findByCnpj(bean[3].replaceAll("[-/.]", ""));
 

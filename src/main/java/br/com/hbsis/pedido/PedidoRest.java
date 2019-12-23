@@ -30,11 +30,6 @@ public class PedidoRest {
     }
 
     @GetMapping("/funcionarios-pedido/{id}")
-    public void findAll(@PathVariable("id") HttpServletResponse response, Long id) throws Exception {
-        pedidoService.PedidoFuncionario(id, response);
-    }
-
-    @GetMapping("/retirado/{id}")
     public List<PedidoDTO> findAll(@PathVariable Long id) {
         return this.pedidoService.findAllByFornecedorId(id);
     }

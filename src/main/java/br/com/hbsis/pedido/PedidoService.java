@@ -190,38 +190,8 @@ public class PedidoService {
         for (Pedido pedido : pedidos) {
             String formatarCNPJ = pedido.getVendas().getFornecedor().getCnpj().replaceAll
                     ("(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})", "$1.$2.$3/$4-$5").toUpperCase();
+
             csvWriter.writeNext(new String[]{
-                    pedido.getProduto().getNomeProduto(),
-                    String.valueOf(pedido.getQuantidadePedido()),
-                    pedido.getVendas().getFornecedor().getRazaoSocial() + " / " + formatarCNPJ
-            });
-        }
-    }
-
-    public void PedidoFuncionario(Long id, HttpServletResponse response) throws IOException {
-        String filename = "pedidos.csv";
-        response.setContentType("text/file");
-        response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + filename + "\"");
-
-        PrintWriter writer = response.getWriter();
-
-        ICSVWriter csvWriter = new CSVWriterBuilder(writer).withSeparator(';').withEscapeChar(CSVWriter.DEFAULT_ESCAPE_CHARACTER)
-                .withLineEnd(CSVWriter.DEFAULT_LINE_END).build();
-
-        String headerCSV[] = {"NOME FUNCIONARIO", "NOME PRODUTO", "QUANTIDADE PEDIDO", "FORNECEDOR/CNPJ"};
-        csvWriter.writeNext(headerCSV);
-
-        Funcionario funcionario;
-        funcionario = funcionarioService.findByFuncionarioId(id);
-
-        List<Pedido> pedidos = null;
-
-        pedidos = iPedidoRepository.findByFuncionario(funcionario);
-        for (Pedido pedido : pedidos) {
-            String formatarCNPJ = pedido.getVendas().getFornecedor().getCnpj().replaceAll
-                    ("(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})", "$1.$2.$3/$4-$5").toUpperCase();
-            csvWriter.writeNext(new String[]{
-                    pedido.getFuncionario().getNomeFuncionario(),
                     pedido.getProduto().getNomeProduto(),
                     String.valueOf(pedido.getQuantidadePedido()),
                     pedido.getVendas().getFornecedor().getRazaoSocial() + " / " + formatarCNPJ
@@ -252,5 +222,12 @@ public class PedidoService {
             }
         }
         return pedidoDTO;
+    }
+
+    public List<Pedido> listarFuncionario() {
+        LOGGER.info("Listando Pedidos.");
+        List<Pedido> pedidos;
+        pedidos = this.iPedidoRepository.findAll();
+        return pedidos;
     }
 }
