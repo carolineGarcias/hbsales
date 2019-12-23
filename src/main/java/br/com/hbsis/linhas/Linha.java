@@ -1,6 +1,7 @@
 package br.com.hbsis.linhas;
 
 import br.com.hbsis.categoria.produto.Categoria;
+
 import javax.persistence.*;
 
 @Entity
@@ -62,4 +63,7 @@ public class Linha {
                 ", Codigo Linha= "  +
                 '}';
     }
+
 }
+
+

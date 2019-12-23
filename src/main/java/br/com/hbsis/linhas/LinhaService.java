@@ -46,6 +46,7 @@ public class LinhaService{
 
         Linha linha = new Linha();
 
+
         String codigo = String.format("%1$10s", linhaDTO.getCodLinha());
         String upperCase = codigo.toUpperCase();
         codigo = codigo.replaceAll(" ", "0");
@@ -113,6 +114,7 @@ public class LinhaService{
         if (linhaOptional.isPresent()) {
 
             return LinhaDTO.of(linhaOptional.get());
+
 
         }
         throw new IllegalArgumentException(String.format("ID %s não existe", idLinha));

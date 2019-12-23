@@ -11,7 +11,10 @@ import java.lang.annotation.*;
 public @interface ValidationCNPJ {
 
     String message() default "";
+
     long length() default -1L;
+
     Class<?>[] groups() default {};
+
     Class<? extends Payload>[] payload() default {};
 }

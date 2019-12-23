@@ -1,9 +1,12 @@
 package br.com.hbsis.vendas;
 
+import br.com.hbsis.fornecedor.Fornecedor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+
 import java.time.LocalDate;
+import java.util.Optional;
 
 public interface IVendasRepository extends JpaRepository<Vendas, Long> {
 
@@ -11,5 +14,6 @@ public interface IVendasRepository extends JpaRepository<Vendas, Long> {
     long existVendasHoje(
             @Param("inicioVendas") LocalDate inicioVendas,
             @Param("fornecedorId") long fornecedorId);
+
 
 }

@@ -24,12 +24,12 @@ public class PedidoRest {
         return this.pedidoService.save(pedidoDTO);
     }
 
-    @GetMapping("/exportar/{id}") //idVendas
+    @GetMapping("/exportar/{id}")
     public void findAll(@PathVariable("id") Long id, HttpServletResponse response) throws Exception {
         pedidoService.PedidoVendas(response, id);
     }
 
-    @GetMapping("/funcionarios-pedido/{id}") //idFuncionario
+    @GetMapping("/funcionarios-pedido/{id}")
     public void findAll(@PathVariable("id") HttpServletResponse response, Long id) throws Exception {
         pedidoService.PedidoFuncionario(id, response);
     }

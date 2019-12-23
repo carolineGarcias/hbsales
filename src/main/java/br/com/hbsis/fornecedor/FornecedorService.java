@@ -1,10 +1,12 @@
 package br.com.hbsis.fornecedor;
 
+
 import com.microsoft.sqlserver.jdbc.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -31,6 +33,7 @@ public class FornecedorService {
 
         return fornecedor;
     }
+
 
     public static Fornecedor fromDto(FornecedorDTO fornecedorDTO, Fornecedor fornecedor) {
 
@@ -92,6 +95,7 @@ public class FornecedorService {
 
         return this.ifornecedorRepository.findByCnpj(cnpj);
     }
+
 
     public boolean existsById(Long idFornecedor){
         return this.ifornecedorRepository.existsById(idFornecedor);

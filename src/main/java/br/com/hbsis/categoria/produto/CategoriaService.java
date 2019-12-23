@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -26,6 +27,7 @@ public class CategoriaService {
     private final FornecedorService     fornecedorService;
     private final IFornecedorRepository ifornecedorRepository;
     private Long idFornecedor;
+
 
     public CategoriaService(ICategoriaRepository iCategoriaRepository,
                             FornecedorService fornecedorService,
@@ -56,8 +58,13 @@ public class CategoriaService {
                 String[] bean = linha[0].replaceAll("\"", "").split(";");
 
                 CategoriaDTO categoriaDTO = new CategoriaDTO();
+                //Fornecedor fornecedor = new Fornecedor();
+                // FornecedorDTO fornecedorDTO = new FornecedorDTO();
+
+                // Optional<Categoria> optionalCategoria = Optional.ofNullable(this.iCategoriaRepository.findByCodCategoria(bean[0]));
 
                 Fornecedor fornecedor = this.fornecedorService.findByCnpj(bean[3].replaceAll("[-/.]", ""));
+
 
                 if (!(iCategoriaRepository.existsCategoriaByCodCategoria(categoriaDTO.getCodCategoria().toUpperCase())) ||
                         !(iCategoriaRepository.existsCategoriaByCodCategoria(codeContrutor(categoriaDTO.getCodCategoria()
@@ -124,6 +131,7 @@ public class CategoriaService {
                         formatarCNPJ,
                         linha.getFornecedor().getRazaoSocial().toUpperCase(),
                         linha.getFornecedor().getRazaoSocial().toUpperCase(),
+
                 });
             }
 
@@ -134,7 +142,7 @@ public class CategoriaService {
 
     public String codeContrutor(String codigo, Long id) {
 
-        String codigoCat;
+        String codigoCat = null;
         FornecedorDTO fornecedorDto = fornecedorService.findById(id);
         if (codigo.length() < 3) {
             codigo = String.format("%1$3s", codigo).toUpperCase();
@@ -201,6 +209,7 @@ public class CategoriaService {
         return categoria;
     }
 
+
     public CategoriaDTO findByCodCategoria(String codCategoria) {
         Optional<Categoria> categoriaOpcional = Optional.ofNullable(this.iCategoriaRepository.findByCodCategoria(codCategoria));
 
@@ -219,6 +228,11 @@ public class CategoriaService {
 
         throw new IllegalArgumentException(String.format("ID %s não existe", id));
     }
+
+   /* public boolean existsCategoriaByFornecedorId(Long idFornecedor){
+        this.idFornecedor = idFornecedor;
+        return this.iCategoriaRepository.existsCategoriaByFornecedorId(idFornecedor);
+    }*/
 
     public boolean existsCategoriaByCodCategoria(String codCategoria) {
         return this.iCategoriaRepository.existsCategoriaByCodCategoria(codCategoria);

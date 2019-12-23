@@ -1,5 +1,6 @@
 package br.com.hbsis.funcionarios;
 
+
 import javax.persistence.*;
 
 @Entity

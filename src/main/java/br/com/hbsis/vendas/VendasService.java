@@ -6,6 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -42,6 +43,7 @@ public class VendasService {
         vendas.setFornecedor(fornecedorService.findByIdFornecedor(vendasDTO.getFornecedorId()));
         vendas.setDescricao(vendasDTO.getDescricao().toUpperCase());
 
+
         vendas = this.iVendasRepository.save(vendas);
 
         return VendasDTO.of(vendas);
@@ -72,6 +74,7 @@ public class VendasService {
     }
 
     public void delete(Long id){
+
 
         LOGGER.info("Excluindo periodo de vendas de ID: [{}]", id);
 

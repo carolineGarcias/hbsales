@@ -1,6 +1,7 @@
 package br.com.hbsis.produtos;
 
 import br.com.hbsis.linhas.Linha;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 

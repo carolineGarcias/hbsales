@@ -16,12 +16,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
 import javax.servlet.http.HttpServletResponse;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -32,6 +35,7 @@ public class ProdutoService {
     private final IProdutoRepository iProdutoRepository;
     private final ILinhaRepository iLinhaRepository;
     private final IFornecedorRepository iFornecedorRepository;
+    private DateTimeFormatter LocalDateFormatt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private final FornecedorService fornecedorService;
     private final CategoriaService categoriaService;
     private final LinhaService linhaService;
@@ -198,6 +202,8 @@ public class ProdutoService {
 
             csvWriter.writeNext(readerCSV);
             for (Produto produto : iProdutoRepository.findAll()) {
+           /*   String formatarCNPJ = produto.getLinha().getCategoria().getFornecedor().getCnpj().replaceAll
+                        ("(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})", "$1.$2.$3/$4-$5");*/
 
                 csvWriter.writeNext(new String[]{
                         produto.getIdProduto().toString(),
@@ -211,7 +217,8 @@ public class ProdutoService {
                         produto.getLinha().getNomeLinha().toUpperCase(),
                         produto.getLinha().getCategoria().getCodCategoria().toUpperCase(),
                         produto.getLinha().getCategoria().getNomeCategoria().toUpperCase(),
-
+                        /* formatarCNPJ,
+                           produto.getLinha().getCategoria().getFornecedor().getRazaoSocial().toUpperCase()*/
                 });
             }
         } catch (Exception e) {
@@ -222,7 +229,9 @@ public class ProdutoService {
     public void importFornecedor(Long id, MultipartFile file) throws Exception {
         InputStreamReader inputStreamReader = new InputStreamReader(file.getInputStream());
 
+
         CSVParser parser = new CSVParserBuilder().withSeparator(',').build();
+
         CSVReader csvReader = new CSVReaderBuilder(inputStreamReader)
                 .withCSVParser(parser)
                 .withSkipLines(1)
@@ -277,7 +286,7 @@ public class ProdutoService {
                         CategoriaDTO categoriaDTO = categoriaService.findByCodCategoria(bean[9]);
 
                         if (categoriaDTO == null) {
-                            categoriaService.findByCodCategoria(categoriaService.codeContrutor(bean[9], id));
+                            categoriaDTO = categoriaService.findByCodCategoria(categoriaService.codeContrutor(bean[9], id));
                         }
 
                         linha.setCategoria(categoria);
@@ -303,9 +312,9 @@ public class ProdutoService {
                         CategoriaDTO categoriaDTO = categoriaService.findByCodCategoria(bean[9]);
 
                         if (categoriaDTO == null) {
-                            categoriaService.findByCodCategoria(categoriaService.codeContrutor(bean[9], id));
-                        }
 
+                            categoriaDTO = categoriaService.findByCodCategoria(categoriaService.codeContrutor(bean[9], id));
+                        }
                         linha.setCategoria(categoria);
                         linha.setNomeLinha(bean[8]);
                         linha.setCodLinha(codigo);

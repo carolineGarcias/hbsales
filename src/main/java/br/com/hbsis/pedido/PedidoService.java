@@ -78,8 +78,8 @@ public class PedidoService {
 
         pedidoDTO.setCodPedido(runCode());
         pedidoDTO.setDataPedido(LocalDate.now());
-        Produto produto;
-        Vendas vendas;
+        Produto produto = new Produto();
+        Vendas vendas = new Vendas();
 
         while (iPedidoRepository.existsByCodPedido(pedidoDTO.getCodPedido())) {
             LOGGER.info("O Código informado já existe, vamos gerar um novo código!");
@@ -168,7 +168,7 @@ public class PedidoService {
 
     public void PedidoVendas(HttpServletResponse response, Long id) throws IOException {
 
-        String filename = "pedidosVendas.csv";
+        String filename = "pedidos.csv";
         response.setContentType("text/file");
         response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + filename + "\"");
 
@@ -199,8 +199,7 @@ public class PedidoService {
     }
 
     public void PedidoFuncionario(Long id, HttpServletResponse response) throws IOException {
-
-        String filename = "pedidosFuncionarios.csv";
+        String filename = "pedidos.csv";
         response.setContentType("text/file");
         response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + filename + "\"");
 
@@ -215,10 +214,9 @@ public class PedidoService {
         Funcionario funcionario;
         funcionario = funcionarioService.findByFuncionarioId(id);
 
-        List<Pedido> pedidos;
+        List<Pedido> pedidos = null;
 
         pedidos = iPedidoRepository.findByFuncionario(funcionario);
-
         for (Pedido pedido : pedidos) {
             String formatarCNPJ = pedido.getVendas().getFornecedor().getCnpj().replaceAll
                     ("(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})", "$1.$2.$3/$4-$5").toUpperCase();
