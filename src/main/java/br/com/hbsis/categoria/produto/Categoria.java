@@ -1,8 +1,6 @@
 package br.com.hbsis.categoria.produto;
 
 import br.com.hbsis.fornecedor.Fornecedor;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
 import javax.persistence.*;
 
 @Entity
@@ -11,17 +9,17 @@ public class Categoria{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_categoria")
+    @Column(name = "id")
     private Long id;
 
-    @Column(name = "codigo_categoria" , unique = true, nullable = false, length = 10)
+    @Column(name = "codigo", unique = true, nullable = false, length = 10)
     private String codCategoria;
 
-    @Column(name = "nome_categoria", unique = false, nullable = false, length = 100)
+    @Column(name = "nome", unique = false, nullable = false, length = 100)
     private String nomeCategoria;
 
     @ManyToOne
-    @JoinColumn(name = "id_categoria_fornecedor", referencedColumnName = "id_fornecedor")
+    @JoinColumn(name = "id_categoria_fornecedor", referencedColumnName = "id")
     private Fornecedor fornecedor;
 
    public Long getId() {

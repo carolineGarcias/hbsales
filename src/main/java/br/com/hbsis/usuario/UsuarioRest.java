@@ -5,9 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-/**
- * Classe resposável por receber as requisições externas ao sistema
- */
 @RestController
 @RequestMapping("/usuarios")
 public class UsuarioRest {

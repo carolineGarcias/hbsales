@@ -2,9 +2,6 @@ package br.com.hbsis.usuario;
 
 import javax.persistence.*;
 
-/**
- * Classe responsável pelo mapeamento da entidade do banco de dados
- */
 @Entity
 @Table(name = "seg_usuarios")
 public class Usuario {

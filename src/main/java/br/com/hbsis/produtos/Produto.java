@@ -1,7 +1,6 @@
 package br.com.hbsis.produtos;
 
 import br.com.hbsis.linhas.Linha;
-
 import javax.persistence.*;
 import java.time.LocalDate;
 
@@ -11,29 +10,29 @@ public class Produto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_produto")
+    @Column(name = "id")
     private Long idProduto;
 
-    @Column(name = "cod_produto")
+    @Column(name = "codigo")
     private String codProduto;
 
-    @Column(name = "nome_produto")
+    @Column(name = "nome")
     private String nomeProduto;
 
-    @Column(name = "preco_produto")
+    @Column(name = "preco")
     private double precoProd;
 
-    @Column(name = "unidade_produto")
+    @Column(name = "unidade_caixa")
     private double unidadeCaixaProd;
 
-    @Column(name = "peso_produto")
+    @Column(name = "peso")
     private double pesoProd;
 
-    @Column(name = "validade_produto")
+    @Column(name = "validade")
     private LocalDate validadeProd;
 
     @ManyToOne
-    @JoinColumn(name = "id_produto_linha", referencedColumnName = "id_linha")
+    @JoinColumn(name = "id_produto_linha", referencedColumnName = "id")
     private Linha linha;
 
     public Produto() {

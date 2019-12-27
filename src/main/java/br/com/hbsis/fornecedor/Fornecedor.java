@@ -8,7 +8,7 @@ import javax.persistence.*;
  public class Fornecedor extends FornecedorDTO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_fornecedor", updatable = false, insertable = false)
+    @Column(name = "id", updatable = false, insertable = false)
     private Long idFornecedor;
 
     @Column(name = "razao_social", unique = true, nullable = false, length = 100)

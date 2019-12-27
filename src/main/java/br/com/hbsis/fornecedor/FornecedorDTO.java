@@ -1,19 +1,10 @@
 package br.com.hbsis.fornecedor;
 
-import br.com.hbsis.categoria.produto.Categoria;
-import br.com.hbsis.validation.ValidationCNPJ;
-
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
-
 public class FornecedorDTO {
 
     private Long idFornecedor;
     private String razaoSocial;
-
     private String cnpj;
-
     private String nomeFantasia;
     private String endereco;
     private String telefone;
@@ -116,8 +107,4 @@ public class FornecedorDTO {
                 ", E-mail= '"        + email        + '\'' +
                 '}';
     }
-
-
 }
-
-

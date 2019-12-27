@@ -2,8 +2,7 @@ package br.com.hbsis.pedido;
 
 import br.com.hbsis.funcionarios.Funcionario;
 import br.com.hbsis.produtos.Produto;
-import br.com.hbsis.vendas.Vendas;
-
+import br.com.hbsis.periodoVendas.Vendas;
 import javax.persistence.*;
 import java.time.LocalDate;
 
@@ -13,34 +12,45 @@ public class Pedido {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_pedido")
+    @Column(name = "id")
     private Long idPedido;
 
-    @Column(name = "codigo_pedido")
+    @Column(name = "codigo")
     private String codPedido;
 
-    @Column(name = "status_pedido")
+    @Column(name = "status")
     private String status;
 
-    @Column(name = "data_pedido")
+    @Column(name = "data")
     private LocalDate dataPedido;
 
     @Column(name = "quantidade_pedido")
     private int quantidadePedido;
 
+    @Column(name = "uuid")
+    private String uuid;
+
     @ManyToOne
-    @JoinColumn(name = "id_pedido_funcionario", referencedColumnName = "id_funcionarios")
+    @JoinColumn(name = "id_pedido_funcionario", referencedColumnName = "id")
     private Funcionario funcionario;
 
     @ManyToOne
-    @JoinColumn(name = "id_pedido_produto", referencedColumnName = "id_produto")
+    @JoinColumn(name = "id_pedido_produto", referencedColumnName = "id")
     private Produto produto;
 
     @ManyToOne
-    @JoinColumn(name = "id_pedido_vendas", referencedColumnName = "id_vendas")
+    @JoinColumn(name = "id_pedido_vendas", referencedColumnName = "id")
     private Vendas vendas;
 
     public Pedido() {
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 
     public int getQuantidadePedido() {
@@ -113,11 +123,12 @@ public class Pedido {
                 "idPedido=" + idPedido +
                 ", codPedido='" + codPedido + '\'' +
                 ", status='" + status + '\'' +
-                ", funcionario=" + funcionario.toString() +
-                ", produto=" + produto.toString() +
-                ", vendas=" + vendas.toString() +
                 ", dataPedido=" + dataPedido +
                 ", quantidadePedido=" + quantidadePedido +
+                ", uuid='" + uuid + '\'' +
+                ", funcionario=" + funcionario +
+                ", produto=" + produto +
+                ", vendas=" + vendas +
                 '}';
     }
 }

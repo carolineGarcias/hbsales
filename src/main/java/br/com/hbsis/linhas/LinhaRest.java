@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.servlet.http.HttpServletResponse;
 import javax.websocket.server.PathParam;
 import java.util.List;
@@ -42,9 +41,7 @@ public class LinhaRest {
     public void exportCSV(HttpServletResponse httpResponse) throws Exception {
 
         LOGGER.info("Exportando arquivo response.csv");
-
         this.linhaService.exportCSV(httpResponse);
-
     }
 
     @PostMapping("/importar")
@@ -54,11 +51,11 @@ public class LinhaRest {
     }
 
     @GetMapping("/{id}")
-    public LinhaDTO find(@PathParam("id") Long id) {
+    public LinhaDTO find(@PathParam("id") Long idLinha) {
 
-        LOGGER.info("Recebendo find by ID...[{}]", id);
+        LOGGER.info("Recebendo find by ID...[{}]", idLinha);
 
-        return this.linhaService.findById(id);
+        return this.linhaService.findById(idLinha);
     }
 
     @PutMapping("/{id}")

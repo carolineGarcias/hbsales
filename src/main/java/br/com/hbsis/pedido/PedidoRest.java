@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @RestController
@@ -22,16 +21,6 @@ public class PedidoRest {
     @PostMapping
     public PedidoDTO save(@RequestBody PedidoDTO pedidoDTO) {
         return this.pedidoService.save(pedidoDTO);
-    }
-
-    @GetMapping("/exportar/{id}")
-    public void findAll(@PathVariable("id") Long id, HttpServletResponse response) throws Exception {
-        pedidoService.PedidoVendas(response, id);
-    }
-
-    @GetMapping("/funcionarios-pedido/{id}")
-    public List<PedidoDTO> findAll(@PathVariable Long id) {
-        return this.pedidoService.findAllByFornecedorId(id);
     }
 
     @PutMapping("/{id}")

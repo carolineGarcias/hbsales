@@ -1,31 +1,27 @@
-package br.com.hbsis.vendas;
+package br.com.hbsis.periodoVendas;
 
 import br.com.hbsis.fornecedor.FornecedorService;
-import br.com.hbsis.fornecedor.IFornecedorRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class VendasService {
-        private final Logger LOGGER = LoggerFactory.getLogger(br.com.hbsis.vendas.VendasService.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(br.com.hbsis.periodoVendas.VendasService.class);
 
         private final IVendasRepository     iVendasRepository;
         private final FornecedorService     fornecedorService;
-        private final IFornecedorRepository ifornecedorRepositoy;
 
     public VendasService(IVendasRepository iVendasRepository,
-                         FornecedorService fornecedorService,
-                         IFornecedorRepository ifornecedorRepositoy) {
+                         FornecedorService fornecedorService) {
 
         this.iVendasRepository = iVendasRepository;
         this.fornecedorService = fornecedorService;
-        this.ifornecedorRepositoy = ifornecedorRepositoy;
+
     }
 
     public VendasDTO save(VendasDTO vendasDTO){
@@ -42,7 +38,6 @@ public class VendasService {
         vendas.setRetiradaPedido(vendasDTO.getRetiradaPedido());
         vendas.setFornecedor(fornecedorService.findByIdFornecedor(vendasDTO.getFornecedorId()));
         vendas.setDescricao(vendasDTO.getDescricao().toUpperCase());
-
 
         vendas = this.iVendasRepository.save(vendas);
 
@@ -106,9 +101,9 @@ public class VendasService {
                 || vendasDTO.getFimVendas().isBefore(LocalDate.now()) || vendasDTO.getFimVendas().isBefore(LocalDate.now())) {
             throw new  IllegalArgumentException("Inicio Vendas não podem ser inferiores ao dia de HOJE");
         }
-        if (iVendasRepository.existVendasHoje(vendasDTO.getInicioVendas(), vendasDTO.getFornecedorId()) >= 1) {
+       /* if (iVendasRepository.existVendasHoje(vendasDTO.getInicioVendas(), vendasDTO.getFornecedorId()) >= 1) {
             throw new  IllegalArgumentException("Fornecedor não pode ter duas vendas ao mesmo tempo");
-        }
+        }*/
         if (vendasDTO.getFimVendas().isBefore(vendasDTO.getInicioVendas()))  {
             throw  new  IllegalArgumentException("Fim vendas não pode ser inferior a data de inicio vendas");
         }
