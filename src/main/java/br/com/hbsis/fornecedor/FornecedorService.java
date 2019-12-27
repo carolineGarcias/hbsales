@@ -1,12 +1,10 @@
 package br.com.hbsis.fornecedor;
 
-
 import com.microsoft.sqlserver.jdbc.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -14,26 +12,23 @@ import java.util.Optional;
 public class FornecedorService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FornecedorService.class);
-    private final IFornecedorRepository ifornecedorRepository;
+    private final IFornecedorRepository iFornecedorRepository;
 
     @Autowired
-    public FornecedorService(IFornecedorRepository ifornecedorRepository) {
-        this.ifornecedorRepository = ifornecedorRepository;
+    public FornecedorService(IFornecedorRepository iFornecedorRepository) {
+        this.iFornecedorRepository = iFornecedorRepository;
     }
 
     public Fornecedor saveEntity(FornecedorDTO fornecedorDTO) {
-        LOGGER.info("Sanvando fornecedor");
+        LOGGER.info("Salvando fornecedor");
         LOGGER.debug("Payload: {}", fornecedorDTO);
 
         Fornecedor fornecedor = this.fromDto(fornecedorDTO, new Fornecedor());
-
-        fornecedor = this.ifornecedorRepository.save(fornecedor);
-
+        fornecedor = (Fornecedor) this.iFornecedorRepository.save(fornecedor);
         LOGGER.trace("Fornecedor Salvo {}", fornecedor);
 
         return fornecedor;
     }
-
 
     public static Fornecedor fromDto(FornecedorDTO fornecedorDTO, Fornecedor fornecedor) {
 
@@ -48,7 +43,7 @@ public class FornecedorService {
     }
 
     public List<Fornecedor> findAll() {
-        return ifornecedorRepository.findAll();
+        return iFornecedorRepository.findAll();
     }
 
     public FornecedorDTO save(FornecedorDTO fornecedorDTO) {
@@ -67,13 +62,13 @@ public class FornecedorService {
         fornecedor.setTelefone(fornecedorDTO.getTelefone().toUpperCase());
         fornecedor.setEmail(fornecedorDTO.getEmail().toUpperCase());
 
-        fornecedor = this.ifornecedorRepository.save(fornecedor);
+        fornecedor = this.iFornecedorRepository.save(fornecedor);
 
         return FornecedorDTO.of(fornecedor);
     }
 
     public FornecedorDTO findById(Long idFornecedor) {
-        Optional<Fornecedor> fornecedorOptional = this.ifornecedorRepository.findById(idFornecedor);
+        Optional<Fornecedor> fornecedorOptional = this.iFornecedorRepository.findById(idFornecedor);
 
         if (fornecedorOptional.isPresent()) {
             return FornecedorDTO.of(fornecedorOptional.get());
@@ -83,7 +78,7 @@ public class FornecedorService {
     }
 
     public Fornecedor findByIdFornecedor(Long idFornecedor) {
-        Optional<Fornecedor> fornecedorOptional = this.ifornecedorRepository.findById(idFornecedor);
+        Optional<Fornecedor> fornecedorOptional = this.iFornecedorRepository.findById(idFornecedor);
 
         if (fornecedorOptional.isPresent()) {
             return fornecedorOptional.get();
@@ -92,17 +87,15 @@ public class FornecedorService {
     }
 
     public Fornecedor findByCnpj(String cnpj) {
-
-        return this.ifornecedorRepository.findByCnpj(cnpj);
+        return (Fornecedor) this.iFornecedorRepository.findAll();
     }
 
-
     public boolean existsById(Long idFornecedor){
-        return this.ifornecedorRepository.existsById(idFornecedor);
+        return this.iFornecedorRepository.existsById(idFornecedor);
     }
 
     public FornecedorDTO update(Long idFornecedor, FornecedorDTO fornecedorDTO) {
-        Optional<Fornecedor> fornecedorExistenteOptional = this.ifornecedorRepository.findById(idFornecedor);
+        Optional<Fornecedor> fornecedorExistenteOptional = this.iFornecedorRepository.findById(idFornecedor);
 
         if (fornecedorExistenteOptional.isPresent()) {
             Fornecedor fornecedorExistente = fornecedorExistenteOptional.get();
@@ -118,17 +111,18 @@ public class FornecedorService {
             fornecedorExistente.setTelefone(fornecedorDTO.getTelefone().toUpperCase());
             fornecedorExistente.setEmail(fornecedorDTO.getEmail().toUpperCase());
 
-            fornecedorExistente = this.ifornecedorRepository.save(fornecedorExistente);
+            fornecedorExistente = this.iFornecedorRepository.save(fornecedorExistente);
 
             return FornecedorDTO.of(fornecedorExistente);
         }
         throw new IllegalArgumentException(String.format("ID %s não existe", idFornecedor));
     }
 
+
     public void delete(Long idFornecedor) {
         LOGGER.info("Executando delete para fornecedor de ID: [{}]", idFornecedor);
 
-        this.ifornecedorRepository.deleteById(idFornecedor);
+        this.iFornecedorRepository.deleteById(idFornecedor);
     }
 
     private void validate(FornecedorDTO fornecedorDTO) {

@@ -1,11 +1,9 @@
 package br.com.hbsis.funcionarios;
 
-
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-
 import java.util.Optional;
 import java.util.UUID;
 
@@ -92,7 +90,6 @@ public class FuncionarioService {
         this.ifuncionarioRepository.deleteById(id);
     }
 
-
     public Funcionario findByFuncionarioId(Long id) {
         Optional<Funcionario> funcionarioOptional = this.ifuncionarioRepository.findById(id);
 
@@ -102,6 +99,4 @@ public class FuncionarioService {
 
         throw new IllegalArgumentException(String.format("ID %s não existe", id));
     }
-
 }
-

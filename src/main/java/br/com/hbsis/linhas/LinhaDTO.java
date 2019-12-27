@@ -21,6 +21,7 @@ public class LinhaDTO {
                 linha.getCategoria().getId(),
                 linha.getNomeLinha(),
                 linha.getCodLinha()
+
         );
     }
 
@@ -56,6 +57,7 @@ public class LinhaDTO {
         this.nomeLinha = nomeLinha;
     }
 
+
     @Override
     public String toString() {
         return "Linha { " +
@@ -65,5 +67,4 @@ public class LinhaDTO {
                 ", Codigo Linha= " + codLinha    + '\'' +
                 '}';
     }
-
 }

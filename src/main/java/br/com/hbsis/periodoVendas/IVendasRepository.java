@@ -1,19 +1,15 @@
-package br.com.hbsis.vendas;
+package br.com.hbsis.periodoVendas;
 
-import br.com.hbsis.fornecedor.Fornecedor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-
 import java.time.LocalDate;
-import java.util.Optional;
 
 public interface IVendasRepository extends JpaRepository<Vendas, Long> {
 
-    @Query(value = "select count(1) from seg_vendas where fim_vendas >= :inicioVendas and id_fornecedor = :fornecedorId", nativeQuery = true)
+    @Query(value = "select count(1) from seg_vendas where fim_vendas >= :inicioVendas and id = :fornecedorId", nativeQuery = true)
     long existVendasHoje(
             @Param("inicioVendas") LocalDate inicioVendas,
             @Param("fornecedorId") long fornecedorId);
-
 
 }

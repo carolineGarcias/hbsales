@@ -1,4 +1,4 @@
-package br.com.hbsis.vendas;
+package br.com.hbsis.periodoVendas;
 
 import br.com.hbsis.fornecedor.Fornecedor;
 import javax.persistence.*;
@@ -10,13 +10,13 @@ public class Vendas {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_vendas")
+    @Column(name = "id")
     private Long id;
 
-    @Column(name = "inicio_vendas")
+    @Column(name = "inicio")
     private LocalDate inicioVendas;
 
-    @Column(name = "fim_vendas")
+    @Column(name = "fim")
     private LocalDate fimVendas;
 
     @Column(name= "retirada_pedido")
@@ -26,7 +26,7 @@ public class Vendas {
     private String descricao;
 
     @ManyToOne
-    @JoinColumn(name = "id_vendas_fornecedor", referencedColumnName = "id_fornecedor")
+    @JoinColumn(name = "id_vendas_fornecedor", referencedColumnName = "id")
     private Fornecedor fornecedor;
 
     public Vendas() {

@@ -1,27 +1,16 @@
 package br.com.hbsis.pedido;
 
-import br.com.hbsis.funcionarios.Funcionario;
 import br.com.hbsis.funcionarios.FuncionarioService;
 import br.com.hbsis.produtos.Produto;
 import br.com.hbsis.produtos.ProdutoService;
-import br.com.hbsis.vendas.Vendas;
-import br.com.hbsis.vendas.VendasService;
-import com.opencsv.CSVWriter;
-import com.opencsv.CSVWriterBuilder;
-import com.opencsv.ICSVWriter;
+import br.com.hbsis.periodoVendas.Vendas;
+import br.com.hbsis.periodoVendas.VendasService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class PedidoService {
@@ -51,6 +40,7 @@ public class PedidoService {
 
         pedido.setIdPedido(pedidoDTO.getIdPedido());
         pedido.setCodPedido(pedidoDTO.getCodPedido());
+        pedido.setUuid(UUID.randomUUID().toString());
         pedido.setStatus(pedidoDTO.getStatus());
         pedido.setDataPedido(pedidoDTO.getDataPedido());
         pedido.setQuantidadePedido(pedidoDTO.getQuantidadePedido());
@@ -78,8 +68,8 @@ public class PedidoService {
 
         pedidoDTO.setCodPedido(runCode());
         pedidoDTO.setDataPedido(LocalDate.now());
-        Produto produto = new Produto();
-        Vendas vendas = new Vendas();
+        Produto produto;
+        Vendas vendas;
 
         while (iPedidoRepository.existsByCodPedido(pedidoDTO.getCodPedido())) {
             LOGGER.info("O Código informado já existe, vamos gerar um novo código!");
@@ -107,6 +97,7 @@ public class PedidoService {
             if (iPedidoRepository.existsByCodPedido(pedidoDTO.getCodPedido())) {
                 throw new IllegalArgumentException("O código já existe");
             }
+
             if (StringUtils.isEmpty(String.valueOf(pedidoDTO.getQuantidadePedido()))) {
                 throw new IllegalArgumentException("A quantidade de pedido não deve ser nula");
             }
@@ -120,6 +111,11 @@ public class PedidoService {
                     throw new IllegalArgumentException("Status válidos: Ativo/Cancelado/Retirado");
             }
         }
+    }
+
+    public PedidoDTO existsByCodPedido(String codPedido) {
+        return existsByCodPedido(codPedido);
+
     }
 
     public PedidoDTO update(PedidoDTO pedidoDTO, Long id) {
@@ -164,70 +160,5 @@ public class PedidoService {
 
         LOGGER.info("Excluindo Pedido de ID: [{}]", id);
         this.iPedidoRepository.deleteById(id);
-    }
-
-    public void PedidoVendas(HttpServletResponse response, Long id) throws IOException {
-
-        String filename = "pedidos.csv";
-        response.setContentType("text/file");
-        response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + filename + "\"");
-
-        PrintWriter writer = response.getWriter();
-
-        ICSVWriter csvWriter = new CSVWriterBuilder(writer).withSeparator(';').withEscapeChar(CSVWriter.DEFAULT_ESCAPE_CHARACTER)
-                .withLineEnd(CSVWriter.DEFAULT_LINE_END).build();
-
-        String headerCSV[] = {"NOME PRODUTO", "QUANTIDADE PEDIDO", "FORNECEDOR/CNPJ"};
-        csvWriter.writeNext(headerCSV);
-
-        Vendas vendas;
-        vendas = vendasService.findByVendasId(id);
-
-        List<Pedido> pedidos;
-
-        pedidos = iPedidoRepository.findByVendas(vendas);
-
-        for (Pedido pedido : pedidos) {
-            String formatarCNPJ = pedido.getVendas().getFornecedor().getCnpj().replaceAll
-                    ("(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})", "$1.$2.$3/$4-$5").toUpperCase();
-
-            csvWriter.writeNext(new String[]{
-                    pedido.getProduto().getNomeProduto(),
-                    String.valueOf(pedido.getQuantidadePedido()),
-                    pedido.getVendas().getFornecedor().getRazaoSocial() + " / " + formatarCNPJ
-            });
-        }
-    }
-
-    public List<PedidoDTO> findAllByFornecedorId(Long id) {
-        Funcionario funcionario;
-        funcionario = funcionarioService.findByFuncionarioId(id);
-
-        List<Pedido> pedidos;
-        pedidos = iPedidoRepository.findByFuncionario(funcionario);
-        List<PedidoDTO> pedidoDTO = new ArrayList<>();
-
-        for (Pedido pedido : pedidos) {
-            try {
-                if (pedido.getStatus().equals("ATIVO") || pedido.getStatus().equals("RETIRADO")) {
-                    System.out.println(PedidoDTO.of(pedido));
-                    pedidoDTO.add(PedidoDTO.of(pedido));
-
-                } else if (!(pedido.getStatus().equals("ATIVO") || pedido.getStatus().equals("RETIRADO"))) {
-                    LOGGER.info("Pedido Cancelado!!!");
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return pedidoDTO;
-    }
-
-    public List<Pedido> listarFuncionario() {
-        LOGGER.info("Listando Pedidos.");
-        List<Pedido> pedidos;
-        pedidos = this.iPedidoRepository.findAll();
-        return pedidos;
     }
 }

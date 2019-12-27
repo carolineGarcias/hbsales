@@ -28,7 +28,7 @@ public class CategoriaRest {
        return this.categoriaService.save(categoriaDTO);
     }
 
-       @GetMapping("/{id}")
+    @GetMapping("/{id}")
     public CategoriaDTO find(@PathVariable("id") Long id) {
 
            LOGGER.info("Recebendo find by ID... id: [{}]", id);
@@ -55,14 +55,14 @@ public class CategoriaRest {
     public void exportarCSV(HttpServletResponse httpResponse){
         LOGGER.info("Exportando arquivo categorias.csv'");
 
-        this.categoriaService.exportCSV(httpResponse);
+        this.categoriaService.exportCategoriaCsv(httpResponse);
     }
 
     @PostMapping("/importar")
     public void importarCSV(@RequestParam("file") MultipartFile file) throws Exception {
         LOGGER.info("Importando arquivo categorias.csv'");
 
-        categoriaService.readAll(file);
+        categoriaService.importarCategoria(file);
     }
 
     @GetMapping("/listar")

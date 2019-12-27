@@ -1,0 +1,24 @@
+exec sp_rename 'seg_fornecedores.[id_fornecedor]', 'id', 'column';
+exec sp_rename 'seg_categorias.[id_categoria]', 'id', 'column';
+exec sp_rename 'seg_categorias.[nome_categoria]', 'nome', 'column';
+exec sp_rename 'seg_categorias.[codigo_categoria]', 'codigo', 'column';
+exec sp_rename 'seg_linhas.[id_linha]', 'id', 'column';
+exec sp_rename 'seg_linhas.[nome_linha]', 'nome', 'column';
+exec sp_rename 'seg_linhas.[codigo_linha]', 'codigo', 'column';
+exec sp_rename 'seg_produtos.[id_produto]', 'id', 'column';
+exec sp_rename 'seg_produtos.[nome_produto]', 'nome', 'column';
+exec sp_rename 'seg_produtos.[cod_produto]', 'codigo', 'column';
+exec sp_rename 'seg_produtos.[preco_produto]', 'preco', 'column';
+exec sp_rename 'seg_produtos.[unidade_produto]', 'unidade_caixa', 'column';
+exec sp_rename 'seg_produtos.[peso_produto]', 'peso', 'column';
+exec sp_rename 'seg_produtos.[validade_produto]', 'validade', 'column';
+exec sp_rename 'seg_vendas.[id_vendas]', 'id', 'column';
+exec sp_rename 'seg_funcionarios.[id_funcionarios]', 'id', 'column';
+exec sp_rename 'seg_funcionarios.[nome_funcionario]', 'nome', 'column';
+exec sp_rename 'seg_funcionarios.[email_funcionario]', 'email', 'column';
+exec sp_rename 'seg_funcionarios.[uuid_funcionario]', 'uuid', 'column';
+exec sp_rename 'seg_pedidos.[id_pedido]', 'id', 'column';
+exec sp_rename 'seg_pedidos.[codigo_pedido]', 'codigo', 'column';
+exec sp_rename 'seg_pedidos.[status_pedido]', 'status', 'column';
+exec sp_rename 'seg_pedidos.[data_pedido]', 'data', 'column';
+

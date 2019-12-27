@@ -2,7 +2,6 @@ package br.com.hbsis.linhas;
 
 import br.com.hbsis.categoria.produto.Categoria;
 import br.com.hbsis.categoria.produto.CategoriaService;
-import br.com.hbsis.categoria.produto.ICategoriaRepository;
 import com.google.common.net.HttpHeaders;
 import com.opencsv.*;
 import org.slf4j.Logger;
@@ -22,19 +21,16 @@ import java.util.Optional;
 public class LinhaService{
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LinhaService.class);
+    private final ILinhaRepository iLinhaRepository;
+    private final CategoriaService categoriaService;
 
-    private final ICategoriaRepository iCategoriaRepository;
-    private final ILinhaRepository     iLinhaRepository;
-    private final CategoriaService      categoriaService;
-
-    public LinhaService(ICategoriaRepository iCategoriaRepository, ILinhaRepository iLinhaRepository, CategoriaService categoriaService) {
-        this.iCategoriaRepository = iCategoriaRepository;
-        this.iLinhaRepository     = iLinhaRepository;
-        this.categoriaService     = categoriaService;
+    public LinhaService(ILinhaRepository iLinhaRepository, CategoriaService categoriaService) {
+        this.iLinhaRepository = iLinhaRepository;
+        this.categoriaService = categoriaService;
     }
 
     public List<Linha> findAll() {
-        return iLinhaRepository.findAll();
+        return findAll();
     }
 
     public LinhaDTO save(LinhaDTO linhaDTO) {
@@ -46,18 +42,26 @@ public class LinhaService{
 
         Linha linha = new Linha();
 
-
         String codigo = String.format("%1$10s", linhaDTO.getCodLinha());
         String upperCase = codigo.toUpperCase();
         codigo = codigo.replaceAll(" ", "0");
 
         linha.setNomeLinha(linhaDTO.getNomeLinha().toUpperCase());
         linha.setCodLinha(codigo);
-        linha.setCategoria(iCategoriaRepository.findById(linhaDTO.getIdCategoria()).get());
+        linha.setCategoria(categoriaService.findByIdCategoria(linhaDTO.getIdCategoria()));
 
         linha = this.iLinhaRepository.save(linha);
 
         return LinhaDTO.of(linha);
+    }
+
+    public Linha findByIdLinha(Long idLinha) {
+        Optional<Linha> linhaOptional = this.iLinhaRepository.findById(idLinha);
+
+        if (linhaOptional.isPresent()) {
+            return linhaOptional.get();
+        }
+        throw new IllegalArgumentException(String.format("ID %s não existe", idLinha));
     }
 
     public List<Linha> readAll(MultipartFile file) throws Exception {
@@ -82,7 +86,8 @@ public class LinhaService{
                 linha.setCodLinha(codigo);
                 linha.setCategoria(categoria);
 
-                if(!(iLinhaRepository.existsByCodLinha(linha.getCodLinha()))){
+                String codLinha = null;
+                if (!(codLinha == linha.getCodLinha())) {
                     save(LinhaDTO.of(linha));
                     reading.add(linha);
                 }
@@ -98,27 +103,22 @@ public class LinhaService{
         LOGGER.info("VALIDANDO LINHA!!");
 
         if (linhaDTO == null) {
-            throw new IllegalArgumentException("Linha não pode ser nulo.");
-        }
-        if (StringUtils.isEmpty(linhaDTO.getIdCategoria())){
-            throw new IllegalArgumentException("ID Produto não pode ser nulo/vazio.");
+            throw new IllegalArgumentException("Linha não pode ser nulo/vazio.");
         }
         if (StringUtils.isEmpty(linhaDTO.getNomeLinha())) {
             throw new IllegalArgumentException("Nome de Linha não poder ser nulo/vazio.");
+        }
+        if (StringUtils.isEmpty(linhaDTO.getIdCategoria())) {
+            throw new IllegalArgumentException("ID categoria não poder ser nulo/vazio.");
         }
     }
 
     public LinhaDTO findById(Long idLinha) {
         Optional<Linha> linhaOptional = this.iLinhaRepository.findById(idLinha);
-
         if (linhaOptional.isPresent()) {
-
             return LinhaDTO.of(linhaOptional.get());
-
-
         }
         throw new IllegalArgumentException(String.format("ID %s não existe", idLinha));
-
     }
 
     public LinhaDTO update(LinhaDTO linhaDTO, Long idLinha){
@@ -133,10 +133,8 @@ public class LinhaService{
             LOGGER.debug("Payload: {}", linhaDTO);
             LOGGER.debug("Linha existente: {}", linhaExistente);
 
-            linhaExistente.setCategoria(iCategoriaRepository.findById(linhaDTO.getIdCategoria()).get());
+            linhaExistente.getCategoria().setCodCategoria(linhaDTO.getCodLinha());
             linhaExistente.setNomeLinha(linhaDTO.getNomeLinha().toUpperCase());
-
-            linhaExistente = this.iLinhaRepository.save(linhaExistente);
 
             return linhaDTO.of(linhaExistente);
         }
@@ -175,19 +173,10 @@ public class LinhaService{
                         linha.getCategoria().getId().toString(),
                         linha.getNomeLinha().toUpperCase()}
                 );
-
             }
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public Linha findByCodLinha(String codLinha) {
-        return this.iLinhaRepository.findByCodLinha(codLinha);
-    }
-
-    public boolean existsByCodLinha(String codLinha) {
-    return  this.iLinhaRepository.existsByCodLinha(codLinha);
     }
 }

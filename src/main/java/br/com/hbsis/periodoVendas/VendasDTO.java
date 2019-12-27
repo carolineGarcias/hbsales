@@ -1,4 +1,4 @@
-package br.com.hbsis.vendas;
+package br.com.hbsis.periodoVendas;
 
 import java.time.LocalDate;
 

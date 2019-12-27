@@ -9,16 +9,16 @@ public class Funcionario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_funcionarios")
+    @Column(name = "id")
     private Long id;
 
-    @Column(name = "nome_funcionario")
+    @Column(name = "nome")
     private String nomeFuncionario;
 
-    @Column(name = "email_funcionario", length = 50)
+    @Column(name = "email", length = 50)
     private String emailFuncionario;
 
-    @Column(name = "uuid_funcionario", length = 36)
+    @Column(name = "uuid", length = 36)
     private String uuidFuncionario;
 
     public Long getId() {

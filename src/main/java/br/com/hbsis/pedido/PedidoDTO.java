@@ -5,13 +5,13 @@ import java.time.LocalDate;
 public class PedidoDTO {
 
     private Long idPedido, funcionarioId, vendasId, produtoId;
-    private String status, codPedido;
+    private String status, codPedido, uuid;
     private LocalDate dataPedido;
     private int quantidadePedido;
 
 
     public PedidoDTO(Long idPedido, Long funcionarioId, Long vendasId,
-                     Long produtoId, String status, String codPedido,
+                     Long produtoId, String status, String codPedido, String uuid,
                      LocalDate dataPedido, int quantidadePedido) {
 
         this.idPedido = idPedido;
@@ -20,6 +20,7 @@ public class PedidoDTO {
         this.produtoId = produtoId;
         this.status = status;
         this.codPedido = codPedido;
+        this.uuid = uuid;
         this.dataPedido = dataPedido;
         this.quantidadePedido = quantidadePedido;
     }
@@ -32,12 +33,21 @@ public class PedidoDTO {
                 pedido.getProduto().getIdProduto(),
                 pedido.getStatus(),
                 pedido.getCodPedido(),
+                pedido.getUuid(),
                 pedido.getDataPedido(),
                 pedido.getQuantidadePedido()
         );
     }
 
     public PedidoDTO() {
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 
     public Long getIdPedido() {
@@ -106,13 +116,14 @@ public class PedidoDTO {
 
     @Override
     public String toString() {
-        return "Pedido{" +
+        return "PedidoDTO{" +
                 "idPedido=" + idPedido +
-                ", codPedido='" + codPedido + '\'' +
+                ", funcionarioId=" + funcionarioId +
+                ", vendasId=" + vendasId +
+                ", produtoId=" + produtoId +
                 ", status='" + status + '\'' +
-                ", funcionario=" + funcionarioId +
-                ", produto=" + produtoId +
-                ", vendas=" + vendasId +
+                ", codPedido='" + codPedido + '\'' +
+                ", uuid='" + uuid + '\'' +
                 ", dataPedido=" + dataPedido +
                 ", quantidadePedido=" + quantidadePedido +
                 '}';

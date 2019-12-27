@@ -1,7 +1,8 @@
-/*package br.com.hbsis.global;
+
+/*
+package br.com.hbsis.global;
 
 import com.google.common.collect.Iterables;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.PathSelectors;
@@ -11,7 +12,7 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
-@EnableSwagger2
+@EnableSwagger
 public class SwaggerConfig {
 
 	@Bean
@@ -22,7 +23,7 @@ public class SwaggerConfig {
 				.paths(PathSelectors.any())
 				.build();
 	}
-}*/
-
+}
+*/
 
 
